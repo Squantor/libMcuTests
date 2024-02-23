@@ -1,0 +1,6 @@
+set print pretty on
+set architecture armv6
+target extended-remote localhost:2000
+monitor tpwr enable
+shell sleep 1
+monitor swdp_scan

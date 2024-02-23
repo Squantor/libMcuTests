@@ -1,0 +1,178 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "libMcuLL CortexM0plus tests, debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/CortexM0plus_tests/debug/CortexM0plus_tests.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812", // We use the LPC812 to test the cortexM0plus as we already have hardware for this
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [
+                "set {int}0x40048000 = 2"
+            ],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL CortexM0plus tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "libMcuLL LPC812M101DH20 third tests, debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/LPC812M101DH20_CPP_tests_third/debug/LPC812M101DH20_CPP_tests_third.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL LPC812M101DH20 third tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "libMcuLL LPC812M101DH20 second tests, debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/LPC812M101DH20_CPP_tests_second/debug/LPC812M101DH20_CPP_tests_second.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL LPC812M101DH20 second tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "libMcuLL LPC812M101DH20 second tests, release mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/LPC812M101DH20_CPP_tests_second/release_size/LPC812M101DH20_CPP_tests_second.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL LPC812M101DH20 second tests, release mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "libMcuLL LPC812M101DH20 first tests, debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/LPC812M101DH20_CPP_tests_first/debug/LPC812M101DH20_CPP_tests_first.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL LPC812M101DH20 first tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "libMcuLL LPC812M101DH20 first tests, release mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/LPC812M101DH20_CPP_tests_first/release_size/LPC812M101DH20_CPP_tests_first.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC812",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL LPC812M101DH20 first tests, release mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
+        {
+            "name": "Debug debug C LPC844M201BD64 tests",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/bin/LPC844M201BD64_C_tests/debug/LPC844M201BD64_C_tests.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC844",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "preLaunchCommands": [],
+            "preRestartCommands": [],
+            "preLaunchTask": "build debug C LPC844M201BD64 tests",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC844.svd",
+            "debuggerArgs": [
+                "--command=${workspaceFolder}/gdb_scripts/LPC844M201BD64_C_tests.txt"
+            ],
+        },
+        {
+            "name": "Debug debug C++ LPC844M201BD64 tests",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/bin/LPC844M201BD64_CPP_tests/debug/LPC844M201BD64_CPP_tests.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC844",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "preLaunchCommands": [],
+            "preRestartCommands": [],
+            "preLaunchTask": "build debug C++ LPC844M201BD64 tests",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC844.svd",
+            "debuggerArgs": [
+                "--command=${workspaceFolder}/gdb_scripts/LPC844M201BD64_CPP_tests.txt"
+            ],
+        },
+    ]
+}
