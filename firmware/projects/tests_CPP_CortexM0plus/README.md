@@ -1,16 +1,7 @@
-# $(MICROCONTROLLER) tests project
-$(MICROCONTROLLER) test project that tests the following peripherals: 
+# Generic CortexM0+ tests
+CortexM0+ test project that tests the following peripherals: SYSTICK, NVIC and some aspects of the SCB
 # Hardware required
 To run this project you need the following hardware
-* $(MICROCONTROLLER) nuclone board
-* libMcuLL test board nuclone expansion
-* Black magic probe
-# compiling and debugging
-In the root makefile run the following command:
-```
-make PROJECT=project
-```
-To debug with the black magic probe on the commandline via GDB run:
-```
-make PROJECT=project gdbbmp
-```
+* [LPC812M101 nuclone board](https://github.com/Squantor/squantorDevelBoards/tree/master/electronics/nuclone_LPC812M101JDH20)
+* [libMcuLL test board nuclone expansion](https://github.com/Squantor/squantorDevelBoards/tree/master/electronics/nuclone_small_libmcull_tester)
+* [Black magic probe](https://github.com/blackmagic-debug/blackmagic)
