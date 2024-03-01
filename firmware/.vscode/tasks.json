@@ -8,70 +8,61 @@
       "type": "shell",
       "command": "make PROJECT=PC clean",
       "group": "build",
-      "problemMatcher": [
-        "$gcc"
-      ]
-    },
-    {
-      "label": "build libMcuLL CortexM0plus tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=CortexM0plus_tests CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build libMcuLL LPC812M101DH20 third tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC812M101DH20_CPP_tests_third CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build libMcuLL LPC812M101DH20 second tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC812M101DH20_CPP_tests_second CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build libMcuLL LPC812M101DH20 second tests, release mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC812M101DH20_CPP_tests_second CONFIG=release_size -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build libMcuLL LPC812M101DH20 first tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC812M101DH20_CPP_tests_first CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build libMcuLL LPC812M101DH20 first tests, release mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC812M101DH20_CPP_tests_first CONFIG=release_size -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build debug C LPC844M201BD64 tests",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC844M201BD64_C_tests CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build debug C++ LPC844M201BD64 tests",
-      "type": "shell",
-      "command": "compiledb make PROJECT=LPC844M201BD64_CPP_tests CONFIG=debug -j20",
-      "group": "build",
       "problemMatcher": "$gcc"
     },
     {
       "label": "build debug template tests",
       "type": "shell",
       "command": "compiledb make PROJECT=tests_template CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL CortexM0plus tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_CortexM0plus CONFIG=debug -j28",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC812M101DH20 first tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC812M101DH20 first tests, release mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=release_size -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC812M101DH20 second tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC812M101DH20 second tests, release mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=release_size -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC812M101DH20 third tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC812DH20_3 CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build debug C++ LPC844M201BD64 tests",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC844BD64 CONFIG=debug -j20",
       "group": "build",
       "problemMatcher": "$gcc"
     },

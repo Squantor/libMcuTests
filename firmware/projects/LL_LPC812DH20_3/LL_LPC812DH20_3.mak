@@ -8,7 +8,7 @@
 PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
-NAME := LPC812M101DH20_CPP_tests_third
+NAME := test_LL_LPC812DH20_3
 BOARD := nuclone_LPC812M101DH20_tests
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := LPC812M101DH20

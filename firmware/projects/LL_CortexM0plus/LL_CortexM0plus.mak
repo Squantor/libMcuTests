@@ -8,7 +8,7 @@
 PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
-NAME := CortexM0plus_tests
+NAME := test_LL_CortexM0plus
 BOARD := nuclone_CortexM0plus_tests
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := CortexM0plus_tests
