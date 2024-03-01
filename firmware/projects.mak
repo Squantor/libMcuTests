@@ -9,11 +9,11 @@ BASE_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # include all projects
 include $(BASE_DIR)/projects/PC/PC.mak
-include $(BASE_DIR)/projects/tests_C_LPC844M201BD64/tests_C_LPC844M201BD64.mak
-include $(BASE_DIR)/projects/tests_CPP_LPC844M201BD64/tests_CPP_LPC844M201BD64.mak
 include $(BASE_DIR)/projects/tests_template/tests_template.mak
-include $(BASE_DIR)/projects/tests_CPP_LPC812M101DH20_first/tests_CPP_LPC812M101DH20_first.mak
-include $(BASE_DIR)/projects/tests_CPP_LPC812M101DH20_second/tests_CPP_LPC812M101DH20_second.mak
-include $(BASE_DIR)/projects/tests_CPP_LPC812M101DH20_third/tests_CPP_LPC812M101DH20_third.mak
-include ${BASE_DIR}/projects/tests_CPP_CortexM0plus/tests_CPP_CortexM0plus.mak
+include ${BASE_DIR}/projects/LL_CortexM0plus/LL_CortexM0plus.mak
+include $(BASE_DIR)/projects/LL_LPC812DH20_1/LL_LPC812DH20_1.mak
+include $(BASE_DIR)/projects/LL_LPC812DH20_2/LL_LPC812DH20_2.mak
+include $(BASE_DIR)/projects/LL_LPC812DH20_3/LL_LPC812DH20_3.mak
+include $(BASE_DIR)/projects/LL_LPC844M201/LL_LPC844M201.mak
+
 
