@@ -160,5 +160,27 @@
             "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
             "debuggerArgs": [],
         },
+        {
+            "name": "LPC845BD64 LL tests 1, debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/test_LL_LPC844BD64/debug/test_LL_LPC844BD64.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "LPC844",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "set {int}0x40048000 = 2",
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build debug C++ LPC844M201BD64 tests",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+            "debuggerArgs": [],
+        },
     ]
 }
