@@ -7,7 +7,7 @@
 /**
  * @brief main test entry point for LPC844 libMcuLL tests
  */
-#include <nuclone_LPC844M201BD64_tests.hpp>
+#include <nuclone_LPC845M301BD48_tests.hpp>
 #include <MinUnit.h>
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"

@@ -8,8 +8,7 @@
  * @brief Teardown function that resets the LPC845 to a state
  * that more or less matches reset state
  */
-#include <nuclone_LPC844M201BD64_tests.hpp>
-#include <LPC844M201_teardown.hpp>
+#include <LPC845M301_teardown.hpp>
 #include <test_conditions.hpp>
 #include <MinUnit.h>
 

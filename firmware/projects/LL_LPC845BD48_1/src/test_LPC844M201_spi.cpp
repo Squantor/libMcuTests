@@ -1,15 +1,15 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Bart Bilos
+ * Copyright (c) 2024 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * @brief tests for the LPC844M201 SPI peripheral polling mode
+ * @brief tests for the LPC845M301 SPI peripheral polling mode
  */
-#include <nuclone_LPC844M201BD64_tests.hpp>
+#include <nuclone_LPC845M301BD48_tests.hpp>
 #include <MinUnit.h>
-#include <LPC844M201_teardown.hpp>
+#include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
 instances::spi::spi<peripherals::SPI0_cpp, instances::spi::spiChipEnables> testSpiPeripheral;
