@@ -60,9 +60,16 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build debug C++ LPC844M201BD64 tests",
+      "label": "build libMcuLL LPC844M201BD64 first tests, debug mode",
       "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC844BD64 CONFIG=debug -j20",
+      "command": "compiledb make PROJECT=test_LL_LPC844BD64_1 CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build libMcuLL LPC845M201BD48 first tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_LPC845BD48_1 CONFIG=debug -j20",
       "group": "build",
       "problemMatcher": "$gcc"
     },
