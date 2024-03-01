@@ -15,7 +15,7 @@
 void minunitReport(const char* string) {}
 
 void minunitFailCallback() {
-  __BKPT(0x00);
+  LIBMCULL_BKPT(0x00);
 }
 
 int main() {
@@ -27,5 +27,5 @@ int main() {
     minunitReport("All tests passed\n");
   }
   while (1)
-    __BKPT(0xFE);
+    LIBMCULL_BKPT(0xFE);
 }
