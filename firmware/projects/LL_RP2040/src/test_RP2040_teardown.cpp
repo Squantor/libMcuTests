@@ -1,11 +1,11 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2021 Bart Bilos
+ * Copyright (c) 2024 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * @brief tests for the LPC844M201 teardown
+ * @brief tests for the RP2040 teardown
  */
 #include <nuclone_RP2040.hpp>
 #include <MinUnit.h>

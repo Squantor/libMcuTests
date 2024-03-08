@@ -18,7 +18,7 @@ $(NAME)_LIBS := libMcuLL squantorLibC squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 common/src/$(BOARD).cpp \
 common/src/RP2040_teardown.cpp \
-$(PROJ_DIR)/src/test_RP2040_teardown.cpp
+$(PROJ_DIR)/src/test_RP2040_gpio.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 
 # --- nothing user definable below ---
