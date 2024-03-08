@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2021 Bart Bilos
+ * Copyright (c) 2024 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
 /**
@@ -12,14 +12,11 @@
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-/**
- * @brief reporting function for uart output
- *
- * Maybe interesting to send to a large RAM buffer?
- *
- * @param string
- */
 void minunitReport(const char* string) {}
+
+void minunitFailCallback() {
+  __BKPT(0x00);
+}
 
 /**
  * @brief main program entry point
@@ -34,5 +31,6 @@ int main() {
   } else {
     minunitReport("All tests passed\n");
   }
-  while (1) __BKPT(1);
+  while (1)
+    __BKPT(1);
 }
