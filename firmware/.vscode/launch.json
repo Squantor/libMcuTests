@@ -182,5 +182,26 @@
             "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC845.svd",
             "debuggerArgs": [],
         },
+        {
+            "name": "RP2040 LL tests , debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/test_LL_RP2040/debug/test_LL_RP2040.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "RP2040",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuLL RP2040 tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/RP2040.svd",
+            "debuggerArgs": [],
+        },
     ]
 }

@@ -73,5 +73,12 @@
       "group": "build",
       "problemMatcher": "$gcc"
     },
+    {
+      "label": "build libMcuLL RP2040 tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_RP2040 CONFIG=debug -j28",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
   ]
 }
