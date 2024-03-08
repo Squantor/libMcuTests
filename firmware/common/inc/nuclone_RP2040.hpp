@@ -25,4 +25,10 @@ void boardInit(void);
 #define CLOCK_PIN BANK0_GPIO21
 #define CLOCK_MASK BANK0_GPIO21_MASK
 
+// connected pin 0 and 1 via 3.3K resistors, links UART RX/TX
+// connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO
+// connected pin 2 and 5 via 3.3K resistors, links SPI CS/SCK
+// connected pin 16 to 2.2K pull up resistor, SDA
+// connected pin 17 to 2.2K pull up resistor, SCL
+
 #endif
