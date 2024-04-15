@@ -6,6 +6,25 @@
  */
 #include <nuclone_RP2040.hpp>
 
+using namespace libMcuLL;
+
+libMcuLL::sw::padsBank0::padsBank0<libMcuLL::hw::padsBank0Address> padsBank0Peripheral;
+
+void crudeDelay(uint32_t iterations) {
+  for (uint32_t i = iterations; i > 0; i--) {
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+    libMcuLL::sw::nop();
+  }
+}
+
 void boardInit(void) {
   // reset all setup peripherals
   // resetsReset(RESETS_IO_BANK0_MASK | RESETS_PADS_BANK0_MASK | RESETS_PLL_SYS_MASK | RESETS_PLL_USB_MASK, 0x1000000);
@@ -36,6 +55,7 @@ void boardInit(void) {
   // clocksSetDivider(CLK_GPOUT0, 10, 0);  // divide by 10 to make math easier
   // clockSwitchBasicAux(CLK_GPOUT0, GPOUT0_AUXSRC_CLK_USB);
   // iobank0GpioCtrl(IO_BANK0, CLOCK_PIN, BANK0_GPIO21_FUNC_CLOCK_GPOUT0, 0);
+  padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, true);
   /*
   // Configure 1 us tick for watchdog and timer
   WATCHDOG->TICK = ((F_REF / F_TICK) << WATCHDOG_TICK_CYCLES_Pos) | WATCHDOG_TICK_ENABLE_Msk;
@@ -44,6 +64,7 @@ void boardInit(void) {
   // setup LED pin
   // sioGpioOeSet(SIO, LED_MASK);
   // iobank0GpioCtrl(IO_BANK0, LED_PIN, BANK0_GPIO25_FUNC_SIO, 0);
+  padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, true, false, false, false);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);

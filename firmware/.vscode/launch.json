@@ -200,7 +200,7 @@
             ],
             "preRestartCommands": [],
             "preLaunchTask": "build libMcuLL RP2040 tests, debug mode",
-            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/RP2040.svd",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
             "debuggerArgs": [],
         },
     ]
