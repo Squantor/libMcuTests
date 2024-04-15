@@ -9,6 +9,7 @@
 using namespace libMcuLL;
 
 libMcuLL::sw::padsBank0::padsBank0<libMcuLL::hw::padsBank0Address> padsBank0Peripheral;
+libMcuLL::sw::gpioBank0::gpioBank0<libMcuLL::hw::gpioBank0Address> gpioBank0Peripheral;
 
 void crudeDelay(uint32_t iterations) {
   for (uint32_t i = iterations; i > 0; i--) {
@@ -65,6 +66,8 @@ void boardInit(void) {
   // sioGpioOeSet(SIO, LED_MASK);
   // iobank0GpioCtrl(IO_BANK0, LED_PIN, BANK0_GPIO25_FUNC_SIO, 0);
   padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, true, false, false, false);
+  gpioBank0Peripheral.gpioBank0Peripheral()->GPIO[25].CTRL =
+    hw::gpioBank0::CTRL::FUNCSEL(hw::gpioBank0::CTRL::F5) | hw::gpioBank0::CTRL::OUTOVER(hw::gpioBank0::CTRL::OUTOVER_HIGH);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
