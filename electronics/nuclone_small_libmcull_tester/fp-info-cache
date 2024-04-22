@@ -1,4 +1,4 @@
-23566662053917240
+23598079519000560
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -86254,6 +86254,13 @@ AT45DBXXX
 8
 8
 SquantorCapacitor
+C-025-065-elco
+electrolytic capacitor footprint 2.5mm pitch 6.5mm diameter
+electrolytic capacitor 2.5mm 6.5mm
+0
+2
+2
+SquantorCapacitor
 C-025_050-030X100-film
 Through hole Film capacitor multipitch 2.5mm and 5.0mm size 3.0 by 10.0mm
 Film capacitor multipitch
@@ -87437,6 +87444,13 @@ SOD-323
 2
 2
 SquantorDiodes
+SOD-323HE-shikues
+SOD-323HE specified by shikues
+SOD-323HE shikues
+0
+2
+2
+SquantorDiodes
 SOD-523
 SOD-523 footprint
 SOD-523
@@ -88213,6 +88227,13 @@ SquantorModules-SPI_CARD
 0
 7
 7
+SquantorModules
+battery_holder_9v_stacked
+
+
+0
+0
+0
 SquantorModules
 dual_9V_batt_holder
 
