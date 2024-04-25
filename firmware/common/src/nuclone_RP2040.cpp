@@ -8,9 +8,18 @@
 
 using namespace libMcuLL;
 
+libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
+libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
 sw::padsBank0::padsBank0<hw::padsBank0Address> padsBank0Peripheral;
 sw::gpioBank0::gpioBank0<hw::gpioBank0Address> gpioBank0Peripheral;
-sw::resets::resets<hw::resetsAddress, hw::resetsSetAddress, hw::resetsClrAddress> resetsPeripheral;
+sw::resets::resets<hw::resetsAddress> resetsPeripheral;
+sw::sioGpio::sioGpio<hw::sioAddress> sioGpioPeripheral;
+
+extern "C" {
+void SysTick_Handler(void) {
+  systickPeripheral.isr();
+}
+}
 
 void crudeDelay(uint32_t iterations) {
   for (uint32_t i = iterations; i > 0; i--) {
@@ -26,6 +35,10 @@ void crudeDelay(uint32_t iterations) {
     sw::nop();
   }
 }
+
+auto blinkyLedLambda = []() {
+  sioGpioPeripheral.toggle(ledPin);
+};
 
 void boardInit(void) {
   std::uint32_t timeout;
@@ -59,18 +72,23 @@ void boardInit(void) {
   // clocksSetDivider(CLK_GPOUT0, 10, 0);  // divide by 10 to make math easier
   // clockSwitchBasicAux(CLK_GPOUT0, GPOUT0_AUXSRC_CLK_USB);
   // iobank0GpioCtrl(IO_BANK0, CLOCK_PIN, BANK0_GPIO21_FUNC_CLOCK_GPOUT0, 0);
+  // setup clock output pin
   padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, true);
+  gpioBank0Peripheral.setup(clockOutPin);
   /*
   // Configure 1 us tick for watchdog and timer
   WATCHDOG->TICK = ((F_REF / F_TICK) << WATCHDOG_TICK_CYCLES_Pos) | WATCHDOG_TICK_ENABLE_Msk;
   */
 
   // setup LED pin
-  // sioGpioOeSet(SIO, LED_MASK);
-  // iobank0GpioCtrl(IO_BANK0, LED_PIN, BANK0_GPIO25_FUNC_SIO, 0);
-  padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, true, false, false, false);
+  padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
+  gpioBank0Peripheral.setup(ledPin);
+  sioGpioPeripheral.output(ledPin);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
+  systickPeripheral.init(12000000 / TICKS_PER_S);
+  systickPeripheral.start(blinkyLedLambda);
+
   (void)timeout;
 }
