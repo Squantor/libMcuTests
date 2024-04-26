@@ -10,14 +10,13 @@
 #include <MinUnit.h>
 
 /** @brief resets all the registers to their default states
- * 
+ *
  */
-MINUNIT_TEARDOWN(MicrocontrollerTeardown);
-
+MINUNIT_TEARDOWN(RP2040Teardown);
 
 /** @brief checks if all registers are in their default states
  *  @return false if a register is not properly set
  */
-bool MicrocontrollerTeardownCorrect(void);
+bool RP2040TeardownCorrect(void);
 
 #endif

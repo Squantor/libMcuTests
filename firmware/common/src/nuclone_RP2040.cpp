@@ -8,8 +8,8 @@
 
 using namespace libMcuLL;
 
-libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
-libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
+sw::systick::systick<hw::systickAddress> systickPeripheral;
+sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
 sw::padsBank0::padsBank0<hw::padsBank0Address> padsBank0Peripheral;
 sw::gpioBank0::gpioBank0<hw::gpioBank0Address> gpioBank0Peripheral;
 sw::resets::resets<hw::resetsAddress> resetsPeripheral;
