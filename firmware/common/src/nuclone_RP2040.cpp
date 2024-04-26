@@ -73,22 +73,23 @@ void boardInit(void) {
   // clockSwitchBasicAux(CLK_GPOUT0, GPOUT0_AUXSRC_CLK_USB);
   // iobank0GpioCtrl(IO_BANK0, CLOCK_PIN, BANK0_GPIO21_FUNC_CLOCK_GPOUT0, 0);
   // setup clock output pin
-  padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, true);
-  gpioBank0Peripheral.setup(clockOutPin);
+  // padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, true);
+  // gpioBank0Peripheral.setup(clockOutPin);
   /*
   // Configure 1 us tick for watchdog and timer
   WATCHDOG->TICK = ((F_REF / F_TICK) << WATCHDOG_TICK_CYCLES_Pos) | WATCHDOG_TICK_ENABLE_Msk;
   */
 
   // setup LED pin
-  padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
-  gpioBank0Peripheral.setup(ledPin);
-  sioGpioPeripheral.output(ledPin);
+  // padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
+  // gpioBank0Peripheral.setup(ledPin);
+  // sioGpioPeripheral.output(ledPin);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
   systickPeripheral.init(12000000 / TICKS_PER_S);
   systickPeripheral.start(blinkyLedLambda);
-
+  // reset all relevant peripherals
+  resetsPeripheral.reset(sw::resets::PADS_BANK0 | sw::resets::IO_BANK0, 100000);
   (void)timeout;
 }
