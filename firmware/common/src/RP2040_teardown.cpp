@@ -20,7 +20,7 @@ static constexpr hwAddressType sioAddressLocal = hw::sioAddress;
 hw::sio::peripheral *const sioRegisters{reinterpret_cast<hw::sio::peripheral *>(sioAddressLocal)};
 static constexpr hwAddressType padsBank0AddressLocal = hw::padsBank0Address;
 hw::padsBank0::peripheral *const padsBank0ARegisters{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0AddressLocal)};
-static constexpr hwAddressType ioBankAddressLocal = hw::gpioBank0Address;
+static constexpr hwAddressType ioBankAddressLocal = hw::ioBank0Address;
 hw::gpioBank0::peripheral *const ioBankRegisters{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBankAddressLocal)};
 static constexpr hwAddressType resetsAddressLocal = hw::resetsAddress;
 hw::resets::peripheral *const resetsRegisters{reinterpret_cast<hw::resets::peripheral *>(resetsAddressLocal)};

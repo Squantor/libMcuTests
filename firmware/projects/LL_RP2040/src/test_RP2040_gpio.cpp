@@ -15,7 +15,7 @@
 using namespace libMcuLL;
 
 // peripheral register sets
-static constexpr hwAddressType dutAddress = hw::gpioBank0Address;
+static constexpr hwAddressType dutAddress = hw::ioBank0Address;
 hw::gpioBank0::peripheral *const dutRegisters{reinterpret_cast<hw::gpioBank0::peripheral *>(dutAddress)};
 
 /**

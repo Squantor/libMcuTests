@@ -10,12 +10,13 @@ using namespace libMcuLL;
 
 sw::systick::systick<hw::systickAddress> systickPeripheral;
 sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
-sw::padsBank0::padsBank0<hw::padsBank0Address> padsBank0Peripheral;
-sw::gpioBank0::gpioBank0<hw::gpioBank0Address> gpioBank0Peripheral;
-sw::resets::resets<hw::resetsAddress> resetsPeripheral;
-sw::sioGpio::sioGpio<hw::sioAddress> sioGpioPeripheral;
 
-libmcuhal::pins::pins<hw::padsBank0Address, hw::gpioBank0Address> pinsHal;
+libMcuLL::padsBank0PeripheralType padsBank0Peripheral;
+libMcuLL::gpioBank0PeripheralType gpioBank0Peripheral;
+libMcuLL::resetsPeripheralType resetsPeripheral;
+libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
+
+pinsHalType pinsHal;
 
 extern "C" {
 void SysTick_Handler(void) {
