@@ -14,7 +14,7 @@
 #define FREQ_RTC (FREQ_XTAL / 256) /**< RTC frequency */
 #define FREQ_PERI (FREQ_CPU)       /**< Peripherals frequency */
 
-#include <mcu_ll.hpp>
+#include <libmcuRP2040ll.hpp>
 
 #define TICKS_PER_S (8u)
 
