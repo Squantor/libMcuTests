@@ -8,8 +8,8 @@
 PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
-NAME := test_LL_RP2040
-BOARD := nuclone_RP2040_LL
+NAME := test_HAL_RP2040
+BOARD := nuclone_RP2040_HAL
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := RP2040
 $(NAME)_FLASH := generic
@@ -17,10 +17,7 @@ $(NAME)_DEFINES := -DMINUNIT_MAX_TESTS=100
 $(NAME)_LIBS := libMcuLL squantorLibC squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 common/src/$(BOARD).cpp \
-common/src/RP2040_LL_teardown.cpp \
-$(PROJ_DIR)/src/test_RP2040_gpio.cpp \
-$(PROJ_DIR)/src/test_RP2040_pads.cpp \
-$(PROJ_DIR)/src/test_RP2040_sio_gpio.cpp
+common/src/RP2040_HAL_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 
 # --- nothing user definable below ---

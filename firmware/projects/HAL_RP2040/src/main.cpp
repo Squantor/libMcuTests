@@ -7,7 +7,7 @@
 /**
  * @brief main test entry point for RP2040 libMcuLL tests
  */
-#include <nuclone_RP2040_LL.hpp>
+#include <nuclone_RP2040_HAL.hpp>
 #include <MinUnit.h>
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"

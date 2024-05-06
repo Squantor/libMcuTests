@@ -4,8 +4,8 @@
  * Copyright (c) 2023 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
-#ifndef NUCLONE_RP2040_HPP
-#define NUCLONE_RP2040_HPP
+#ifndef NUCLONE_RP2040_LL_HPP
+#define NUCLONE_RP2040_LL_HPP
 
 #define FREQ_XTAL (12000000u)      /**< Crystal oscillator frequncy */
 #define FREQ_CPU (125000000u)      /**< CPU frequency */

@@ -7,9 +7,9 @@
 /**
  * @brief tests for the RP2040 gpio
  */
-#include <nuclone_RP2040.hpp>
+#include <nuclone_RP2040_LL.hpp>
 #include <MinUnit.h>
-#include <RP2040_teardown.hpp>
+#include <RP2040_LL_teardown.hpp>
 #include <common.hpp>
 
 using namespace libMcuLL;

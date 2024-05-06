@@ -8,8 +8,8 @@
  * @brief Teardown function that resets the RP2040 to a state
  * that more or less matches reset state
  */
-#include <nuclone_RP2040.hpp>
-#include <RP2040_teardown.hpp>
+#include <nuclone_RP2040_LL.hpp>
+#include <RP2040_HAL_teardown.hpp>
 #include <test_conditions.hpp>
 #include <MinUnit.h>
 

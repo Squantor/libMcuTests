@@ -80,5 +80,12 @@
       "group": "build",
       "problemMatcher": "$gcc"
     },
+    {
+      "label": "build libMcuHAL RP2040 tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_HAL_RP2040 CONFIG=debug -j28",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
   ]
 }

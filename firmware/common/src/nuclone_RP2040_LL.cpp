@@ -4,7 +4,7 @@
  * Copyright (c) 2021 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
-#include <nuclone_RP2040.hpp>
+#include <nuclone_RP2040_LL.hpp>
 
 using namespace libMcuLL;
 

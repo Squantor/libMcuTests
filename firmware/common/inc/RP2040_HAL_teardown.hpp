@@ -4,8 +4,8 @@
  * Copyright (c) 2023 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
-#ifndef RP2040_TEARDOWN_HPP
-#define RP2040_TEARDOWN_HPP
+#ifndef RP2040_HAL_TEARDOWN_HPP
+#define RP2040_HAL_TEARDOWN_HPP
 
 #include <MinUnit.h>
 
