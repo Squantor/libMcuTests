@@ -16,10 +16,10 @@ using namespace libMcuLL;
 using namespace libMcuHal;
 
 // peripheral register sets
-static constexpr hwAddressType padsAddress = hw::padsBank0Address;
-hw::padsBank0::peripheral *const padsRegisters{reinterpret_cast<hw::padsBank0::peripheral *>(padsAddress)};
-static constexpr hwAddressType ioBankAddress = hw::ioBank0Address;
-hw::gpioBank0::peripheral *const gpioRegisters{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBankAddress)};
+static constexpr hwAddressType padsBank0Address = hw::padsBank0Address;
+hw::padsBank0::peripheral *const padsBank0Registers{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0Address)};
+static constexpr hwAddressType ioBank0Address = hw::ioBank0Address;
+hw::gpioBank0::peripheral *const ioBank0Registers{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBank0Address)};
 
 /**
  * @brief sio setup and initialisation
@@ -31,16 +31,16 @@ MINUNIT_SETUP(RP2040SetupHalPins) {
 
 MINUNIT_ADD(RP2040HalPins, RP2040SetupHalPins, RP2040Teardown) {
   pinsHal.setup(gpio0Pin, pins::driveModes::DRIVE_8MA, pins::pullModes::PULLUP, pins::speedModes::SLEW_SLOW, true);
-  minUnitCheck(padsRegisters->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'006Au));
-  // check pinmuxing
+  minUnitCheck(padsBank0Registers->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'006Au));
+  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0005u));
   pinsHal.reset(gpio0Pin);
-  minUnitCheck(padsRegisters->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
-  // check pinmuxing
-  // setup another pin to check indexing, preferably not a gpio pin but UART or something
+  minUnitCheck(padsBank0Registers->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
+  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
   pinsHal.setup(spiSckPin, pins::driveModes::DRIVE_4MA, pins::pullModes::NONE, pins::speedModes::SLEW_FAST, false);
-  minUnitCheck(padsRegisters->GPIO[2] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0051u));
-  // check
-  // reset
-  // check if reset
+  minUnitCheck(padsBank0Registers->GPIO[2] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0051u));
+  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0001u));
+  pinsHal.reset(spiSckPin);
+  minUnitCheck(padsBank0Registers->GPIO[2] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
+  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
   minUnitPass();
 }
