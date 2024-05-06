@@ -203,5 +203,26 @@
             "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
             "debuggerArgs": [],
         },
+        {
+            "name": "RP2040 HAL tests , debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/test_HAL_RP2040/debug/test_HAL_RP2040.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "RP2040",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build libMcuHAL RP2040 tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
+            "debuggerArgs": [],
+        },
     ]
 }

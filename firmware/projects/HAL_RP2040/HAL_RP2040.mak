@@ -16,6 +16,7 @@ $(NAME)_FLASH := generic
 $(NAME)_DEFINES := -DMINUNIT_MAX_TESTS=100
 $(NAME)_LIBS := libMcuLL squantorLibC squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
+$(PROJ_DIR)/src/test_RP2040_HAL_pins.cpp \
 common/src/$(BOARD).cpp \
 common/src/RP2040_HAL_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc

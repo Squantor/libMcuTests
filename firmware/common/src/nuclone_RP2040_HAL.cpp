@@ -11,10 +11,7 @@ using namespace libMcuLL;
 sw::systick::systick<hw::systickAddress> systickPeripheral;
 sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
 
-libMcuLL::padsBank0PeripheralType padsBank0Peripheral;
-libMcuLL::gpioBank0PeripheralType gpioBank0Peripheral;
-libMcuLL::resetsPeripheralType resetsPeripheral;
-libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
+resetsPeripheralType resetsPeripheral;
 
 pinsHalType pinsHal;
 
@@ -38,10 +35,6 @@ void crudeDelay(uint32_t iterations) {
     sw::nop();
   }
 }
-
-auto blinkyLedLambda = []() {
-  sioGpioPeripheral.toggle(ledPin);
-};
 
 void boardInit(void) {
   std::uint32_t timeout;
@@ -91,11 +84,9 @@ void boardInit(void) {
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
   systickPeripheral.init(12000000 / TICKS_PER_S);
-  systickPeripheral.start(blinkyLedLambda);
   // reset all relevant peripherals
-  resetsPeripheral.reset(sw::resets::PADS_BANK0 | sw::resets::IO_BANK0, 100000);
   (void)timeout;
   pinsHal.initialize();
-  pinsHal.setup(gpio0Pin, libmcuhal::pins::driveModes::DRIVE_12MA, libmcuhal::pins::pullModes::PULLUP,
-                libmcuhal::pins::speedModes::SLEW_FAST, false);
+  pinsHal.setup(ledPin, libMcuHal::pins::driveModes::DRIVE_12MA, libMcuHal::pins::pullModes::NONE,
+                libMcuHal::pins::speedModes::SLEW_SLOW, false);
 }
