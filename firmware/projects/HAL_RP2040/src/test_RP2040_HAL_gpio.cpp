@@ -26,6 +26,8 @@ hw::sio::peripheral *const sioRegisters{reinterpret_cast<hw::sio::peripheral *>(
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupHalgpio) {
+  gpioHal.initialize();
+  // setup test pins to gpio mode
   minUnitPass();
 }
 

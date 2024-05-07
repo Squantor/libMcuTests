@@ -15,6 +15,7 @@ sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
 resetsPeripheralType resetsPeripheral;
 
 pinsHalType pinsHal;
+gpioHalType gpioHal;
 
 extern "C" {
 void SysTick_Handler(void) {

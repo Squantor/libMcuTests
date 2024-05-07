@@ -65,6 +65,7 @@ extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddr
 extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeripheral;
 
 extern libMcuHal::pinsHalType pinsHal;
+extern libMcuHal::gpioHalType gpioHal;
 
 /**
  * @brief Initialize the development board
