@@ -16,10 +16,10 @@ using namespace libMcuLL;
 using namespace libMcuHal;
 
 // peripheral register sets
-static constexpr hwAddressType padsBank0Address = hw::padsBank0Address;
-hw::padsBank0::peripheral *const padsBank0Registers{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0Address)};
-static constexpr hwAddressType ioBank0Address = hw::ioBank0Address;
-hw::gpioBank0::peripheral *const ioBank0Registers{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBank0Address)};
+static constexpr hwAddressType padsBank0Location = hw::padsBank0Address;
+hw::padsBank0::peripheral *const padsBank0Registers{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0Location)};
+static constexpr hwAddressType ioBank0Location = hw::ioBank0Address;
+hw::gpioBank0::peripheral *const ioBank0Registers{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBank0Location)};
 
 /**
  * @brief sio setup and initialisation

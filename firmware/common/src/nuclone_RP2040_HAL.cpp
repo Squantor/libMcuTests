@@ -7,6 +7,7 @@
 #include <nuclone_RP2040_HAL.hpp>
 
 using namespace libMcuLL;
+using namespace libMcuHal;
 
 sw::systick::systick<hw::systickAddress> systickPeripheral;
 sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;

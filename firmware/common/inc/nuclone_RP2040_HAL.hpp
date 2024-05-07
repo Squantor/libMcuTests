@@ -64,7 +64,7 @@ extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPerip
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
 extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeripheral;
 
-extern libMcuLL::pinsHalType pinsHal;
+extern libMcuHal::pinsHalType pinsHal;
 
 /**
  * @brief Initialize the development board
