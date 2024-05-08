@@ -87,5 +87,12 @@
       "group": "build",
       "problemMatcher": "$gcc"
     },
+    {
+      "label": "build driver 3 to 8 mux and 74595 tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=driver_mux3to8_74hc595 CONFIG=debug -j28",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
   ]
 }

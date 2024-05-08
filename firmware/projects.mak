@@ -18,5 +18,4 @@ include $(BASE_DIR)/projects/LL_LPC844BD64_1/LL_LPC844BD64_1.mak
 include $(BASE_DIR)/projects/LL_LPC845BD48_1/LL_LPC845BD48_1.mak
 include $(BASE_DIR)/projects/LL_RP2040/LL_RP2040.mak
 include $(BASE_DIR)/projects/HAL_RP2040/HAL_RP2040.mak
-
-
+include $(BASE_DIR)/projects/DRV_mux3to8_74hc595/DRV_mux3to8_74hc595.mak
