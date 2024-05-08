@@ -8,6 +8,7 @@
 
 using namespace libMcuLL;
 using namespace libMcuHal;
+using namespace libMcuDriver;
 
 sw::systick::systick<hw::systickAddress> systickPeripheral;
 sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
@@ -16,6 +17,8 @@ resetsPeripheralType resetsPeripheral;
 
 pinsHalType pinsHal;
 gpioHalType gpioHal;
+
+libMcuDriver::mux::mux3to8<gpioHal> testMux;
 
 extern "C" {
 void SysTick_Handler(void) {

@@ -15,13 +15,25 @@
 #define FREQ_PERI (FREQ_CPU)       /**< Peripherals frequency */
 
 #include <libmcuRP2040hal.hpp>
+#include <drivers/mux3to8.hpp>
+#include <drivers/spi74595.hpp>
 
 #define TICKS_PER_S (8u)
 
 // LED connected pin 25 via a resistor to ground
 using ledPinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN25, libMcuLL::hw::IOfuncts::SIO>;
+// multiplexer pins
+using muxNotEnablePinType =
+  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN00, libMcuLL::hw::IOfuncts::SIO>;
+using muxA0PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN01, libMcuLL::hw::IOfuncts::SIO>;
+using muxA1PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN02, libMcuLL::hw::IOfuncts::SIO>;
+using muxA2PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN03, libMcuLL::hw::IOfuncts::SIO>;
 
 constexpr ledPinType ledPin;
+constexpr muxNotEnablePinType muxNotEnablePin;
+constexpr muxA0PinType muxA0Pin;
+constexpr muxA1PinType muxA1Pin;
+constexpr muxA2PinType muxA2Pin;
 
 extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
@@ -29,6 +41,7 @@ extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeriphera
 
 extern libMcuHal::pinsHalType pinsHal;
 extern libMcuHal::gpioHalType gpioHal;
+extern libMcuDriver::mux::mux3to8<gpioHal> testMux;
 
 /**
  * @brief Initialize the development board

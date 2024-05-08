@@ -13,11 +13,13 @@
 
 using namespace libMcuLL;
 using namespace libMcuHal;
+using namespace libMcuDriver::mux;
 
 /**
  * @brief driver setup and initialisation
  */
 MINUNIT_SETUP(driverMux3to8Setup) {
+  testMux.initialize();
   minUnitPass();
 }
 
