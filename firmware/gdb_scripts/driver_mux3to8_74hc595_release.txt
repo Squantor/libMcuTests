@@ -1,0 +1,11 @@
+set architecture armv6-m
+set print pretty on
+file bin/driver_mux3to8_74hc595/debug/driver_mux3to8_74hc595.elf
+target extended-remote /dev/ttyACM0
+shell sleep 1
+monitor swdp_scan
+attach 1
+set mem inaccessible-by-default off
+load bin/driver_mux3to8_74hc595/debug/driver_mux3to8_74hc595.elf
+compare-sections
+b main
