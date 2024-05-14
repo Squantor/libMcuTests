@@ -18,7 +18,7 @@ resetsPeripheralType resetsPeripheral;
 pinsHalType pinsHal;
 gpioHalType gpioHal;
 
-libMcuDriver::mux::mux3to8<gpioHal> testMux;
+libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
 extern "C" {
 void SysTick_Handler(void) {

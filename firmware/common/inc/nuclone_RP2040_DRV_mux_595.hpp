@@ -28,12 +28,20 @@ using muxNotEnablePinType =
 using muxA0PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN01, libMcuLL::hw::IOfuncts::SIO>;
 using muxA1PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN02, libMcuLL::hw::IOfuncts::SIO>;
 using muxA2PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN03, libMcuLL::hw::IOfuncts::SIO>;
+using muxY0PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN04, libMcuLL::hw::IOfuncts::SIO>;
+using muxY1PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN05, libMcuLL::hw::IOfuncts::SIO>;
+using muxY2PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN06, libMcuLL::hw::IOfuncts::SIO>;
+using muxY7PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN07, libMcuLL::hw::IOfuncts::SIO>;
 
 constexpr ledPinType ledPin;
 constexpr muxNotEnablePinType muxNotEnablePin;
 constexpr muxA0PinType muxA0Pin;
 constexpr muxA1PinType muxA1Pin;
 constexpr muxA2PinType muxA2Pin;
+constexpr muxY0PinType muxY0Pin;
+constexpr muxY1PinType muxY1Pin;
+constexpr muxY2PinType muxY2Pin;
+constexpr muxY7PinType muxY7Pin;
 
 extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
@@ -41,7 +49,7 @@ extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeriphera
 
 extern libMcuHal::pinsHalType pinsHal;
 extern libMcuHal::gpioHalType gpioHal;
-extern libMcuDriver::mux::mux3to8<gpioHal> testMux;
+extern libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
 /**
  * @brief Initialize the development board

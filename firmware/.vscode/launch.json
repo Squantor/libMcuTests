@@ -224,5 +224,26 @@
             "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
             "debuggerArgs": [],
         },
+        {
+            "name": "RP2040 driver tests 3to8 mux and 74595 , debug mode",
+            "cwd": "${workspaceRoot}",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "executable": "${workspaceFolder}/bin/driver_mux3to8_74hc595/debug/driver_mux3to8_74hc595.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "device": "RP2040",
+            "BMPGDBSerialPort": "/dev/ttyACM0",
+            "powerOverBMP": "enable",
+            "preLaunchCommands": [],
+            "postLaunchCommands": [
+                "compare-sections"
+            ],
+            "preRestartCommands": [],
+            "preLaunchTask": "build driver 3 to 8 mux and 74595 tests, debug mode",
+            "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
+            "debuggerArgs": [],
+        },
     ]
 }
