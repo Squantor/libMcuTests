@@ -16,8 +16,6 @@ libMcuLL::gpioBank0PeripheralType gpioBank0Peripheral;
 libMcuLL::resetsPeripheralType resetsPeripheral;
 libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
 
-pinsHalType pinsHal;
-
 extern "C" {
 void SysTick_Handler(void) {
   systickPeripheral.isr();
@@ -95,7 +93,4 @@ void boardInit(void) {
   // reset all relevant peripherals
   resetsPeripheral.reset(sw::resets::PADS_BANK0 | sw::resets::IO_BANK0, 100000);
   (void)timeout;
-  pinsHal.initialize();
-  pinsHal.setup(gpio0Pin, libMcuHal::pins::driveModes::DRIVE_12MA, libMcuHal::pins::pullModes::PULLUP,
-                libMcuHal::pins::speedModes::SLEW_FAST, false);
 }
