@@ -14,7 +14,7 @@
 #define FREQ_RTC (FREQ_XTAL / 256) /**< RTC frequency */
 #define FREQ_PERI (FREQ_CPU)       /**< Peripherals frequency */
 
-#include <libmcuRP2040hal.hpp>
+#include <libmcuRP2040ll.hpp>
 
 #define TICKS_PER_S (8u)
 
@@ -58,6 +58,10 @@ constexpr gpio2PinType gpio2Pin;
 constexpr gpio3PinType gpio3Pin;
 constexpr gpio4PinType gpio4Pin;
 constexpr gpio5PinType gpio5Pin;
+constexpr spiOutPinType spiOutPin;
+constexpr spiInPinType spiInPin;
+constexpr spiSckPinType spiSckPin;
+constexpr spiCsPinType spiCsPin;
 
 extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
