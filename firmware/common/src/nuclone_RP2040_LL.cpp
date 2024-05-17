@@ -17,6 +17,8 @@ libMcuLL::resetsPeripheralType resetsPeripheral;
 libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
 libMcuLL::clocksPeripheralType clocksPeripheral;
 libMcuLL::xoscPeripheralType xoscPeripheral;
+libMcuLL::pllSysPeripheralType pllSysPeripheral;
+libMcuLL::pllUsbPeripheralType pllUsbPeripheral;
 
 extern "C" {
 void SysTick_Handler(void) {
@@ -55,13 +57,13 @@ void boardInit(void) {
 
   // Setup PLL's
   // atadarov config: 12MHz * 40 / 4 / 1 = 120MHz
-  // timeout = pllStart(PLL_SYS, 1, 40, 4, 1, 0x1000000);
+  timeout = pllSysPeripheral.start(1, 40, 4, 1, 0x1000000);
   // SDK config: 12MHz * 125 / 6 / 2 = 125MHz
-  // pllStart(PLL_SYS, 1, 125, 6, 2, 0x1000000);
+  // timeout = pllUsbPeripheral.start(1, 125, 6, 2, 0x1000000);
   // atadarov config: 12 MHz * 36 / 3 / 3 = 48MHz
-  // pllStart(PLL_USB, 1, 36, 3, 3, 0x1000000);
+  timeout = pllUsbPeripheral.start(1, 36, 3, 3, 0x1000000);
   // SDK config: 12MHz * 100 / 5 / 5 = 48MHz
-  // pllStart(PLL_USB, 1, 100, 5, 5, 0x1000000);
+  // timeout = pllUsbPeripheral.start(1, 100, 5, 5, 0x1000000);
 
   // Setup clocks
   // clocksSwitchGlitchlessSrc(CLK_REF, REF_SRC_XOSC, 0x1000000);
@@ -88,8 +90,7 @@ void boardInit(void) {
   // gpioBank0Peripheral.setup(ledPin);
   // sioGpioPeripheral.output(ledPin);
   // setup clock out pin
-
-  clocksPeripheral.setupGpout(sw::clocks::clockgenerators::GPOUT0, sw::clocks::gpoutSources::XOSC, 1, 0, 12);
+  clocksPeripheral.setupGpout(sw::clocks::clockgenerators::GPOUT0, sw::clocks::gpoutSources::PLL_USB, 10, 0, 12);
   padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_12MA, false, false, false, false);
   gpioBank0Peripheral.setup(clockOutPin);
 
