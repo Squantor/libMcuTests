@@ -15,6 +15,8 @@ libMcuLL::padsBank0PeripheralType padsBank0Peripheral;
 libMcuLL::gpioBank0PeripheralType gpioBank0Peripheral;
 libMcuLL::resetsPeripheralType resetsPeripheral;
 libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
+libMcuLL::clocksPeripheralType clocksPeripheral;
+libMcuLL::xoscPeripheralType xoscPeripheral;
 
 extern "C" {
 void SysTick_Handler(void) {
@@ -46,10 +48,10 @@ void boardInit(void) {
   // reset all setup peripherals
   timeout =
     resetsPeripheral.reset(sw::resets::IO_BANK0 | sw::resets::PADS_BANK0 | sw::resets::PLL_SYS | sw::resets::PLL_USB, 100000);
-  // clear resusitator status
-  // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
+  // setup crystal oscillator
+  clocksPeripheral.clearResusitator();
   // 47 ticks is around 1 ms @ 12 MHz
-  // xoscStart(47, 0x1000000);
+  xoscPeripheral.start(47, 0x1000000);
 
   // Setup PLL's
   // atadarov config: 12MHz * 40 / 4 / 1 = 120MHz
@@ -85,6 +87,11 @@ void boardInit(void) {
   // padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
   // gpioBank0Peripheral.setup(ledPin);
   // sioGpioPeripheral.output(ledPin);
+  // setup clock out pin
+
+  clocksPeripheral.setupGpout(sw::clocks::clockgenerators::GPOUT0, sw::clocks::gpoutSources::XOSC, 1, 0, 12);
+  padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_12MA, false, false, false, false);
+  gpioBank0Peripheral.setup(clockOutPin);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
