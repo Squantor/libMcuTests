@@ -75,11 +75,5 @@ extern libMcuLL::sw::sioGpio::sioGpio<libMcuLL::hw::sioAddress> sioGpioPeriphera
  *
  */
 void boardInit(void);
-/**
- * @brief Simple delay function that burns time with 10 NOP instructions
- *
- * @param iterations amount of iterations to execute
- */
-void crudeDelay(uint32_t iterations);
 
 #endif

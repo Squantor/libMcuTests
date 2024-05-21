@@ -26,21 +26,6 @@ void SysTick_Handler(void) {
 }
 }
 
-void crudeDelay(uint32_t iterations) {
-  for (uint32_t i = iterations; i > 0; i--) {
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-  }
-}
-
 auto blinkyLedLambda = []() {
   sioGpioPeripheral.toggle(ledPin);
 };
@@ -48,6 +33,7 @@ auto blinkyLedLambda = []() {
 void boardInit(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
+  clocksPeripheral.setup(sw::clocks::systemSources::REF, 1, 0);  // switch to safe clock for SYS
   timeout =
     resetsPeripheral.reset(sw::resets::IO_BANK0 | sw::resets::PADS_BANK0 | sw::resets::PLL_SYS | sw::resets::PLL_USB, 100000);
   // setup crystal oscillator
@@ -66,20 +52,13 @@ void boardInit(void) {
   // timeout = pllUsbPeripheral.start(1, 100, 5, 5, 0x1000000);
 
   // Setup clocks
-  // clocksSwitchGlitchlessSrc(CLK_REF, REF_SRC_XOSC, 0x1000000);
-  // clocksSwitchGlitchlessAux(CLK_SYS, SYS_AUXSRC_PLL_SYS, 0x1000000);
-  // clockSwitchBasicAux(CLK_PERI, PERI_AUXSRC_CLK_SYS);
-  // clockSwitchBasicAux(CLK_USB, USB_AUXSRC_PLL_USB);
-  // clockSwitchBasicAux(CLK_ADC, ADC_AUXSRC_PLL_USB);
-  // clocksSetDivider(CLK_RTC, 256, 0);  // 12MHz / 256 = 46875 Hz
-  // clockSwitchBasicAux(CLK_RTC, RTC_AUXSRC_XOSC);
-  // output clock network to GPOUT0, very useful for clock debugging
-  // clocksSetDivider(CLK_GPOUT0, 10, 0);  // divide by 10 to make math easier
-  // clockSwitchBasicAux(CLK_GPOUT0, GPOUT0_AUXSRC_CLK_USB);
-  // iobank0GpioCtrl(IO_BANK0, CLOCK_PIN, BANK0_GPIO21_FUNC_CLOCK_GPOUT0, 0);
-  // setup clock output pin
-  // padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, true);
-  // gpioBank0Peripheral.setup(clockOutPin);
+  clocksPeripheral.setup(sw::clocks::systemAuxSources::PLL_SYS, 1, 0, 125);  // we delay as we switch from 3MHz to 125MHz
+  clocksPeripheral.setup(sw::clocks::peripheralSources::SYS, 32);            // minimal delay as we do not make big switch
+  clocksPeripheral.setup(sw::clocks::usbSources::PLL_USB, 1, 32);            // minimal delay as we do not make big switch
+  // 48MHz / 3 = 16MHz
+  clocksPeripheral.setup(sw::clocks::adcSources::PLL_USB, 3, 32);  // minimal delay as we do not make big switch
+  // 12MHz / 256 = 46875 Hz, no fractional divison needed
+  clocksPeripheral.setup(sw::clocks::rtcSources::XOSC, 256, 0, 32);  // minimal delay as we do not make big switch
   /*
   // Configure 1 us tick for watchdog and timer
   WATCHDOG->TICK = ((F_REF / F_TICK) << WATCHDOG_TICK_CYCLES_Pos) | WATCHDOG_TICK_ENABLE_Msk;
@@ -90,15 +69,14 @@ void boardInit(void) {
   // gpioBank0Peripheral.setup(ledPin);
   // sioGpioPeripheral.output(ledPin);
   // setup clock out pin
-  clocksPeripheral.setupGpout(sw::clocks::clockgenerators::GPOUT0, sw::clocks::gpoutSources::PLL_USB, 10, 0, 12);
-  padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_12MA, false, false, false, false);
-  gpioBank0Peripheral.setup(clockOutPin);
+  // clocksPeripheral.setup(sw::clocks::gpoutGenerators::GPOUT0, sw::clocks::gpoutSources::SYS, 10, 0, 12);
+  // padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_12MA, false, false, false, false);
+  // gpioBank0Peripheral.setup(clockOutPin);
 
-  //  setup systick
-  // SysTick_Config(FREQ_CPU / TICKS_PER_S);
-  systickPeripheral.init(12000000 / TICKS_PER_S);
-  systickPeripheral.start(blinkyLedLambda);
+  // setup systick
+  // systickPeripheral.init(120000000 / 8);
+  // systickPeripheral.start(blinkyLedLambda);
   // reset all relevant peripherals
-  resetsPeripheral.reset(sw::resets::PADS_BANK0 | sw::resets::IO_BANK0, 100000);
+  // resetsPeripheral.reset(sw::resets::PADS_BANK0 | sw::resets::IO_BANK0, 100000);
   (void)timeout;
 }

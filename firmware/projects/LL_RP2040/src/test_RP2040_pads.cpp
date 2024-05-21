@@ -35,14 +35,14 @@ MINUNIT_ADD(RP2040pads, RP2040SetupPads, RP2040Teardown) {
   // check register settings
   minUnitCheck(dutRegisters->GPIO[0] == 0x00'00'00'50u);
   minUnitCheck(dutRegisters->GPIO[1] == 0x00'00'00'58u);
-  crudeDelay(100);  // wait time until everything propagates
+  libMcu::sw::delay(100);  // wait time until everything propagates
   // check INFROMPAD flag in GPIO status
   minUnitCheck((gpioRegisters->GPIO[0].STATUS & hw::gpioBank0::STATUS::RESERVED_MASK) == 0x05'0A'00'00u);
   minUnitCheck((gpioRegisters->GPIO[1].STATUS & hw::gpioBank0::STATUS::RESERVED_MASK) == 0x05'0A'00'00u);
   padsBank0Peripheral.setup(gpio0Pin, sw::pads::driveModes::DRIVE_4MA, false, true, false, false);
   padsBank0Peripheral.setup(gpio1Pin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
   minUnitCheck(dutRegisters->GPIO[1] == 0x00'00'00'50u);
-  crudeDelay(100);  // wait time until everything propagates
+  libMcu::sw::delay(100);
   minUnitCheck((gpioRegisters->GPIO[0].STATUS & hw::gpioBank0::STATUS::RESERVED_MASK) == 0x00'00'00'00u);
   minUnitCheck((gpioRegisters->GPIO[1].STATUS & hw::gpioBank0::STATUS::RESERVED_MASK) == 0x00'00'00'00u);
 }
