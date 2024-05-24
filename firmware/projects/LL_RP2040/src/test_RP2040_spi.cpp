@@ -39,12 +39,28 @@ MINUNIT_ADD(RP2040spiSetup, RP2040SetupSPI, RP2040Teardown) {
   std::uint32_t bitRate;
   bitRate = spiPeripheral.setupMaster(1'000'000, sw::spi::waveforms::CPHA0_CPOL0);
   minUnitCheck(bitRate == 1'000'000);
-  minUnitCheck(spi0Registers->SSPCR0 == 0x7800);
+  minUnitCheck(spi0Registers->SSPCR0 == 0x3C00);
   bitRate = spiPeripheral.setupMaster(1'234'567, sw::spi::waveforms::CPHA1_CPOL1);
-  minUnitCheck(bitRate == 1'237'113);
-  minUnitCheck(spi0Registers->SSPCR0 == 0x61C0);
+  minUnitCheck(bitRate == 1'250'000);
+  minUnitCheck(spi0Registers->SSPCR0 == 0x30C0);
 }
 
 MINUNIT_ADD(RP2040spiComms, RP2040SetupSPI, RP2040Teardown) {
-  minUnitPass();
+  std::array<std::uint16_t, 1> singleTransmitBuffer{0x1234};
+  std::array<std::uint16_t, 4> MultiTransmitBuffer{0x0123, 0x4567, 0x89AB, 0xCDEF};
+  std::array<std::uint16_t, 10> receiveBuffer;
+  spiPeripheral.setupMaster(1'000'000, sw::spi::waveforms::CPHA0_CPOL0);
+  spiPeripheral.readWrite(singleTransmitBuffer, receiveBuffer, 12);
+  minUnitCheck(receiveBuffer[0] == 0x234);
+  spiPeripheral.readWrite(MultiTransmitBuffer, receiveBuffer, 8);
+  minUnitCheck(receiveBuffer[0] == 0x23);
+  minUnitCheck(receiveBuffer[1] == 0x67);
+  minUnitCheck(receiveBuffer[2] == 0xAB);
+  minUnitCheck(receiveBuffer[3] == 0xEF);
+  spiPeripheral.readWrite(MultiTransmitBuffer, receiveBuffer, 16);
+  minUnitCheck(receiveBuffer[0] == 0x0123);
+  minUnitCheck(receiveBuffer[1] == 0x4567);
+  minUnitCheck(receiveBuffer[2] == 0x89AB);
+  minUnitCheck(receiveBuffer[3] == 0xCDEF);
+  // Test receive by disconnecting MOSI and setting it as GPIO high and low and check resulting data
 }

@@ -70,7 +70,7 @@ void boardInit(void) {
   // gpioBank0Peripheral.setup(ledPin);
   // sioGpioPeripheral.output(ledPin);
   // setup clock out pin
-  // clocksPeripheral.setup(sw::clocks::gpoutGenerators::GPOUT0, sw::clocks::gpoutSources::SYS, 10, 0, 12);
+  clocksPeripheral.setup(sw::clocks::gpoutGenerators::GPOUT0, sw::clocks::gpoutSources::SYS, 10, 0, 12);
   // padsBank0Peripheral.setup(clockOutPin, sw::pads::driveModes::DRIVE_12MA, false, false, false, false);
   // gpioBank0Peripheral.setup(clockOutPin);
 
