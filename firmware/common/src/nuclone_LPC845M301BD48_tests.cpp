@@ -6,10 +6,4 @@
  */
 #include <nuclone_LPC845M301BD48_tests.hpp>
 
-void crudeDelay(uint32_t iterations) {
-  for (uint32_t i = iterations; i > 0; i--) {
-    libMcuLL::sw::nop();
-  }
-}
-
 void boardInit(void) {}
