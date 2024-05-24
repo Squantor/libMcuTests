@@ -20,20 +20,6 @@ libMcuLL::sw::sct::sct<libMcuLL::hw::sctAddress> sctPeripheral;
 libMcuLL::sw::acmp::acmp<libMcuLL::hw::acmpAddress> acmpPeripheral;
 libMcuLL::sw::fmc::fmc<libMcuLL::hw::fmcAddress> fcmPeripheral;
 
-void crudeDelay(uint32_t iterations) {
-  for (uint32_t i = iterations; i > 0; i--) {
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-    libMcuLL::sw::nop();
-  }
-}
-
 void boardInit(void) {
   // clock enables and resets
   sysconPeripheral.enablePeripheralClocks(libMcuLL::sw::syscon::peripheralClocks::SWM |
@@ -47,7 +33,7 @@ void boardInit(void) {
   // setup system clocks
   sysconPeripheral.setSysOscControl(libMcuLL::hw::syscon::SYSOSCCTRL::NO_BYPASS | libMcuLL::hw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
   sysconPeripheral.powerPeripherals(libMcuLL::sw::syscon::peripheralPowers::SYSOSC);
-  crudeDelay(6000);
+  libMcu::sw::delay(6000);
   sysconPeripheral.selectPllClock(libMcuLL::sw::syscon::pllClockSources::SYSOSC);
   fcmPeripheral.setFlashWaitState(libMcuLL::sw::fmc::waitstates::WAIT_2_CLOCK);
   sysconPeripheral.depowerPeripherals(libMcuLL::sw::syscon::peripheralPowers::SYSPLL);
