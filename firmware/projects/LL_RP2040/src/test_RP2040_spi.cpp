@@ -36,8 +36,13 @@ MINUNIT_SETUP(RP2040SetupSPI) {
 }
 
 MINUNIT_ADD(RP2040spiSetup, RP2040SetupSPI, RP2040Teardown) {
-  // check various setup functions
-  minUnitPass();
+  std::uint32_t bitRate;
+  bitRate = spiPeripheral.setupMaster(1'000'000, sw::spi::waveforms::CPHA0_CPOL0);
+  minUnitCheck(bitRate == 1'000'000);
+  minUnitCheck(spi0Registers->SSPCR0 == 0x7800);
+  bitRate = spiPeripheral.setupMaster(1'234'567, sw::spi::waveforms::CPHA1_CPOL1);
+  minUnitCheck(bitRate == 1'237'113);
+  minUnitCheck(spi0Registers->SSPCR0 == 0x61C0);
 }
 
 MINUNIT_ADD(RP2040spiComms, RP2040SetupSPI, RP2040Teardown) {
