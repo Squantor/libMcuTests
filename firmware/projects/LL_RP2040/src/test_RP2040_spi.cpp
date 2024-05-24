@@ -35,6 +35,11 @@ MINUNIT_SETUP(RP2040SetupSPI) {
   padsBank0Peripheral.setup(spiCsPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, true);
 }
 
-MINUNIT_ADD(RP2040spi, RP2040SetupSPI, RP2040Teardown) {
+MINUNIT_ADD(RP2040spiSetup, RP2040SetupSPI, RP2040Teardown) {
+  // check various setup functions
+  minUnitPass();
+}
+
+MINUNIT_ADD(RP2040spiComms, RP2040SetupSPI, RP2040Teardown) {
   minUnitPass();
 }

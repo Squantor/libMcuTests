@@ -65,10 +65,11 @@ constexpr spiCsPinType spiCsPin;
 
 extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
-extern libMcuLL::sw::padsBank0::padsBank0<libMcuLL::hw::padsBank0Address> padsBank0Peripheral;
-extern libMcuLL::sw::gpioBank0::gpioBank0<libMcuLL::hw::ioBank0Address> gpioBank0Peripheral;
-extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeripheral;
-extern libMcuLL::sw::sioGpio::sioGpio<libMcuLL::hw::sioAddress> sioGpioPeripheral;
+extern libMcuLL::padsBank0PeripheralType padsBank0Peripheral;
+extern libMcuLL::gpioBank0PeripheralType gpioBank0Peripheral;
+extern libMcuLL::resetsPeripheralType resetsPeripheral;
+extern libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
+extern libMcuLL::spi0PeripheralType spiPeripheral;
 
 /**
  * @brief Initialize the development board

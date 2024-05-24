@@ -19,6 +19,7 @@ libMcuLL::clocksPeripheralType clocksPeripheral;
 libMcuLL::xoscPeripheralType xoscPeripheral;
 libMcuLL::pllSysPeripheralType pllSysPeripheral;
 libMcuLL::pllUsbPeripheralType pllUsbPeripheral;
+libMcuLL::spi0PeripheralType spiPeripheral;
 
 extern "C" {
 void SysTick_Handler(void) {
