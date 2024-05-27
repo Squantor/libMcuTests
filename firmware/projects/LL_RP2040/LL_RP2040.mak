@@ -21,6 +21,7 @@ common/src/RP2040_LL_teardown.cpp \
 $(PROJ_DIR)/src/test_RP2040_gpio.cpp \
 $(PROJ_DIR)/src/test_RP2040_pads.cpp \
 $(PROJ_DIR)/src/test_RP2040_spi.cpp \
+$(PROJ_DIR)/src/test_RP2040_LL_i2c.cpp \
 $(PROJ_DIR)/src/test_RP2040_sio_gpio.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 

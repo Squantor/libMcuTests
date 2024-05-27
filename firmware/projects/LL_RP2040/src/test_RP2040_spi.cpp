@@ -62,5 +62,4 @@ MINUNIT_ADD(RP2040spiComms, RP2040SetupSPI, RP2040Teardown) {
   minUnitCheck(receiveBuffer[1] == 0x4567);
   minUnitCheck(receiveBuffer[2] == 0x89AB);
   minUnitCheck(receiveBuffer[3] == 0xCDEF);
-  // Test receive by disconnecting MOSI and setting it as GPIO high and low and check resulting data
 }
