@@ -20,6 +20,7 @@ libMcuLL::xoscPeripheralType xoscPeripheral;
 libMcuLL::pllSysPeripheralType pllSysPeripheral;
 libMcuLL::pllUsbPeripheralType pllUsbPeripheral;
 libMcuLL::spi0PeripheralType spiPeripheral;
+libMcuLL::i2c0PeripheralType i2cPeripheral;
 
 extern "C" {
 void SysTick_Handler(void) {
