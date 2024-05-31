@@ -15,6 +15,8 @@
 using namespace libMcuLL;
 using namespace libMcuLL::sw::i2c;
 
+constexpr inline libMcuLL::i2cDeviceAddress testExpander{0x21};
+
 // peripheral register sets
 static constexpr hwAddressType i2c0Address = hw::i2c0Address;
 hw::i2c::peripheral *const i2c0Registers{reinterpret_cast<hw::i2c::peripheral *>(i2c0Address)};
@@ -37,4 +39,19 @@ MINUNIT_ADD(RP2040LLI2cSetup, RP2040LLSetupI2C, RP2040Teardown) {
   // 120MHz divided by 400KHz is 300, so our low/high times need to be 300 together
   minUnitCheck(i2c0Registers->IC_FS_SCL_HCNT + i2c0Registers->IC_FS_SCL_LCNT == 300);
   minUnitCheck(i2c0Registers->IC_SDA_HOLD == 37);
+}
+
+MINUNIT_ADD(RP2040LLI2cWrite, RP2040LLSetupI2C, RP2040Teardown) {
+  std::array<std::uint8_t, 3> transmitData{0x55, 0xAA, 0x12};
+  minUnitCheck(400000 == i2cPeripheral.setup(i2cModes::FAST, 400000));
+  i2cPeripheral.write(testExpander, transmitData);
+  // check status register
+}
+
+MINUNIT_ADD(RP2040LLI2cRead, RP2040LLSetupI2C, RP2040Teardown) {
+  minUnitCheck(400000 == i2cPeripheral.setup(i2cModes::FAST, 400000));
+  // write data
+  // read data from expander
+  // check status register
+  // check data
 }
