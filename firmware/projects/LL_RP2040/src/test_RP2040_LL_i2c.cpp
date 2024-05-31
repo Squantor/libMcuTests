@@ -13,10 +13,11 @@
 #include <common.hpp>
 
 using namespace libMcuLL;
+using namespace libMcuLL::sw::i2c;
 
 // peripheral register sets
-static constexpr hwAddressType spi0Address = hw::spi0Address;
-hw::spi::peripheral *const spi0Registers{reinterpret_cast<hw::spi::peripheral *>(spi0Address)};
+static constexpr hwAddressType i2c0Address = hw::i2c0Address;
+hw::i2c::peripheral *const i2c0Registers{reinterpret_cast<hw::i2c::peripheral *>(i2c0Address)};
 
 /**
  * @brief sio setup and initialisation
@@ -32,5 +33,8 @@ MINUNIT_SETUP(RP2040LLSetupI2C) {
 }
 
 MINUNIT_ADD(RP2040LLI2cSetup, RP2040LLSetupI2C, RP2040Teardown) {
-  minUnitPass();
+  minUnitCheck(400000 == i2cPeripheral.setup(i2cModes::FAST, 400000));
+  // 120MHz divided by 400KHz is 300, so our low/high times need to be 300 together
+  minUnitCheck(i2c0Registers->IC_FS_SCL_HCNT + i2c0Registers->IC_FS_SCL_LCNT == 300);
+  minUnitCheck(i2c0Registers->IC_SDA_HOLD == 37);
 }
