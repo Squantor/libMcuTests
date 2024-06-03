@@ -52,9 +52,24 @@ MINUNIT_ADD(RP2040LLI2cWrite, RP2040LLSetupI2C, RP2040Teardown) {
 }
 
 MINUNIT_ADD(RP2040LLI2cRead, RP2040LLSetupI2C, RP2040Teardown) {
-  minUnitCheck(400000 == i2cPeripheral.setup(i2cModes::FAST, 400000));
-  // write data
-  // read data from expander
-  // check status register
-  // check data
+  std::array<std::uint8_t, 1> transmitData;
+  std::array<std::uint8_t, 3> receiveData;
+  minUnitCheck(100000 == i2cPeripheral.setup(i2cModes::FAST, 100000));
+  minUnitCheck(i2cPeripheral.read(dummyAddress, receiveData, 0x10000u) == libMcu::results::INVALID_ADDRESS);
+  transmitData[0] = 0x55;
+  minUnitCheck(i2cPeripheral.write(expanderAddress, transmitData, 0x10000u) == libMcu::results::DONE);
+  minUnitCheck(i2cPeripheral.read(expanderAddress, receiveData, 0x10000u) == libMcu::results::DONE);
+  minUnitCheck(i2c0Registers->IC_STATUS == 0x06);
+  // expander bit 4 and 5 are connected and 6 and 7 are connected, so one low on the pair makes both low
+  minUnitCheck(receiveData[0] = 0x05);
+  minUnitCheck(receiveData[1] = 0x05);
+  minUnitCheck(receiveData[2] = 0x05);
+  // we now turn expander bits 4 and 5 high so they should read both as high
+  transmitData[0] = 0x75;
+  minUnitCheck(i2cPeripheral.write(expanderAddress, transmitData, 0x10000u) == libMcu::results::DONE);
+  minUnitCheck(i2cPeripheral.read(expanderAddress, receiveData, 0x10000u) == libMcu::results::DONE);
+  minUnitCheck(i2c0Registers->IC_STATUS == 0x06);
+  minUnitCheck(receiveData[0] = 0x35);
+  minUnitCheck(receiveData[1] = 0x35);
+  minUnitCheck(receiveData[2] = 0x35);
 }
