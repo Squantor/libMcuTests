@@ -15,7 +15,8 @@
 using namespace libMcuLL;
 using namespace libMcuLL::sw::i2c;
 
-constexpr inline libMcuLL::i2cDeviceAddress testExpander{0x21};
+constexpr inline libMcuLL::i2cDeviceAddress expanderAddress{0x21}; /**< PCF8574 I2C address */
+constexpr inline libMcuLL::i2cDeviceAddress dummyAddress{0x53};    /**< I2C address that has no device*/
 
 // peripheral register sets
 static constexpr hwAddressType i2c0Address = hw::i2c0Address;
@@ -44,8 +45,10 @@ MINUNIT_ADD(RP2040LLI2cSetup, RP2040LLSetupI2C, RP2040Teardown) {
 MINUNIT_ADD(RP2040LLI2cWrite, RP2040LLSetupI2C, RP2040Teardown) {
   std::array<std::uint8_t, 3> transmitData{0x55, 0xAA, 0x12};
   minUnitCheck(400000 == i2cPeripheral.setup(i2cModes::FAST, 400000));
-  i2cPeripheral.write(testExpander, transmitData);
-  // check status register
+  minUnitCheck(i2cPeripheral.write(dummyAddress, transmitData, 0x10000u) == libMcu::results::INVALID_ADDRESS);
+  minUnitCheck(i2c0Registers->IC_STATUS == 0x06);
+  minUnitCheck(i2cPeripheral.write(expanderAddress, transmitData, 0x10000u) == libMcu::results::DONE);
+  minUnitCheck(i2c0Registers->IC_STATUS == 0x06);
 }
 
 MINUNIT_ADD(RP2040LLI2cRead, RP2040LLSetupI2C, RP2040Teardown) {
