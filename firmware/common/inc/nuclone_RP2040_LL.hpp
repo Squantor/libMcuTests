@@ -64,6 +64,8 @@ constexpr spiSckPinType spiSckPin;
 constexpr spiCsPinType spiCsPin;
 constexpr i2cSclPinType i2cSclPin;
 constexpr i2cSdaPinType i2cSdaPin;
+constexpr uartInPinType uartRxPin;
+constexpr uartOutPinType uartTxPin;
 
 extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
 extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
@@ -73,6 +75,7 @@ extern libMcuLL::resetsPeripheralType resetsPeripheral;
 extern libMcuLL::sioGpioPeripheralType sioGpioPeripheral;
 extern libMcuLL::spi0PeripheralType spiPeripheral;
 extern libMcuLL::i2c0PeripheralType i2cPeripheral;
+extern libMcuLL::uart0PeripheralType uartPeripheral;
 
 /**
  * @brief Initialize the development board

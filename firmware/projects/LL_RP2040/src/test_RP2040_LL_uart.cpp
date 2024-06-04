@@ -26,8 +26,16 @@ MINUNIT_SETUP(RP2040LLSetupUart) {
   minUnitCheck(RP2040TeardownCorrect() == true);
   resetsPeripheral.reset(sw::resets::IO_BANK0 | sw::resets::PADS_BANK0 | sw::resets::UART0, 100000);
   // connect all GPIO's
+  gpioBank0Peripheral.setup(uartRxPin);
+  padsBank0Peripheral.setup(uartRxPin, sw::pads::driveModes::DRIVE_8MA, true, false, true, true);
+  gpioBank0Peripheral.setup(uartTxPin);
+  padsBank0Peripheral.setup(uartTxPin, sw::pads::driveModes::DRIVE_8MA, false, false, false, false);
 }
 
 MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, RP2040Teardown) {
-  minUnitPass();
+  // test baud rate edge conditions
+  minUnitCheck(uartPeripheral.setup(115200) == 115190);
+  // check control registers and divisors and such
+
+  // test common baud rates for values and feedback
 }
