@@ -34,8 +34,23 @@ MINUNIT_SETUP(RP2040LLSetupUart) {
 
 MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, RP2040Teardown) {
   // test baud rate edge conditions
+  minUnitCheck(uartPeripheral.setup(7800000) == 7500000);
+  minUnitCheck(uart0Registers->UARTIBRD == 1);
+  minUnitCheck(uartPeripheral.setup(100) == 114);
+  minUnitCheck(uart0Registers->UARTIBRD == 65535);
+  // test all common baud rates and their divisors
+  minUnitCheck(uartPeripheral.setup(300) == 300);
+  // check control registers and divisors and such
+  minUnitCheck(uartPeripheral.setup(1200) == 1200);
+  // check control registers and divisors and such
+  minUnitCheck(uartPeripheral.setup(4800) == 4800);
+  // check control registers and divisors and such
+  minUnitCheck(uartPeripheral.setup(9600) == 9600);
+  // check control registers and divisors and such
+  minUnitCheck(uartPeripheral.setup(38400) == 38400);
+  // check control registers and divisors and such
   minUnitCheck(uartPeripheral.setup(115200) == 115190);
   // check control registers and divisors and such
-
-  // test common baud rates for values and feedback
+  minUnitCheck(uartPeripheral.setup(1000000) == 1000000);
+  // check control registers and divisors and such
 }
