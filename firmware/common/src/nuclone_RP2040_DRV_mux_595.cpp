@@ -26,21 +26,6 @@ void SysTick_Handler(void) {
 }
 }
 
-void crudeDelay(uint32_t iterations) {
-  for (uint32_t i = iterations; i > 0; i--) {
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-    sw::nop();
-  }
-}
-
 void boardInit(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
