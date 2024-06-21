@@ -1,11 +1,14 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2021 Bart Bilos
+ * Copyright (c) 2024 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
-#ifndef NUCLONE_LPC844M201BD64_HPP
-#define NUCLONE_LPC844M201BD64_HPP
+/**
+ * @brief definitions for LPC845 small nuclone LL tester
+ */
+#ifndef NUCLONE_LPC845BD48_SMALL_LL_HPP
+#define NUCLONE_LPC845BD48_SMALL_LL_HPP
 
 #define CLOCK_XTAL (12000000u)
 #define CLOCK_EXT_IN (0u)

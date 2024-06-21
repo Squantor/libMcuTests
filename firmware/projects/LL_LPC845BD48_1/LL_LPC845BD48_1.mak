@@ -9,7 +9,7 @@ PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
 NAME := test_LL_LPC845BD48_1
-BOARD := nuclone_LPC845M301BD48_tests
+BOARD := nuclone_LPC845BD48_small_LL
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := LPC845M301BD48
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load of flash space
