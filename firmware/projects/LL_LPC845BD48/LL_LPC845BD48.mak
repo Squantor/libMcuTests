@@ -8,16 +8,15 @@
 PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
-NAME := test_LL_LPC844BD64_1
-BOARD := nuclone_LPC844M201BD64_tests
+NAME := test_LL_LPC845BD48
+BOARD := nuclone_LPC845BD48_small_LL
 $(NAME)_TARGET := MCU
-$(NAME)_MCU := LPC844M201BD64
+$(NAME)_MCU := LPC845M301BD48
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load of flash space
 $(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
-$(PROJ_DIR)/src/$(BOARD).cpp \
-$(PROJ_DIR)/src/LPC844M201_teardown.cpp \
-$(PROJ_DIR)/src/test_LPC844M201_spi.cpp
+common/src/$(BOARD).cpp \
+common/src/LPC845M301_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 
 # --- nothing user definable below ---
