@@ -9,4 +9,19 @@
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
 
-void boardInit(void) {}
+libMcu::ll::iocon::iocon<libMcu::hw::ioconAddress> ioconPeripheral;
+libMcu::ll::swm::swm<libMcu::hw::swmAddress> swmPeriperhal;
+libMcu::ll::gpio::gpio<libMcu::hw::gpioAddress> gpioPeripheral;
+libMcu::ll::syscon::syscon<libMcu::hw::sysconAddress> sysconPeripheral;
+
+void boardInit(void) {
+  // clock enables and resets
+  sysconPeripheral.enablePeripheralClocks(libMcu::ll::syscon::SWM_CLOCK | libMcu::ll::syscon::IOCON_CLOCK |
+                                            libMcu::ll::syscon::GPIO0_CLOCK | libMcu::ll::syscon::GPIO1_CLOCK,
+                                          0);
+  // setup IOCON pins
+  ioconPeripheral.setup(xtalInPin, libMcu::ll::iocon::pullModes::INACTIVE);
+  ioconPeripheral.setup(xtalOutPin, libMcu::ll::iocon::pullModes::INACTIVE);
+  swmPeriperhal.setup(xtalInPin, xtalInFunction);
+  swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
+}
