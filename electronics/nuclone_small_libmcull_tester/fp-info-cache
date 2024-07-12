@@ -1,4 +1,4 @@
-23598079519000560
+23622417151894790
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -86324,6 +86324,13 @@ Film capacitor
 2
 2
 SquantorCapacitor
+C-050-050X080-film
+Through hole Film capacitor pitch 5.0mm size 5.0 by 8.0mm
+Film capacitor
+0
+2
+2
+SquantorCapacitor
 C-050-050X100-0805-3516-film
 Through hole Film capacitor with SMT 5.0mm pitch size 5.0 by 10.0mm and 0805 to 2512
 Film capacitor multipitch TH SMT
@@ -87079,6 +87086,20 @@ pad_power
 0
 10
 1
+SquantorConnectors
+pads-0200-1x03-W012-D020
+pads 2.0mm pitch 1.2mm width 2.0mm depth
+pads
+0
+3
+3
+SquantorConnectors
+pads-0200-1x03-W014-D030
+pads 2.0mm pitch 1.4mm width 3.0mm depth
+pads
+0
+3
+3
 SquantorConnectorsNamed
 JTAG-interface-proto-input
 Input connector for JTAG/SWD prototyping circuit
@@ -87311,6 +87332,13 @@ SMD 3225
 4
 4
 SquantorCrystal
+Crystal_3225_4_hand
+SMD crystal 3225 size hand soldering
+SMD 3225
+0
+4
+4
+SquantorCrystal
 Crystal_5032_2
 
 
@@ -87356,6 +87384,13 @@ SquantorDiodes
 LED_1208_0603
 LED 1208 to 0603 universal footprint
 LED universal 1208 1206 0805 0603
+0
+2
+2
+SquantorDiodes
+LED_2835_Hongli
+
+
 0
 2
 2
@@ -87584,6 +87619,13 @@ SOIC 8 wide
 8
 8
 SquantorIC
+SOIC-16_3.9x9.9mm_P1.27mm
+SO, 16 Pin (https://www.nxp.com/docs/en/package-information/SOT109-1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SO SO
+0
+16
+16
+SquantorIC
 SOT-223
 
 
@@ -87622,6 +87664,13 @@ SquantorIC
 SOT23-6-HAND
 SOT-23 standard 6 pin
 SOT-23-6
+0
+6
+6
+SquantorIC
+SOT23-6-Ricoh
+SOT23-6 by Ricoh
+SOT23-6 Ricoh
 0
 6
 6
@@ -87787,16 +87836,16 @@ SOT403-1 TSSOP16 NXP
 16
 16
 SquantorIC
-SOT457-NXP
-SOT457 TSOP6: Plastic surface-mounted package; 6 lead SC74 SOT23-6 NXP specification
-SOT457 SOT23_6 SC74 NXP 
+SOT457_SC-74_SOT23-6_nexperia
+SOT457 TSOP6: Plastic surface-mounted package; 6 lead SC74 SOT23-6 nexperia specification
+SOT457 SOT23_6 SC74 nexperia 
 0
 6
 6
 SquantorIC
-SOT457-NXP-hand
-SOT457 TSOP6: Plastic surface-mounted package; 6 lead SC74 SOT23-6 NXP specification handsoldering
-SOT457 SOT23_6 SC74 NXP handsoldering
+SOT457_SC-74_SOT23-6_nexperia_hand
+SOT457 TSOP6: Plastic surface-mounted package; 6 lead SC74 SOT23-6 nexperia specification handsoldering
+SOT457 SOT23_6 SC74 nexperia handsoldering
 0
 6
 6
@@ -87870,6 +87919,34 @@ TI-D_R-PDSO-G8_SOIC8
 0
 0
 0
+SquantorIC
+TO-92L
+TO-92L leads in-line (large body variant of TO-92), also known as TO-226, wide, drill 0.75mm (see https://www.diodes.com/assets/Package-Files/TO92L.pdf and http://www.ti.com/lit/an/snoa059/snoa059.pdf)
+TO-92L Molded Narrow transistor
+0
+3
+3
+SquantorIC
+TO-92L_Inline
+TO-92L leads in-line (large body variant of TO-92), also known as TO-226, wide, drill 0.75mm (see https://www.diodes.com/assets/Package-Files/TO92L.pdf and http://www.ti.com/lit/an/snoa059/snoa059.pdf)
+TO-92L Inline Wide transistor
+0
+3
+3
+SquantorIC
+TO-92L_Inline_Wide
+TO-92L leads in-line (large body variant of TO-92), also known as TO-226, wide, drill 0.75mm (see https://www.diodes.com/assets/Package-Files/TO92L.pdf and http://www.ti.com/lit/an/snoa059/snoa059.pdf)
+TO-92L Inline Wide transistor
+0
+3
+3
+SquantorIC
+TO-92L_Inline_transistor_CBEBC
+TO-92L inline BJT CBEBC
+TO-92L BJT universal
+0
+5
+3
 SquantorIC
 TO-220-3_Vertical
 TO-220-3, Vertical, RM 2.54mm, see https://www.vishay.com/docs/66542/to-220-1.pdf
@@ -87965,6 +88042,13 @@ SquantorInductor
 L_SLF60XX_TDK_hand
 Inductor wirewound SLF60 series (TDK) handsoldering
 Inductor SLF60 series handsoldering
+0
+2
+2
+SquantorInductor
+L_SLF70XX_SLF60XX_hand
+Inductor wirewound SLF70 and SLF60 series (TDK) handsoldering
+Inductor SLF70 SLF60 handsoldering
 0
 2
 2
@@ -88322,6 +88406,20 @@ SquantorOpto
 PPG_sensor_reverse_PD_parallel
 combination of SFH2440 reverse mount parallel with 3216 reverse mount LEDS
 PPG sensor
+0
+6
+6
+SquantorOpto
+WS2812B
+WS2812B RGB LED
+WS2812
+0
+4
+4
+SquantorOpto
+WS2813E
+WS2813E RGB LED
+WS2812
 0
 6
 6
