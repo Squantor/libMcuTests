@@ -24,4 +24,10 @@ void boardInit(void) {
   ioconPeripheral.setup(xtalOutPin, libMcu::ll::iocon::pullModes::INACTIVE);
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
+  // setup crystal oscillator
+
+  // setup clock out test pin
+  swmPeriperhal.setup(testPin, clockOutFunction);
+  // setup clock output
+  sysconPeripheral.setClockOutput(libMcu::ll::syscon::clockOutSources::MAIN, 10u);
 }
