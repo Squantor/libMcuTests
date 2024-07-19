@@ -29,7 +29,17 @@ void boardInit(void) {
   sysconPeripheral.setSysOscControl(libMcu::hw::syscon::SYSOSCCTRL::NO_BYPASS | libMcu::hw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
   sysconPeripheral.powerPeripherals(libMcu::ll::syscon::powerOptions::SYSOSC);
   libMcu::sw::delay(3000);
-  sysconPeripheral.selectMainClock(libMcu::ll::syscon::mainClockSources::EXTCLK);
+  // setup PLL
+  sysconPeripheral.selectPllClock(libMcu::ll::syscon::pllClockSources::EXT);
+  sysconPeripheral.depowerPeripherals(libMcu::ll::syscon::powerOptions::SYSPLL);
+  sysconPeripheral.setSystemPllControl(4, libMcu::ll::syscon::pllPostDivider::DIV_4);
+  sysconPeripheral.powerPeripherals(libMcu::ll::syscon::powerOptions::SYSPLL);
+  while (sysconPeripheral.getSystemPllStatus() == 0)
+    ;
+  sysconPeripheral.setSystemClockDivider(2);
+  // switch mainclock
+  // sysconPeripheral.selectMainClock(libMcu::ll::syscon::mainClockSources::EXT); // for selecting crystal oscillator
+  sysconPeripheral.selectMainPllClock(libMcu::ll::syscon::mainClockPllSources::SYSPLL);
   // setup clock out test pin
   swmPeriperhal.setup(testPin, clockOutFunction);
   // setup clock output
