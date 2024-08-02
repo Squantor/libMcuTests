@@ -13,6 +13,7 @@ libMcu::ll::iocon::iocon<libMcu::hw::ioconAddress> ioconPeripheral;
 libMcu::ll::swm::swm<libMcu::hw::swmAddress> swmPeriperhal;
 libMcu::ll::gpio::gpio<libMcu::hw::gpioAddress> gpioPeripheral;
 libMcu::ll::syscon::syscon<libMcu::hw::sysconAddress> sysconPeripheral;
+libMcu::ll::usart::usart<libMcu::hw::usart0Address, std::uint8_t> usartPeripheral;
 
 void boardInit(void) {
   // clock enables and resets

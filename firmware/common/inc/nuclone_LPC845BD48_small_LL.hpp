@@ -56,6 +56,8 @@ using xtalOutFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFun
 using clockOutFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::CLKOUT_O>;
 using mainI2cSdaFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::I2C0_SDA_IO>;
 using mainI2cSclFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::I2C0_SCL_IO>;
+using mainUartTxFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::U0_TXD_O>;
+using mainUartRxFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::U0_RXD_I>;
 
 // pin instances
 constexpr xtalInPinType xtalInPin;
@@ -86,12 +88,15 @@ constexpr xtalOutFunctionType xtalOutFunction;
 constexpr clockOutFunctionType clockOutFunction;
 constexpr mainI2cSclFunctionType i2cMainSclFunction;
 constexpr mainI2cSdaFunctionType i2cMainSdaFunction;
+constexpr mainUartTxFunctionType uartMainTxFunction;
+constexpr mainUartRxFunctionType uartMainRxFunction;
 
 // peripheral externs
 extern libMcu::ll::iocon::iocon<libMcu::hw::ioconAddress> ioconPeripheral;
 extern libMcu::ll::swm::swm<libMcu::hw::swmAddress> swmPeriperhal;
 extern libMcu::ll::gpio::gpio<libMcu::hw::gpioAddress> gpioPeripheral;
 extern libMcu::ll::syscon::syscon<libMcu::hw::sysconAddress> sysconPeripheral;
+extern libMcu::ll::usart::usart<libMcu::hw::usart0Address, std::uint8_t> usartPeripheral;
 
 void boardInit(void);
 

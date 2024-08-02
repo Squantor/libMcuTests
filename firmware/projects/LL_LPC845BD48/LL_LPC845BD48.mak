@@ -15,10 +15,11 @@ $(NAME)_MCU := LPC845M301BD48
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load of flash space
 $(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
-common/src/$(BOARD).cpp \
-common/src/LPC845M301_teardown.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_gpio.cpp \
-$(PROJ_DIR)/src/test_LPC845M301_iocon.cpp
+$(PROJ_DIR)/src/test_LPC845M301_iocon.cpp \
+$(PROJ_DIR)/src/test_LPC845M301_uart.cpp \
+common/src/$(BOARD).cpp \
+common/src/LPC845M301_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 
 # --- nothing user definable below ---
