@@ -14,12 +14,12 @@
 
 /** @brief resets all the registers to their default states
  */
-MINUNIT_TEARDOWN(LPC844M201Teardown) {}
+MINUNIT_TEARDOWN(LPC845M301Teardown) {}
 
 /** @brief checks if all the registers to their default states
  *  @return if all registers are correctly torndown
  */
-bool LPC844M201TeardownCorrect(void) {
+bool LPC845M301TeardownCorrect(void) {
   TESTANDRETURN(0x0 == 0x0);
   return true;
 }

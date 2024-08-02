@@ -27,16 +27,24 @@ using xtalOutPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::I
 using testPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN05>;
 // connected pin 1 and 2 via 3.3K resistors, links UART RX/TX, PIN1 on board
 using pin1Type = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN08>;
+using pin1PortType = libMcu::hw::port<libMcu::hw::IOports::PORT1>;
 using pin2Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN17>;
+using pin2PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 // connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO, PIN3 on board
 using pin3Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN13>;
+using pin3PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 using pin4Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN18>;
+using pin4PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 // connected pin 5 and 6 via 3.3K resistors, links SPI CS/SCK, PIN2 on board
 using pin5Type = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN09>;
+using pin5PortType = libMcu::hw::port<libMcu::hw::IOports::PORT1>;
 using pin6Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN19>;
+using pin6PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 // connected pin 7 and 8 via 3.3K resistors
 using pin7Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN04>;
+using pin7PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 using pin8Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN20>;
+using pin8PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
 // SDA pin with 2.2K pull up resistor
 using i2cSdaPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN11>;
 // SCL pin with 2.2K pull up resistor
@@ -63,6 +71,14 @@ constexpr pin5Type testPin5;
 constexpr pin6Type testPin6;
 constexpr pin7Type testPin7;
 constexpr pin8Type testPin8;
+constexpr pin1PortType testPin1Port;
+constexpr pin2PortType testPin2Port;
+constexpr pin3PortType testPin3Port;
+constexpr pin4PortType testPin4Port;
+constexpr pin5PortType testPin5Port;
+constexpr pin6PortType testPin6Port;
+constexpr pin7PortType testPin7Port;
+constexpr pin8PortType testPin8Port;
 
 // function instances
 constexpr xtalInFunctionType xtalInFunction;
