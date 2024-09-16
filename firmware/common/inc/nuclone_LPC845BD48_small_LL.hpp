@@ -16,7 +16,7 @@
 #define CLOCK_AHB (30'000'000u)
 #define CLOCK_MAIN (60'000'000u)
 
-#include <nxp/libmcu_LPC845M301BD48.hpp>
+#include <nxp/libmcu_LPC845M301BD48_ll.hpp>
 
 #define TICKS_PER_S 10
 
