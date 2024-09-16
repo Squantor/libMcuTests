@@ -9,6 +9,7 @@ BASE_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # include all projects
 include $(BASE_DIR)/projects/PC/PC.mak
+include $(BASE_DIR)/projects/unittests/unittests.mak
 include $(BASE_DIR)/projects/tests_template/tests_template.mak
 include ${BASE_DIR}/projects/LL_CortexM0plus/LL_CortexM0plus.mak
 include $(BASE_DIR)/projects/LL_LPC812DH20_1/LL_LPC812DH20_1.mak

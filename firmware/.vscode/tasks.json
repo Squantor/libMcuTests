@@ -11,6 +11,13 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "unittests",
+      "type": "shell",
+      "command": "compiledb make PROJECT=unittests",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "build debug template tests",
       "type": "shell",
       "command": "compiledb make PROJECT=tests_template CONFIG=debug -j20",
