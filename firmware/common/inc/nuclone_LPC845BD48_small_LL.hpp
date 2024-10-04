@@ -22,42 +22,42 @@
 
 // pin types
 // Crystal osillator pins
-using xtalInPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN08>;
-using xtalOutPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN09>;
-using testPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN05>;
+using xtalInPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN08>;
+using xtalOutPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN09>;
+using testPinType = libMcuHw::pin<libMcuHw::IOports::PORT1, libMcuHw::IOpins::PIN05>;
 // connected pin 1 and 2 via 3.3K resistors, links UART RX/TX, PIN1 on board
-using pin1Type = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN08>;
-using pin1PortType = libMcu::hw::port<libMcu::hw::IOports::PORT1>;
-using pin2Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN17>;
-using pin2PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
+using pin1Type = libMcuHw::pin<libMcuHw::IOports::PORT1, libMcuHw::IOpins::PIN08>;
+using pin1PortType = libMcuHw::port<libMcuHw::IOports::PORT1>;
+using pin2Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN17>;
+using pin2PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
 // connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO, PIN3 on board
-using pin3Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN13>;
-using pin3PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
-using pin4Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN18>;
-using pin4PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
+using pin3Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN13>;
+using pin3PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
+using pin4Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN18>;
+using pin4PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
 // connected pin 5 and 6 via 3.3K resistors, links SPI CS/SCK, PIN2 on board
-using pin5Type = libMcu::hw::pin<libMcu::hw::IOports::PORT1, libMcu::hw::IOpins::PIN09>;
-using pin5PortType = libMcu::hw::port<libMcu::hw::IOports::PORT1>;
-using pin6Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN19>;
-using pin6PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
+using pin5Type = libMcuHw::pin<libMcuHw::IOports::PORT1, libMcuHw::IOpins::PIN09>;
+using pin5PortType = libMcuHw::port<libMcuHw::IOports::PORT1>;
+using pin6Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN19>;
+using pin6PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
 // connected pin 7 and 8 via 3.3K resistors
-using pin7Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN04>;
-using pin7PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
-using pin8Type = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN20>;
-using pin8PortType = libMcu::hw::port<libMcu::hw::IOports::PORT0>;
+using pin7Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN04>;
+using pin7PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
+using pin8Type = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN20>;
+using pin8PortType = libMcuHw::port<libMcuHw::IOports::PORT0>;
 // SDA pin with 2.2K pull up resistor
-using i2cSdaPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN11>;
+using i2cSdaPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN11>;
 // SCL pin with 2.2K pull up resistor
-using i2cSclPinType = libMcu::hw::pin<libMcu::hw::IOports::PORT0, libMcu::hw::IOpins::PIN10>;
+using i2cSclPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN10>;
 
 // function types
-using xtalInFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::XTALIN>;
-using xtalOutFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::XTALOUT>;
-using clockOutFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::CLKOUT_O>;
-using mainI2cSdaFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::I2C0_SDA_IO>;
-using mainI2cSclFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::I2C0_SCL_IO>;
-using mainUartTxFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::U0_TXD_O>;
-using mainUartRxFunctionType = libMcu::hw::swm::pinFunction<libMcu::hw::swm::pinFunctions::U0_RXD_I>;
+using xtalInFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::XTALIN>;
+using xtalOutFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::XTALOUT>;
+using clockOutFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::CLKOUT_O>;
+using mainI2cSdaFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::I2C0_SDA_IO>;
+using mainI2cSclFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::I2C0_SCL_IO>;
+using mainUartTxFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::U0_TXD_O>;
+using mainUartRxFunctionType = libMcuHw::swm::pinFunction<libMcuHw::swm::pinFunctions::U0_RXD_I>;
 
 // pin instances
 constexpr xtalInPinType xtalInPin;
@@ -92,11 +92,11 @@ constexpr mainUartTxFunctionType uartMainTxFunction;
 constexpr mainUartRxFunctionType uartMainRxFunction;
 
 // peripheral externs
-extern libMcu::ll::iocon::iocon<libMcu::hw::ioconAddress> ioconPeripheral;
-extern libMcu::ll::swm::swm<libMcu::hw::swmAddress> swmPeriperhal;
-extern libMcu::ll::gpio::gpio<libMcu::hw::gpioAddress> gpioPeripheral;
-extern libMcu::ll::syscon::syscon<libMcu::hw::sysconAddress> sysconPeripheral;
-extern libMcu::ll::usart::usart<libMcu::hw::usart0Address, std::uint8_t> usartPeripheral;
+extern libMcuLL::iocon::iocon<libMcuHw::ioconAddress> ioconPeripheral;
+extern libMcuLL::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
+extern libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
+extern libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
+extern libMcuLL::usart::usart<libMcuHw::usart0Address, std::uint8_t> usartPeripheral;
 
 void boardInit(void);
 

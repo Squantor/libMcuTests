@@ -12,21 +12,20 @@
 #include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcu::hw::iocon;
-using namespace libMcu::ll::iocon;
+using namespace libMcuHw::iocon;
+using namespace libMcuLL::iocon;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType ioconAddress = libMcu::hw::ioconAddress; /**< peripheral address */
-libMcu::hw::iocon::peripheral *const dutRegisters{reinterpret_cast<libMcu::hw::iocon::peripheral *>(ioconAddress)};
+static constexpr libMcu::hwAddressType ioconAddress = libMcuHw::ioconAddress; /**< peripheral address */
+libMcuHw::iocon::iocon *const dutRegisters{reinterpret_cast<libMcuHw::iocon::iocon *>(ioconAddress)};
 
 /**
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupIocon) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcu::ll::syscon::peripheralClocks0::IOCON |
-                                            libMcu::ll::syscon::peripheralClocks0::GPIO0 |
-                                            libMcu::ll::syscon::peripheralClocks0::GPIO1,
+  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::IOCON | libMcuLL::syscon::peripheralClocks0::GPIO0 |
+                                            libMcuLL::syscon::peripheralClocks0::GPIO1,
                                           0);
 }
 
