@@ -15,7 +15,7 @@ For conditions of distribution and use, see LICENSE file
 #define CLOCK_AHB (30000000u)
 #define CLOCK_MAIN (60000000u)
 
-#include <mcu_ll.hpp>
+#include <nxp/libmcu_LPC812M101DH20_ll.hpp>
 
 #define TICKS_PER_S 10
 
@@ -92,18 +92,18 @@ constexpr sctInput1FunctionType sctInput1Function;
 constexpr sctInput2FunctionType sctInput2Function;
 constexpr sctInput3FunctionType sctInput3Function;
 
-extern libMcuLL::sw::iocon::iocon<libMcuLL::hw::ioconAddress> ioconPeripheral;
-extern libMcuLL::sw::swm::swm<libMcuLL::hw::swmAddress> swmPeriperhal;
-extern libMcuLL::sw::gpio::gpio<libMcuLL::hw::gpioAddress> gpioPeripheral;
-extern libMcuLL::sw::spi::spiSync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiSyncPeripheral;
-extern libMcuLL::sw::spi::spiAsync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiAsyncPeripheral16;
-extern libMcuLL::sw::spi::spiAsync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint8_t> spiAsyncPeripheral8;
-extern libMcuLL::sw::syscon::syscon<libMcuLL::hw::sysconAddress> sysconPeripheral;
-extern libMcuLL::sw::usart::usartSync<libMcuLL::hw::usart0Address, std::uint8_t> usartSyncPeripheral;
-extern libMcuLL::sw::usart::usartAsync<libMcuLL::hw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-extern libMcuLL::sw::i2c::i2c<libMcuLL::hw::i2c0Address> i2cPeripheral;
-extern libMcuLL::sw::sct::sct<libMcuLL::hw::sctAddress> sctPeripheral;
-extern libMcuLL::sw::acmp::acmp<libMcuLL::hw::acmpAddress> acmpPeripheral;
+extern libMcuLL::sw::iocon::iocon<libMcuHw::ioconAddress> ioconPeripheral;
+extern libMcuLL::sw::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
+extern libMcuLL::sw::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
+extern libMcuLL::sw::spi::spiSync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiSyncPeripheral;
+extern libMcuLL::sw::spi::spiAsync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiAsyncPeripheral16;
+extern libMcuLL::sw::spi::spiAsync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint8_t> spiAsyncPeripheral8;
+extern libMcuLL::sw::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
+extern libMcuLL::sw::usart::usartSync<libMcuHw::usart0Address, std::uint8_t> usartSyncPeripheral;
+extern libMcuLL::sw::usart::usartAsync<libMcuHw::usart0Address, std::uint8_t> usartAsyncPeripheral;
+extern libMcuLL::sw::i2c::i2c<libMcuHw::i2c0Address> i2cPeripheral;
+extern libMcuLL::sw::sct::sct<libMcuHw::sctAddress> sctPeripheral;
+extern libMcuLL::sw::acmp::acmp<libMcuHw::acmpAddress> acmpPeripheral;
 
 void boardInit(void);
 void crudeDelay(uint32_t iterations);

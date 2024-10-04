@@ -16,7 +16,7 @@
 using namespace libMcuLL::sw::spi;
 using namespace libMcuLL::hw::spi;
 
-static constexpr libMcuLL::hwAddressType spi0Address = libMcuLL::hw::spi0Address;
+static constexpr libMcu::hwAddressType spi0Address = libMcuHw::spi0Address;
 libMcuLL::hw::spi::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::spi::peripheral *>(spi0Address)};
 
 /**

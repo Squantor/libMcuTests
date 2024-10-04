@@ -15,7 +15,7 @@
 using namespace libMcuLL::sw::usart;
 using namespace libMcuLL::hw::usart;
 
-static constexpr libMcuLL::hwAddressType usart0Address = libMcuLL::hw::usart0Address;
+static constexpr libMcu::hwAddressType usart0Address = libMcuHw::usart0Address;
 libMcuLL::hw::usart::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::usart::peripheral *>(usart0Address)};
 
 /**

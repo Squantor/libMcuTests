@@ -16,7 +16,7 @@ using namespace libMcuLL::hw::iocon;
 using namespace libMcuLL::sw::iocon;
 
 // peripheral register sets
-static constexpr libMcuLL::hwAddressType ioconAddress = libMcuLL::hw::ioconAddress; /**< peripheral address */
+static constexpr libMcu::hwAddressType ioconAddress = libMcuHw::ioconAddress; /**< peripheral address */
 libMcuLL::hw::iocon::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::iocon::peripheral *>(ioconAddress)};
 
 /**

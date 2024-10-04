@@ -14,9 +14,9 @@
 #include <MinUnit.h>
 
 // peripheral register sets
-static constexpr libMcuLL::hwAddressType sysconAddress = libMcuLL::hw::sysconAddress;
-static constexpr libMcuLL::hwAddressType swmAddress = libMcuLL::hw::swmAddress;
-static constexpr libMcuLL::hwAddressType fmcAddress = libMcuLL::hw::fmcAddress;
+static constexpr libMcu::hwAddressType sysconAddress = libMcuHw::sysconAddress;
+static constexpr libMcu::hwAddressType swmAddress = libMcuHw::swmAddress;
+static constexpr libMcu::hwAddressType fmcAddress = libMcuHw::fmcAddress;
 libMcuLL::hw::syscon::peripheral *const sysconRegisters{reinterpret_cast<libMcuLL::hw::syscon::peripheral *>(sysconAddress)};
 libMcuLL::hw::swm::peripheral *const swmRegisters{reinterpret_cast<libMcuLL::hw::swm::peripheral *>(swmAddress)};
 libMcuLL::hw::fmc::peripheral *const fmcRegisters{reinterpret_cast<libMcuLL::hw::fmc::peripheral *>(fmcAddress)};

@@ -6,19 +6,19 @@
  */
 #include <nuclone_LPC812M101DH20_tests.hpp>
 
-libMcuLL::sw::iocon::iocon<libMcuLL::hw::ioconAddress> ioconPeripheral;
-libMcuLL::sw::swm::swm<libMcuLL::hw::swmAddress> swmPeriperhal;
-libMcuLL::sw::gpio::gpio<libMcuLL::hw::gpioAddress> gpioPeripheral;
-libMcuLL::sw::spi::spiSync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiSyncPeripheral;
-libMcuLL::sw::spi::spiAsync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiAsyncPeripheral16;
-libMcuLL::sw::spi::spiAsync<libMcuLL::hw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint8_t> spiAsyncPeripheral8;
-libMcuLL::sw::syscon::syscon<libMcuLL::hw::sysconAddress> sysconPeripheral;
-libMcuLL::sw::usart::usartSync<libMcuLL::hw::usart0Address, std::uint8_t> usartSyncPeripheral;
-libMcuLL::sw::usart::usartAsync<libMcuLL::hw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-libMcuLL::sw::i2c::i2c<libMcuLL::hw::i2c0Address> i2cPeripheral;
-libMcuLL::sw::sct::sct<libMcuLL::hw::sctAddress> sctPeripheral;
-libMcuLL::sw::acmp::acmp<libMcuLL::hw::acmpAddress> acmpPeripheral;
-libMcuLL::sw::fmc::fmc<libMcuLL::hw::fmcAddress> fcmPeripheral;
+libMcuLL::sw::iocon::iocon<libMcuHw::ioconAddress> ioconPeripheral;
+libMcuLL::sw::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
+libMcuLL::sw::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
+libMcuLL::sw::spi::spiSync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiSyncPeripheral;
+libMcuLL::sw::spi::spiAsync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint16_t> spiAsyncPeripheral16;
+libMcuLL::sw::spi::spiAsync<libMcuHw::spi0Address, libMcuLL::sw::spi::chipEnables, std::uint8_t> spiAsyncPeripheral8;
+libMcuLL::sw::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
+libMcuLL::sw::usart::usartSync<libMcuHw::usart0Address, std::uint8_t> usartSyncPeripheral;
+libMcuLL::sw::usart::usartAsync<libMcuHw::usart0Address, std::uint8_t> usartAsyncPeripheral;
+libMcuLL::sw::i2c::i2c<libMcuHw::i2c0Address> i2cPeripheral;
+libMcuLL::sw::sct::sct<libMcuHw::sctAddress> sctPeripheral;
+libMcuLL::sw::acmp::acmp<libMcuHw::acmpAddress> acmpPeripheral;
+libMcuLL::sw::fmc::fmc<libMcuHw::fmcAddress> fcmPeripheral;
 
 void boardInit(void) {
   // clock enables and resets
