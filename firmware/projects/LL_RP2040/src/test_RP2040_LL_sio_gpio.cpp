@@ -15,8 +15,8 @@
 using namespace libMcuLL;
 
 // peripheral register sets
-static constexpr hwAddressType dutAddress = hw::sioAddress;
-hw::sio::peripheral *const dutRegisters{reinterpret_cast<hw::sio::peripheral *>(dutAddress)};
+static constexpr libMcu::hwAddressType dutAddress = libMcuHw::sioAddress;
+libMcuHw::sio::peripheral *const dutRegisters{reinterpret_cast<libMcuHw::sio::peripheral *>(dutAddress)};
 
 /**
  * @brief sio setup and initialisation

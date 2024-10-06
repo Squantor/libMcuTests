@@ -15,8 +15,8 @@
 using namespace libMcuLL;
 
 // peripheral register sets
-static constexpr hwAddressType spi0Address = hw::spi0Address;
-hw::spi::peripheral *const spi0Registers{reinterpret_cast<hw::spi::peripheral *>(spi0Address)};
+static constexpr libMcu::hwAddressType spi0Address = libMcuHw::spi0Address;
+libMcuHw::spi::peripheral *const spi0Registers{reinterpret_cast<libMcuHw::spi::peripheral *>(spi0Address)};
 
 /**
  * @brief sio setup and initialisation
