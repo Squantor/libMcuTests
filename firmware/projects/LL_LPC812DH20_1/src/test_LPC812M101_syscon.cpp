@@ -17,7 +17,7 @@ using namespace libMcuLL::sw::syscon;
 
 // peripheral register sets
 static constexpr libMcu::hwAddressType sysconAddress = libMcuHw::sysconAddress;
-libMcuLL::hw::syscon::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::syscon::peripheral *>(sysconAddress)};
+libMcuLL::hw::syscon::syscon *const dutRegisters{reinterpret_cast<libMcuLL::hw::syscon::syscon *>(sysconAddress)};
 
 /**
  * @brief Spi setup and initialisation

@@ -6,17 +6,13 @@
  */
 #include <nuclone_RP2040_DRV_mux_595.hpp>
 
-using namespace libMcuLL;
-using namespace libMcuHal;
-using namespace libMcuDriver;
-
-sw::systick::systick<hw::systickAddress> systickPeripheral;
-sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
+libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
+libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
 
 resetsPeripheralType resetsPeripheral;
 
-pinsHalType pinsHal;
-gpioHalType gpioHal;
+libMcuHal::pinsHalType pinsHal;
+libMcuHal::gpioHalType gpioHal;
 
 libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 

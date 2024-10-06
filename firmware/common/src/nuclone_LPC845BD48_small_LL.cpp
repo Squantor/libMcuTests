@@ -28,7 +28,7 @@ void boardInit(void) {
   // setup crystal oscillator
   sysconPeripheral.setSysOscControl(libMcuHw::syscon::SYSOSCCTRL::NO_BYPASS | libMcuHw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
   sysconPeripheral.powerPeripherals(libMcuLL::syscon::powerOptions::SYSOSC);
-  libMcu::sw::delay(3000);
+  libMcuLL::delay(3000);
   // setup PLL
   sysconPeripheral.selectPllClock(libMcuLL::syscon::pllClockSources::EXT);
   sysconPeripheral.depowerPeripherals(libMcuLL::syscon::powerOptions::SYSPLL);

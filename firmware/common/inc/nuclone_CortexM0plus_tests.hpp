@@ -10,11 +10,11 @@ For conditions of distribution and use, see LICENSE file
 #define CLOCK_XTAL (12000000u)
 #define CLOCK_CPU (12000000u)
 
-#include <mcu_ll.hpp>
+#include <generic/libmcu_CortexM0plus_ll.hpp>
 
-extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
-extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
-extern libMcuLL::sw::scb::scb<libMcuLL::hw::scbAddress> scbPeripheral;
+extern libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
+extern libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
+extern libMcuLL::scb::scb<libMcuHw::scbAddress> scbPeripheral;
 extern volatile std::uint32_t systickIsrCount;
 
 void boardInit(void);

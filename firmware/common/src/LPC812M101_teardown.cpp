@@ -17,9 +17,9 @@
 static constexpr libMcu::hwAddressType sysconAddress = libMcuHw::sysconAddress;
 static constexpr libMcu::hwAddressType swmAddress = libMcuHw::swmAddress;
 static constexpr libMcu::hwAddressType fmcAddress = libMcuHw::fmcAddress;
-libMcuLL::hw::syscon::peripheral *const sysconRegisters{reinterpret_cast<libMcuLL::hw::syscon::peripheral *>(sysconAddress)};
-libMcuLL::hw::swm::peripheral *const swmRegisters{reinterpret_cast<libMcuLL::hw::swm::peripheral *>(swmAddress)};
-libMcuLL::hw::fmc::peripheral *const fmcRegisters{reinterpret_cast<libMcuLL::hw::fmc::peripheral *>(fmcAddress)};
+libMcuLL::hw::syscon::syscon *const sysconRegisters{reinterpret_cast<libMcuLL::hw::syscon::syscon *>(sysconAddress)};
+libMcuLL::hw::swm::swm *const swmRegisters{reinterpret_cast<libMcuLL::hw::swm::swm *>(swmAddress)};
+libMcuLL::hw::fmc::fmc *const fmcRegisters{reinterpret_cast<libMcuLL::hw::fmc::fmc *>(fmcAddress)};
 
 /** @brief resets all the registers to their default states
  *

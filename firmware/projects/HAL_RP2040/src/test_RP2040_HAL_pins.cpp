@@ -12,14 +12,11 @@
 #include <RP2040_HAL_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL;
-using namespace libMcuHal;
-
 // peripheral register sets
-static constexpr hwAddressType padsBank0Location = hw::padsBank0Address;
-hw::padsBank0::peripheral *const padsBank0Registers{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0Location)};
-static constexpr hwAddressType ioBank0Location = hw::ioBank0Address;
-hw::gpioBank0::peripheral *const ioBank0Registers{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBank0Location)};
+static constexpr libMcu::hwAddressType padsBank0Location = libMcuHw::padsBank0Address;
+libMcuHw::padsBank0::padsBank0 *const padsBank0Registers{reinterpret_cast<libMcuHw::padsBank0::padsBank0 *>(padsBank0Location)};
+static constexpr libMcu::hwAddressType ioBank0Location = libMcuHw::ioBank0Address;
+libMcuHw::gpioBank0::gpioBank0 *const ioBank0Registers{reinterpret_cast<libMcuHw::gpioBank0::gpioBank0 *>(ioBank0Location)};
 
 /**
  * @brief sio setup and initialisation
@@ -30,17 +27,19 @@ MINUNIT_SETUP(RP2040SetupHalPins) {
 }
 
 MINUNIT_ADD(RP2040HalPins, RP2040SetupHalPins, RP2040Teardown) {
-  pinsHal.setup(gpio0Pin, pins::driveModes::DRIVE_8MA, pins::pullModes::PULLUP, pins::speedModes::SLEW_SLOW, true);
-  minUnitCheck(padsBank0Registers->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'006Au));
-  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0005u));
+  pinsHal.setup(gpio0Pin, libMcuHal::pins::driveModes::DRIVE_8MA, libMcuHal::pins::pullModes::PULLUP,
+                libMcuHal::pins::speedModes::SLEW_SLOW, true);
+  minUnitCheck(padsBank0Registers->GPIO[0] == (libMcuHw::pads::GPIO::RESERVED_MASK & 0x0000'006Au));
+  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (libMcuHw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0005u));
   pinsHal.reset(gpio0Pin);
-  minUnitCheck(padsBank0Registers->GPIO[0] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
-  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
-  pinsHal.setup(spiSckPin, pins::driveModes::DRIVE_4MA, pins::pullModes::NONE, pins::speedModes::SLEW_FAST, false);
-  minUnitCheck(padsBank0Registers->GPIO[2] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0051u));
-  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0001u));
+  minUnitCheck(padsBank0Registers->GPIO[0] == (libMcuHw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
+  minUnitCheck(ioBank0Registers->GPIO[0].CTRL == (libMcuHw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
+  pinsHal.setup(spiSckPin, libMcuHal::pins::driveModes::DRIVE_4MA, libMcuHal::pins::pullModes::NONE,
+                libMcuHal::pins::speedModes::SLEW_FAST, false);
+  minUnitCheck(padsBank0Registers->GPIO[2] == (libMcuHw::pads::GPIO::RESERVED_MASK & 0x0000'0051u));
+  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (libMcuHw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'0001u));
   pinsHal.reset(spiSckPin);
-  minUnitCheck(padsBank0Registers->GPIO[2] == (hw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
-  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (hw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
+  minUnitCheck(padsBank0Registers->GPIO[2] == (libMcuHw::pads::GPIO::RESERVED_MASK & 0x0000'0056u));
+  minUnitCheck(ioBank0Registers->GPIO[2].CTRL == (libMcuHw::gpioBank0::CTRL::RESERVED_MASK & 0x0000'001Fu));
   minUnitPass();
 }

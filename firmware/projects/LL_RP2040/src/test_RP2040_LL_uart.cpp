@@ -16,19 +16,19 @@ namespace hardware = libMcuHw::uart;
 
 // peripheral register sets
 static constexpr libMcu::hwAddressType uart0Address = libMcuHw::uart0Address;
-libMcuHw::uart::peripheral *const uart0Registers{reinterpret_cast<libMcuHw::uart::peripheral *>(uart0Address)};
+libMcuHw::uart::uart *const uart0Registers{reinterpret_cast<libMcuHw::uart::uart *>(uart0Address)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040LLSetupUart) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(libMcuLL::sw::resets::IO_BANK0 | libMcuLL::sw::resets::PADS_BANK0 | libMcuLL::sw::resets::UART0, 100000);
+  resetsPeripheral.reset(libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0 | libMcuLL::resets::UART0, 100000);
   // connect all GPIO's
   gpioBank0Peripheral.setup(uartRxPin);
-  padsBank0Peripheral.setup(uartRxPin, libMcuLL::sw::pads::driveModes::DRIVE_8MA, true, false, true, true);
+  padsBank0Peripheral.setup(uartRxPin, libMcuLL::pads::driveModes::DRIVE_8MA, true, false, true, true);
   gpioBank0Peripheral.setup(uartTxPin);
-  padsBank0Peripheral.setup(uartTxPin, libMcuLL::sw::pads::driveModes::DRIVE_8MA, false, false, false, false);
+  padsBank0Peripheral.setup(uartTxPin, libMcuLL::pads::driveModes::DRIVE_8MA, false, false, false, false);
 }
 
 MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, RP2040Teardown) {
@@ -65,7 +65,7 @@ MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, RP2040Teardown) {
   minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libMcu::results::TIMEOUT);
   uartPeripheral.write(singleData);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
-  libMcu::sw::delay(1000000);                                             // wait until data has been received
+  libMcuLL::delay(1000000);                                               // wait until data has been received
   minUnitCheck(!(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG));  // we looped TX and RX so RX FIFO should also not be empty
   minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libMcu::results::NO_ERROR);
   minUnitCheck(receiveDataSingle[0] == 0x5A);

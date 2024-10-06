@@ -14,10 +14,10 @@
 #include <MinUnit.h>
 
 // peripheral register sets
-static constexpr libMcuLL::hwAddressType systickAddress = libMcuLL::hw::systickAddress;
-libMcuLL::hw::systick::peripheral *const systickRegisters{reinterpret_cast<libMcuLL::hw::systick::peripheral *>(systickAddress)};
-static constexpr libMcuLL::hwAddressType nvicAddress = libMcuLL::hw::nvicAddress;
-libMcuLL::hw::nvic::peripheral *const nvicRegisters{reinterpret_cast<libMcuLL::hw::nvic::peripheral *>(nvicAddress)};
+static constexpr libMcu::hwAddressType systickAddress = libMcuHw::systickAddress;
+libMcuHw::systick::systick *const systickRegisters{reinterpret_cast<libMcuHw::systick::systick *>(systickAddress)};
+static constexpr libMcu::hwAddressType nvicAddress = libMcuHw::nvicAddress;
+libMcuHw::nvic::nvic *const nvicRegisters{reinterpret_cast<libMcuHw::nvic::nvic *>(nvicAddress)};
 
 MINUNIT_TEARDOWN(CortexM0plusTeardown) {
   systickRegisters->CSR = 0UL;

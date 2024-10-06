@@ -12,12 +12,9 @@
 #include <CortexM0plus_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::scb;
-using namespace libMcuLL::sw::scb;
-
 // peripheral register sets
-static constexpr libMcuLL::hwAddressType scbAddress = libMcuLL::hw::scbAddress;
-libMcuLL::hw::scb::peripheral *const scbDutRegisters{reinterpret_cast<libMcuLL::hw::scb::peripheral *>(scbAddress)};
+static constexpr libMcu::hwAddressType scbAddress = libMcuHw::scbAddress;
+libMcuHw::scb::scb *const scbDutRegisters{reinterpret_cast<libMcuHw::scb::scb *>(scbAddress)};
 
 alignas(256) static std::array<std::uint32_t, 48> vectorTable;
 
@@ -29,7 +26,7 @@ MINUNIT_SETUP(CortexM0plusSetupScb) {
 }
 
 MINUNIT_ADD(CortexM0plusScbVtor, CortexM0plusSetupScb, CortexM0plusTeardown) {
-  minUnitCheck(scbPeripheral.getVtorMask() == libMcuLL::hw::vtor::addressMask);
+  minUnitCheck(scbPeripheral.getVtorMask() == libMcuHw::vtor::addressMask);
   minUnitCheck((reinterpret_cast<std::uint32_t>(vectorTable.data()) & 0xFF) == 0);
   minUnitCheck(scbDutRegisters->VTOR == 0x00000000);
   scbPeripheral.setVtor(vectorTable.data());

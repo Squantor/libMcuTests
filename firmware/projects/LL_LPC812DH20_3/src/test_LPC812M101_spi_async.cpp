@@ -18,7 +18,7 @@ using namespace libMcuLL::hw::spi;
 
 static constexpr int maxIterations = 1000;
 static constexpr libMcu::hwAddressType spi0Address = libMcuHw::spi0Address;
-libMcuLL::hw::spi::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::spi::peripheral *>(spi0Address)};
+libMcuLL::hw::spi::spi *const dutRegisters{reinterpret_cast<libMcuLL::hw::spi::spi *>(spi0Address)};
 
 /**
  * @brief Spi setup and initialisation

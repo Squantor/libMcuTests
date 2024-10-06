@@ -12,23 +12,21 @@
 #include <RP2040_LL_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL;
-
 // peripheral register sets
 static constexpr libMcu::hwAddressType dutAddress = libMcuHw::sioAddress;
-libMcuHw::sio::peripheral *const dutRegisters{reinterpret_cast<libMcuHw::sio::peripheral *>(dutAddress)};
+libMcuHw::sio::sio *const dutRegisters{reinterpret_cast<libMcuHw::sio::sio *>(dutAddress)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupSio) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(sw::resets::IO_BANK0 | sw::resets::PADS_BANK0, 100000);
+  resetsPeripheral.reset(libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0, 100000);
   // connect all GPIO's
   gpioBank0Peripheral.setup(gpio0Pin);
-  padsBank0Peripheral.setup(gpio0Pin, sw::pads::driveModes::DRIVE_8MA, false, false, true, false);
+  padsBank0Peripheral.setup(gpio0Pin, libMcuLL::pads::driveModes::DRIVE_8MA, false, false, true, false);
   gpioBank0Peripheral.setup(gpio1Pin);
-  padsBank0Peripheral.setup(gpio1Pin, sw::pads::driveModes::DRIVE_8MA, false, false, true, false);
+  padsBank0Peripheral.setup(gpio1Pin, libMcuLL::pads::driveModes::DRIVE_8MA, false, false, true, false);
 }
 
 MINUNIT_ADD(RP2040gpio, RP2040SetupSio, RP2040Teardown) {

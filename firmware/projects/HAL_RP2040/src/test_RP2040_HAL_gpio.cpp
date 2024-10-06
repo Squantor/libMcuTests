@@ -12,16 +12,13 @@
 #include <RP2040_HAL_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL;
-using namespace libMcuHal;
-
 // peripheral register sets
-static constexpr hwAddressType padsBank0Location = hw::padsBank0Address;
-hw::padsBank0::peripheral *const padsBank0Registers{reinterpret_cast<hw::padsBank0::peripheral *>(padsBank0Location)};
-static constexpr hwAddressType ioBank0Location = hw::ioBank0Address;
-hw::gpioBank0::peripheral *const ioBank0Registers{reinterpret_cast<hw::gpioBank0::peripheral *>(ioBank0Location)};
-static constexpr hwAddressType sioLocation = hw::sioAddress;
-hw::sio::peripheral *const sioRegisters{reinterpret_cast<hw::sio::peripheral *>(sioLocation)};
+static constexpr libMcu::hwAddressType padsBank0Location = libMcuHw::padsBank0Address;
+libMcuHw::padsBank0::padsBank0 *const padsBank0Registers{reinterpret_cast<libMcuHw::padsBank0::padsBank0 *>(padsBank0Location)};
+static constexpr libMcu::hwAddressType ioBank0Location = libMcuHw::ioBank0Address;
+libMcuHw::gpioBank0::gpioBank0 *const ioBank0Registers{reinterpret_cast<libMcuHw::gpioBank0::gpioBank0 *>(ioBank0Location)};
+static constexpr libMcu::hwAddressType sioLocation = libMcuHw::sioAddress;
+libMcuHw::sio::sio *const sioRegisters{reinterpret_cast<libMcuHw::sio::sio *>(sioLocation)};
 
 /**
  * @brief sio setup and initialisation
@@ -83,8 +80,8 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck(gpioHal.get(gpio1Pin) == 0);
   minUnitCheck(gpioHal.get(gpio0Pin) == 0);
   gpioHal.input(gpio0Pin);
-  gpioHal.pullmode(gpio0Pin, gpio::pullModes::NONE);
-  gpioHal.pullmode(gpio1Pin, gpio::pullModes::PULLUP);
+  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::NONE);
+  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::PULLUP);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'005Au);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -92,7 +89,7 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
   minUnitCheck(gpioHal.get(gpio1Pin) != 0);
   minUnitCheck(gpioHal.get(gpio0Pin) != 0);
-  gpioHal.pullmode(gpio1Pin, gpio::pullModes::PULLDOWN);
+  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::PULLDOWN);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0056u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -100,8 +97,8 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
   minUnitCheck(gpioHal.get(gpio1Pin) == 0);
   minUnitCheck(gpioHal.get(gpio0Pin) == 0);
-  gpioHal.pullmode(gpio1Pin, gpio::pullModes::NONE);
-  gpioHal.pullmode(gpio0Pin, gpio::pullModes::PULLUP);
+  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::NONE);
+  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::PULLUP);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'005Au);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -109,7 +106,7 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
   minUnitCheck(gpioHal.get(gpio1Pin) != 0);
   minUnitCheck(gpioHal.get(gpio0Pin) != 0);
-  gpioHal.pullmode(gpio0Pin, gpio::pullModes::PULLDOWN);
+  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::PULLDOWN);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0056u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);

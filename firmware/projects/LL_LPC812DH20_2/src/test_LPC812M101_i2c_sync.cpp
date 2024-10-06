@@ -19,7 +19,7 @@ using namespace libMcuLL::sw::i2c;
 constexpr inline libMcu::i2cDeviceAddress testExpander{0x21};
 // peripheral register sets
 static constexpr libMcu::hwAddressType i2cAddress = libMcuHw::i2c0Address;
-libMcuLL::hw::i2c::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::i2c::peripheral *>(i2cAddress)};
+libMcuLL::hw::i2c::i2c *const dutRegisters{reinterpret_cast<libMcuLL::hw::i2c::i2c *>(i2cAddress)};
 
 /**
  * @brief Gpio setup and initialisation

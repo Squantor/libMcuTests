@@ -69,17 +69,17 @@ constexpr uartOutPinType uartTxPin;
 
 extern libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
 extern libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
-extern libMcuLL::sw::padsBank0::padsBank0<libMcuHw::padsBank0Address> padsBank0Peripheral;
-extern libMcuLL::sw::gpioBank0::gpioBank0<libMcuHw::ioBank0Address> gpioBank0Peripheral;
-extern libMcuLL::sw::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
-extern libMcuLL::sw::sioGpio::sioGpio<libMcuHw::sioAddress> sioGpioPeripheral;
-extern libMcuLL::sw::clocks::clocks<libMcuHw::clocksAddress> clocksPeripheral;
-extern libMcuLL::sw::xosc::xosc<libMcuHw::xoscAddress> xoscPeripheral;
-extern libMcuLL::sw::pll::pll<libMcuHw::pllSysAddress> pllSysPeripheral;
-extern libMcuLL::sw::pll::pll<libMcuHw::pllUsbAddress> pllUsbPeripheral;
-extern libMcuLL::sw::spi::spi<libMcuHw::spi0Address> spiPeripheral;
-extern libMcuLL::sw::i2c::i2c<libMcuHw::i2c0Address> i2cPeripheral;
-extern libMcuLL::sw::uart::uart<libMcuHw::uart0Address> uartPeripheral;
+extern libMcuLL::padsBank0::padsBank0<libMcuHw::padsBank0Address> padsBank0Peripheral;
+extern libMcuLL::gpioBank0::gpioBank0<libMcuHw::ioBank0Address> gpioBank0Peripheral;
+extern libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
+extern libMcuLL::sioGpio::sioGpio<libMcuHw::sioAddress> sioGpioPeripheral;
+extern libMcuLL::clocks::clocks<libMcuHw::clocksAddress> clocksPeripheral;
+extern libMcuLL::xosc::xosc<libMcuHw::xoscAddress> xoscPeripheral;
+extern libMcuLL::pll::pll<libMcuHw::pllSysAddress> pllSysPeripheral;
+extern libMcuLL::pll::pll<libMcuHw::pllUsbAddress> pllUsbPeripheral;
+extern libMcuLL::spi::spi<libMcuHw::spi0Address> spiPeripheral;
+extern libMcuLL::i2c::i2c<libMcuHw::i2c0Address> i2cPeripheral;
+extern libMcuLL::uart::uart<libMcuHw::uart0Address> uartPeripheral;
 
 /**
  * @brief Initialize the development board

@@ -6,16 +6,12 @@
  */
 #include <nuclone_RP2040_HAL.hpp>
 
-using namespace libMcuLL;
-using namespace libMcuHal;
+libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
+libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
+libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
 
-sw::systick::systick<hw::systickAddress> systickPeripheral;
-sw::nvic::nvic<hw::nvicAddress, hw::scbAddress> nvicPeripheral;
-
-resetsPeripheralType resetsPeripheral;
-
-pinsHalType pinsHal;
-gpioHalType gpioHal;
+libMcuHal::pinsHalType pinsHal;
+libMcuHal::gpioHalType gpioHal;
 
 extern "C" {
 void SysTick_Handler(void) {
@@ -26,8 +22,8 @@ void SysTick_Handler(void) {
 void boardInit(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
-  timeout =
-    resetsPeripheral.reset(sw::resets::IO_BANK0 | sw::resets::PADS_BANK0 | sw::resets::PLL_SYS | sw::resets::PLL_USB, 100000);
+  timeout = resetsPeripheral.reset(
+    libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0 | libMcuLL::resets::PLL_SYS | libMcuLL::resets::PLL_USB, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
   // 47 ticks is around 1 ms @ 12 MHz

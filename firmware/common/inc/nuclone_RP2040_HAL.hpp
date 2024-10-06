@@ -14,7 +14,7 @@
 #define FREQ_RTC (FREQ_XTAL / 256) /**< RTC frequency */
 #define FREQ_PERI (FREQ_CPU)       /**< Peripherals frequency */
 
-#include <libmcuRP2040hal.hpp>
+#include <raspberrypi/libmcu_RP2040_hal.hpp>
 
 #define TICKS_PER_S (8u)
 

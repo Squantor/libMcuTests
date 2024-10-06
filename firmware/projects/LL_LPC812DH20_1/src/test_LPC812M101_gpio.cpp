@@ -17,7 +17,7 @@ using namespace libMcuLL::sw::gpio;
 
 // peripheral register sets
 static constexpr libMcu::hwAddressType gpioAddress = libMcuHw::gpioAddress;
-libMcuLL::hw::gpio::peripheral *const dutRegisters{reinterpret_cast<libMcuLL::hw::gpio::peripheral *>(gpioAddress)};
+libMcuLL::hw::gpio::gpio *const dutRegisters{reinterpret_cast<libMcuLL::hw::gpio::gpio *>(gpioAddress)};
 
 /**
  * @brief Gpio setup and initialisation
@@ -57,7 +57,7 @@ MINUNIT_ADD(LPC812M101DH20GpioPin, LPC812M101CppSetupGpio, LPC812M101Teardown) {
 MINUNIT_ADD(LPC812M101DH20GpioPort, LPC812M101CppSetupGpio, LPC812M101Teardown) {
   gpioPeripheral.portDirection(test0Pin, test0Pin.gpioPinMask);
   gpioPeripheral.portLow(test0Pin, test0Pin.gpioPinMask);
-  libMcu::sw::delay(10);
+  libMcuLL::delay(10);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == 0x00000000);
   gpioPeripheral.portHigh(test0Pin, test0Pin.gpioPinMask);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == test1Pin.gpioPinMask);
