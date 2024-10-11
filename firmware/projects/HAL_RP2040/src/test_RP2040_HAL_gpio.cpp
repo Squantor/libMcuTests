@@ -26,8 +26,10 @@ libMcuHw::sio::sio *const sioRegisters{reinterpret_cast<libMcuHw::sio::sio *>(si
 MINUNIT_SETUP(RP2040SetupHalgpio) {
   pinsHal.initialize();
   // setup test pins to gpio mode
-  pinsHal.setup(gpio0Pin, pins::driveModes::DRIVE_4MA, pins::pullModes::NONE, pins::speedModes::SLEW_MEDIUM, true);
-  pinsHal.setup(gpio1Pin, pins::driveModes::DRIVE_4MA, pins::pullModes::NONE, pins::speedModes::SLEW_MEDIUM, true);
+  pinsHal.setup(gpio0Pin, libMcuHal::pins::driveModes::DRIVE_4MA, libMcuHal::pins::pullModes::NONE,
+                libMcuHal::pins::speedModes::SLEW_MEDIUM, true);
+  pinsHal.setup(gpio1Pin, libMcuHal::pins::driveModes::DRIVE_4MA, libMcuHal::pins::pullModes::NONE,
+                libMcuHal::pins::speedModes::SLEW_MEDIUM, true);
   gpioHal.initialize();
   minUnitPass();
 }

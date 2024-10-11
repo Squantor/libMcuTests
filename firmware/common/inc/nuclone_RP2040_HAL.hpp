@@ -20,35 +20,29 @@
 
 // Summarized HSI
 // connected pin 0 and 1 via 3.3K resistors, links UART RX/TX, PIN1 on board
-using gpio0PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN00, libMcuLL::hw::IOfuncts::SIO>;
-using gpio1PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN01, libMcuLL::hw::IOfuncts::SIO>;
-using uartOutPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN00, libMcuLL::hw::IOfuncts::UART0_TX>;
-using uartInPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN01, libMcuLL::hw::IOfuncts::UART0_RX>;
+using gpio0PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN00, libMcuHw::IOfuncts::SIO>;
+using gpio1PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN01, libMcuHw::IOfuncts::SIO>;
+using uartOutPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN00, libMcuHw::IOfuncts::UART0_TX>;
+using uartInPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN01, libMcuHw::IOfuncts::UART0_RX>;
 // connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO, PIN3 on board
-using gpio2PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN03, libMcuLL::hw::IOfuncts::SIO>;
-using gpio3PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN04, libMcuLL::hw::IOfuncts::SIO>;
-using spiOutPinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN03, libMcuLL::hw::IOfuncts::SPI0_TX>;
-using spiInPinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN04, libMcuLL::hw::IOfuncts::SPI0_RX>;
+using gpio2PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN03, libMcuHw::IOfuncts::SIO>;
+using gpio3PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN04, libMcuHw::IOfuncts::SIO>;
+using spiOutPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN03, libMcuHw::IOfuncts::SPI0_TX>;
+using spiInPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN04, libMcuHw::IOfuncts::SPI0_RX>;
 // connected pin 2 and 5 via 3.3K resistors, links SPI CS/SCK, PIN2 on board
-using gpio4PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN02, libMcuLL::hw::IOfuncts::SIO>;
-using gpio5PinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN05, libMcuLL::hw::IOfuncts::SIO>;
-using spiSckPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN02, libMcuLL::hw::IOfuncts::SPI0_SCK>;
-using spiCsPinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN05, libMcuLL::hw::IOfuncts::SPI0_CS>;
+using gpio4PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN02, libMcuHw::IOfuncts::SIO>;
+using gpio5PinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN05, libMcuHw::IOfuncts::SIO>;
+using spiSckPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN02, libMcuHw::IOfuncts::SPI0_SCK>;
+using spiCsPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN05, libMcuHw::IOfuncts::SPI0_CS>;
 // connected pin 16 to 2.2K pull up resistor, SDA
-using i2cSdaPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN16, libMcuLL::hw::IOfuncts::I2C0_SDA>;
+using i2cSdaPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN16, libMcuHw::IOfuncts::I2C0_SDA>;
 // connected pin 17 to 2.2K pull up resistor, SCL
-using i2cSclPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN17, libMcuLL::hw::IOfuncts::I2C0_SCL>;
+using i2cSclPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN17, libMcuHw::IOfuncts::I2C0_SCL>;
 
 // LED connected pin 25 via a resistor to ground
-using ledPinType = libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN25, libMcuLL::hw::IOfuncts::SIO>;
+using ledPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN25, libMcuHw::IOfuncts::SIO>;
 // clock sense connected to pin 21
-using clockOutPinType =
-  libMcuLL::hw::pin<libMcuLL::hw::IOports::PORT0, libMcuLL::hw::IOpins::PIN21, libMcuLL::hw::IOfuncts::CLK_GPOUT0>;
+using clockOutPinType = libMcuHw::pin<libMcuHw::IOports::PORT0, libMcuHw::IOpins::PIN21, libMcuHw::IOfuncts::CLK_GPOUT0>;
 
 constexpr ledPinType ledPin;
 constexpr clockOutPinType clockOutPin;
@@ -60,12 +54,12 @@ constexpr gpio4PinType gpio4Pin;
 constexpr gpio5PinType gpio5Pin;
 constexpr spiSckPinType spiSckPin;
 
-extern libMcuLL::sw::systick::systick<libMcuLL::hw::systickAddress> systickPeripheral;
-extern libMcuLL::sw::nvic::nvic<libMcuLL::hw::nvicAddress, libMcuLL::hw::scbAddress> nvicPeripheral;
-extern libMcuLL::sw::resets::resets<libMcuLL::hw::resetsAddress> resetsPeripheral;
+extern libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
+extern libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
+extern libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
 
-extern libMcuHal::pinsHalType pinsHal;
-extern libMcuHal::gpioHalType gpioHal;
+extern libMcuHal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
+extern libMcuHal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
 
 /**
  * @brief Initialize the development board

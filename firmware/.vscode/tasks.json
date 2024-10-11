@@ -18,13 +18,6 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build debug template tests",
-      "type": "shell",
-      "command": "compiledb make PROJECT=tests_template CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
       "label": "build LL CortexM0plus tests, debug mode",
       "type": "shell",
       "command": "compiledb make PROJECT=test_LL_CortexM0plus CONFIG=debug -j28",

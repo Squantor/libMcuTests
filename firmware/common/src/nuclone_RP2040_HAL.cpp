@@ -10,8 +10,8 @@ libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
 libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
 libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
 
-libMcuHal::pinsHalType pinsHal;
-libMcuHal::gpioHalType gpioHal;
+libMcuHal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
+libMcuHal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
 
 extern "C" {
 void SysTick_Handler(void) {
