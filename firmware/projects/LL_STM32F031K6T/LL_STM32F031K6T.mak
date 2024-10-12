@@ -8,16 +8,15 @@
 PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 
 # project settings
-NAME := tests_template
-BOARD := board_tests
+NAME := test_LL_STM32F031K6T
+BOARD := nuclone_STM32F031K6T_LL
 $(NAME)_TARGET := MCU
-$(NAME)_MCU := CortexM0
-$(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=10 -DMINUNIT_REPORT_DISABLE
+$(NAME)_MCU := STM32F031K6
+$(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE
 $(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
-$(PROJ_DIR)/src/$(BOARD).cpp \
-$(PROJ_DIR)/src/microcontroller_teardown.cpp \
-$(PROJ_DIR)/src/test_microcontroller_teardown.cpp
+common/src/$(BOARD).cpp \
+common/src/STM32F031K6T_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 
 # --- nothing user definable below ---

@@ -94,5 +94,12 @@
       "group": "build",
       "problemMatcher": "$gcc"
     },
+    {
+      "label": "build LL STM32F031K6T tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_LL_STM32F031K6T CONFIG=debug -j28",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
   ]
 }
