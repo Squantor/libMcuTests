@@ -11,7 +11,7 @@ PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 NAME := test_LL_LPC845BD48
 BOARD := nuclone_LPC845BD48_small_LL
 $(NAME)_TARGET := MCU
-$(NAME)_MCU := LPC845M301BD48
+$(NAME)_MCU := LPC845
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load of flash space
 $(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \

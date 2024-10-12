@@ -60,13 +60,6 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build LL LPC844M201BD64 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC844BD64 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
       "label": "build LL LPC845M201BD48 tests, debug mode",
       "type": "shell",
       "command": "compiledb make PROJECT=test_LL_LPC845BD48 CONFIG=debug -j20",
