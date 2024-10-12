@@ -10,7 +10,7 @@ For conditions of distribution and use, see LICENSE file
 #define CLOCK_XTAL (12000000u)
 #define CLOCK_CPU (12000000u)
 
-#include <generic/libmcu_CortexM0plus_ll.hpp>
+#include <arm/libmcu_CortexM0plus_ll.hpp>
 
 extern libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
 extern libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
