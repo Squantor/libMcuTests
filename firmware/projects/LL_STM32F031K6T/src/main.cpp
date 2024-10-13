@@ -5,7 +5,8 @@
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * @brief main test entry point for LPC844 libMcuLL tests
+ * @file main.cpp
+ * @brief main test entry point for STM32F031 libmcu low level tests
  */
 #include <nuclone_STM32F031K6T_LL.hpp>
 #include <MinUnit.h>

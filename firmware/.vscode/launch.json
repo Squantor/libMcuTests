@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "libMcuLL CortexM0plus tests, debug mode",
+      "name": "libMcu CortexM0plus tests, debug mode",
       "cwd": "${workspaceRoot}",
       "gdbPath": "/usr/bin/gdb-multiarch",
       "executable": "${workspaceFolder}/bin/test_LL_CortexM0plus/debug/test_LL_CortexM0plus.elf",
@@ -24,8 +24,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL CortexM0plus tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu CortexM0plus tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -46,8 +46,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC812M101DH20 third tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu LPC812M101DH20 third tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -68,8 +68,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC812M101DH20 second tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu LPC812M101DH20 second tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -90,8 +90,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC812M101DH20 second tests, release mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu LPC812M101DH20 second tests, release mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -112,8 +112,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC812M101DH20 first tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu LPC812M101DH20 first tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -134,8 +134,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC812M101DH20 first tests, release mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC812.svd",
+      "preLaunchTask": "build libMcu LPC812M101DH20 first tests, release mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },
     {
@@ -156,8 +156,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL LPC844M201BD64 first tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC844.svd",
+      "preLaunchTask": "build libMcu LPC844M201BD64 first tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC844.svd",
       "debuggerArgs": [],
     },
     {
@@ -179,7 +179,7 @@
       ],
       "preRestartCommands": [],
       "preLaunchTask": "build LL LPC845M201BD48 tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/nxp/LPC845.svd",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC845.svd",
       "debuggerArgs": [],
     },
     {
@@ -199,8 +199,8 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuLL RP2040 tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
+      "preLaunchTask": "build libMcu RP2040 tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/raspberrypi/rp2040.svd",
       "debuggerArgs": [],
     },
     {
@@ -221,7 +221,7 @@
       ],
       "preRestartCommands": [],
       "preLaunchTask": "build libMcuHAL RP2040 tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/raspberrypi/rp2040.svd",
       "debuggerArgs": [],
     },
     {
@@ -242,7 +242,7 @@
       ],
       "preRestartCommands": [],
       "preLaunchTask": "build driver 3 to 8 mux and 74595 tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/raspberrypi/rp2040.svd",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/raspberrypi/rp2040.svd",
       "debuggerArgs": [],
     },
     {
@@ -263,7 +263,7 @@
       ],
       "preRestartCommands": [],
       "preLaunchTask": "build LL STM32F031K6T tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcuLL/svd/st/STM32F031x.svd",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/st/STM32F031x.svd",
       "debuggerArgs": [],
     },
   ]
