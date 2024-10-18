@@ -14,6 +14,7 @@ libMcuLL::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
 libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
 libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
 libMcuLL::usart::usart<libMcuHw::usart0Address, std::uint8_t> usartPeripheral;
+libMcuHw::clock::clockConfig<libMcuHw::clock::clockInputSources::XTAL, 12'000'000, 30'000'000> nucloneClockConfig;
 
 void boardInit(void) {
   // clock enables and resets
@@ -25,23 +26,11 @@ void boardInit(void) {
   ioconPeripheral.setup(xtalOutPin, libMcuLL::iocon::pullModes::INACTIVE);
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
-  // setup crystal oscillator
-  sysconPeripheral.setSysOscControl(libMcuHw::syscon::SYSOSCCTRL::NO_BYPASS | libMcuHw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
-  sysconPeripheral.powerPeripherals(libMcuLL::syscon::powerOptions::SYSOSC);
-  libMcuLL::delay(3000);
-  // setup PLL
-  sysconPeripheral.selectPllClock(libMcuLL::syscon::pllClockSources::EXT);
-  sysconPeripheral.depowerPeripherals(libMcuLL::syscon::powerOptions::SYSPLL);
-  sysconPeripheral.setSystemPllControl(4, libMcuLL::syscon::pllPostDivider::DIV_4);
-  sysconPeripheral.powerPeripherals(libMcuLL::syscon::powerOptions::SYSPLL);
-  while (sysconPeripheral.getSystemPllStatus() == 0)
-    ;
-  sysconPeripheral.setSystemClockDivider(2);
-  // switch mainclock
-  // sysconPeripheral.selectMainClock(libMcuLL::syscon::mainClockSources::EXT); // for selecting crystal oscillator
-  sysconPeripheral.selectMainPllClock(libMcuLL::syscon::mainClockPllSources::SYSPLL);
   // setup clock out test pin
   swmPeriperhal.setup(testPin, clockOutFunction);
   // setup clock output
   sysconPeripheral.setClockOutput(libMcuLL::syscon::clockOutSources::MAIN, 10u);
+  libMcuHw::clock::configureClocks<sysconPeripheral, nucloneClockConfig>();
+  // switch mainclock
+  // sysconPeripheral.selectMainClock(libMcuLL::syscon::mainClockSources::EXT); // for selecting crystal oscillator
 }
