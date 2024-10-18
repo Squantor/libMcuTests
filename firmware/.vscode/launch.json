@@ -95,7 +95,7 @@
       "debuggerArgs": [],
     },
     {
-      "name": "LPC812DH20 LL tests 1, debug mode",
+      "name": "LPC812DH20 LL tests first, debug mode",
       "cwd": "${workspaceRoot}",
       "gdbPath": "/usr/bin/gdb-multiarch",
       "executable": "${workspaceFolder}/bin/test_LL_LPC812DH20_1/debug/test_LL_LPC812DH20_1.elf",
@@ -112,7 +112,7 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcu LPC812M101DH20 first tests, debug mode",
+      "preLaunchTask": "build LL LPC812M101DH20 first tests, debug mode",
       "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC812.svd",
       "debuggerArgs": [],
     },

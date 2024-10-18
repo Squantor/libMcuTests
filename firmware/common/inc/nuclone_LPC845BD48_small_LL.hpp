@@ -10,12 +10,6 @@
 #ifndef NUCLONE_LPC845BD48_SMALL_LL_HPP
 #define NUCLONE_LPC845BD48_SMALL_LL_HPP
 
-#define CLOCK_XTAL (12'000'000u)
-#define CLOCK_EXT_IN (0u)
-#define CLOCK_CPU (30'000'000u)
-#define CLOCK_AHB (30'000'000u)
-#define CLOCK_MAIN (60'000'000u)
-
 #include <nxp/libmcu_LPC845M301BD48_ll.hpp>
 
 #define TICKS_PER_S 10
@@ -97,6 +91,12 @@ extern libMcuLL::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
 extern libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
 extern libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
 extern libMcuLL::usart::usart<libMcuHw::usart0Address, std::uint8_t> usartPeripheral;
+inline constexpr libMcuHw::clock::clockConfig<
+  libMcuHw::clock::clockInputSources::XTAL, 12'000'000u, 30'000'000u, libMcuHw::clock::periSource::MAIN,
+  libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN,
+  libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN,
+  libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN, libMcuHw::clock::periSource::MAIN>
+  nucloneClockConfig;
 
 void boardInit(void);
 

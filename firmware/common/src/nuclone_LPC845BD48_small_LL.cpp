@@ -9,12 +9,13 @@
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
 
+namespace clocks = libMcuHw::clock;
+
 libMcuLL::iocon::iocon<libMcuHw::ioconAddress> ioconPeripheral;
 libMcuLL::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
 libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
 libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
 libMcuLL::usart::usart<libMcuHw::usart0Address, std::uint8_t> usartPeripheral;
-libMcuHw::clock::clockConfig<libMcuHw::clock::clockInputSources::XTAL, 12'000'000, 30'000'000> nucloneClockConfig;
 
 void boardInit(void) {
   // clock enables and resets
@@ -27,9 +28,8 @@ void boardInit(void) {
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
   // setup clock out test pin
-  swmPeriperhal.setup(testPin, clockOutFunction);
-  // setup clock output
-  sysconPeripheral.setClockOutput(libMcuLL::syscon::clockOutSources::MAIN, 10u);
+  // swmPeriperhal.setup(testPin, clockOutFunction);
+  // sysconPeripheral.setClockOutput(libMcuLL::syscon::clockOutSources::MAIN, 10u);
   libMcuHw::clock::configureClocks<sysconPeripheral, nucloneClockConfig>();
   // switch mainclock
   // sysconPeripheral.selectMainClock(libMcuLL::syscon::mainClockSources::EXT); // for selecting crystal oscillator
