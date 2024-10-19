@@ -30,7 +30,7 @@ void boardInit(void) {
   // setup clock out test pin
   // swmPeriperhal.setup(testPin, clockOutFunction);
   // sysconPeripheral.setClockOutput(libMcuLL::syscon::clockOutSources::MAIN, 10u);
-  libMcuHw::clock::configureClocks<sysconPeripheral, nucloneClockConfig>();
+  sysconPeripheral.configureMcuClocks<nucloneClockConfig>();
   // switch mainclock
   // sysconPeripheral.selectMainClock(libMcuLL::syscon::mainClockSources::EXT); // for selecting crystal oscillator
 }

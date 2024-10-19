@@ -139,28 +139,6 @@
       "debuggerArgs": [],
     },
     {
-      "name": "LPC844BD64 LL tests, debug mode",
-      "cwd": "${workspaceRoot}",
-      "gdbPath": "/usr/bin/gdb-multiarch",
-      "executable": "${workspaceFolder}/bin/test_LL_LPC844BD64_1/debug/test_LL_LPC844BD64_1.elf",
-      "request": "launch",
-      "type": "cortex-debug",
-      "servertype": "bmp",
-      "interface": "swd",
-      "device": "LPC844",
-      "BMPGDBSerialPort": "/dev/ttyACM0",
-      "powerOverBMP": "enable",
-      "preLaunchCommands": [],
-      "postLaunchCommands": [
-        "set {int}0x40048000 = 2",
-        "compare-sections"
-      ],
-      "preRestartCommands": [],
-      "preLaunchTask": "build libMcu LPC844M201BD64 first tests, debug mode",
-      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC844.svd",
-      "debuggerArgs": [],
-    },
-    {
       "name": "LPC845BD48 LL tests, debug mode",
       "cwd": "${workspaceRoot}",
       "gdbPath": "/usr/bin/gdb-multiarch",
