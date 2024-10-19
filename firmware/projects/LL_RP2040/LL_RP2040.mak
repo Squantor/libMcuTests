@@ -14,7 +14,7 @@ $(NAME)_TARGET := MCU
 $(NAME)_MCU := RP2040
 $(NAME)_FLASH := generic
 $(NAME)_DEFINES := -DMINUNIT_MAX_TESTS=100
-$(NAME)_LIBS := libMcuLL squantorLibC squantorMinUnit
+$(NAME)_LIBS := libMcu squantorLibC squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 common/src/$(BOARD).cpp \
 common/src/RP2040_LL_teardown.cpp \

@@ -13,7 +13,7 @@ BOARD := nuclone_CortexM0plus_tests
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := CortexM0plus_tests
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=50 -DMINUNIT_REPORT_DISABLE
-$(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
+$(NAME)_LIBS := libMcu squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 common/src/$(BOARD).cpp \
 common/src/CortexM0plus_teardown.cpp \

@@ -13,7 +13,7 @@ BOARD := board_tests
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := CortexM0
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=10 -DMINUNIT_REPORT_DISABLE
-$(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
+$(NAME)_LIBS := libMcu squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/$(BOARD).cpp \
 $(PROJ_DIR)/src/microcontroller_teardown.cpp \

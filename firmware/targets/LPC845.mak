@@ -4,7 +4,7 @@
 
 # settings for the LPC845 Microcontroller
 #
-# Version: 20220909
+# Version: 20241018
 
 # import compiler settings for the core in this microcontroller
 include targets/core_CortexM0plus.mak

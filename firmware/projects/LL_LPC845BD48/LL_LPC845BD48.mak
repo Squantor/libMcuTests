@@ -13,7 +13,7 @@ BOARD := nuclone_LPC845BD48_small_LL
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := LPC845
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load of flash space
-$(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
+$(NAME)_LIBS := libMcu squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_gpio.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_iocon.cpp \

@@ -5,7 +5,6 @@ make -j24 PROJECT=tests_template CONFIG=debug
 make -j24 PROJECT=test_LL_LPC812DH20_1 CONFIG=debug
 make -j24 PROJECT=test_LL_LPC812DH20_2 CONFIG=debug
 make -j24 PROJECT=test_LL_LPC812DH20_3 CONFIG=debug
-make -j24 PROJECT=test_LL_LPC844BD64 CONFIG=debug
 make -j24 PROJECT=test_LL_LPC845BD48 CONFIG=debug
 make -j24 PROJECT=test_LL_RP2040 CONFIG=debug
 make -j24 PROJECT=test_HAL_RP2040 CONFIG=debug
