@@ -14,7 +14,9 @@
 
 /** @brief resets all the registers to their default states
  */
-MINUNIT_TEARDOWN(LPC845M301Teardown) {}
+MINUNIT_TEARDOWN(LPC845M301Teardown) {
+  minUnitPass();
+}
 
 /** @brief checks if all the registers to their default states
  *  @return if all registers are correctly torndown
