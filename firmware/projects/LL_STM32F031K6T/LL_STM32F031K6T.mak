@@ -13,7 +13,7 @@ BOARD := nuclone_STM32F031K6T_LL
 $(NAME)_TARGET := MCU
 $(NAME)_MCU := STM32F031K6
 $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE
-$(NAME)_LIBS := libMcuLL squantorLibC squantorLibEmbedded squantorMinUnit
+$(NAME)_LIBS := libMcu squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 common/src/$(BOARD).cpp \
 common/src/STM32F031K6T_teardown.cpp
