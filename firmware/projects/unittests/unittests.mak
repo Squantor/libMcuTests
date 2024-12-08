@@ -11,10 +11,15 @@ PROJ_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 NAME := unittests
 $(NAME)_TARGET := PC
 $(NAME)_DEFINES := -DMINUNIT_MAX_TESTS=1000
-$(NAME)_LIBS := squantorMinUnit libMcuLL
+$(NAME)_LIBS := squantorMinUnit libMcu
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_ringbuf.cpp \
-$(PROJ_DIR)/src/test.cpp
+$(PROJ_DIR)/src/test.cpp \
+$(PROJ_DIR)/src/test_rmw.cpp \
+$(PROJ_DIR)/src/test_bitblit1d.cpp \
+$(PROJ_DIR)/src/test_bitblit2dsmall.cpp
+# $(PROJ_DIR)/src/test_bitblit2d.cpp
+# $(PROJ_DIR)/src/test_elementpack.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc
 $(NAME)_PREBUILD_SCRIPT := $(PROJ_DIR)/prebuild.sh
 $(NAME)_POSTBUILD_SCRIPT := $(PROJ_DIR)/postbuild.sh
