@@ -14,7 +14,61 @@
 #include <cstring>
 #include <cstdint>
 #include <array>
+#include <libmcu/libmcu_functions.hpp>
 #include <libmcu/bitmap/bitblit1d.hpp>
+MINUNIT_ADD(testBitBlit1DMove8bitTo8bit, NULL, NULL) {
+  std::array<uint8_t, 5> testDest;
+  std::array<uint8_t, 4> testSrc{0x21, 0x43, 0x65, 0x87};
+  // test single element write
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest), 0u, std::span<const std::uint8_t>(testSrc), 8u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[0] == 0x21);
+  // test multi element write
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest), 0u, std::span<const std::uint8_t>(testSrc), 16u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[0] == 0x21);
+  minUnitCheck(testDest[1] == 0x43);
+  // test offset multi element write
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest), 8u, std::span<const std::uint8_t>(testSrc), 16u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[1] == 0x21);
+  minUnitCheck(testDest[2] == 0x43);
+  // test multi element write with incomplete last element
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest), 8u, std::span<const std::uint8_t>(testSrc), 12u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[1] == 0x21);
+  minUnitCheck(testDest[2] == 0xA3);
+  // test multi element write with incomplete first element
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest), 4u, std::span<const std::uint8_t>(testSrc), 12u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[0] == 0x15);
+  minUnitCheck(testDest[1] == 0x32);
+  // test out of bounds multi element write that it gets clipped properly
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit1d(std::span<std::uint8_t>(testDest).subspan(1, 2), 0u, std::span<const std::uint8_t>(testSrc), 24u,
+                            libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[1] == 0x21);
+  minUnitCheck(testDest[2] == 0x43);
+  minUnitCheck(testDest[3] == 0xA5);  // check if we wrote out of bounds
+}
+/*
+MINUNIT_ADD(testBitBlit1DMove8bitTo16bit, NULL, NULL) {
+  std::array<uint16_t, 4> testDest;
+  testDest.fill(0xA5A5);
+  std::array<uint8_t, 4> testSrc{0x12, 0x34, 0x56, 0x78};
+}
+MINUNIT_ADD(testBitBlit1DMove16bitTo8bit, NULL, NULL) {
+  std::array<uint8_t, 5> testDest;
+  testDest.fill(0xA5);
+  std::array<uint16_t, 2> testSrc{0x1234, 0x5678};
+}
+*/
+/*
 MINUNIT_ADD(testBitBlit1DCases, NULL, NULL) {
   // we add one extra byte as canary to check out of bound writes
   std::array<uint8_t, 5> testDest{0xA5, 0xA5, 0xA5, 0xA5, 0xA5};
@@ -132,114 +186,9 @@ MINUNIT_ADD(testBitBlit1DCases, NULL, NULL) {
   minUnitCheck(testDest[3] == 0x41);
   minUnitCheck(testDest[4] == 0xA5);
 }
+*/
 
 /*
-MINUNIT_ADD(testBitBlit1DCases, NULL, NULL) {
-  // we add one extra byte as canary to check out of bound writes
-  uint8_t testDest[5]{0xA5, 0xA5, 0xA5, 0xA5, 0xA5};
-  uint8_t testSrc[4]{0x12, 0x34, 0x56, 0x78};
-  unsigned int testDestSize = 32;
-  // less then one byte aligned
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x33;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, static_cast<unsigned int>(16), testSrc, static_cast<unsigned int>(4),
-                            libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[2] == 0xA3);
-  // less then one byte not aligned
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x13;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, static_cast<unsigned int>(12), testSrc, static_cast<unsigned int>(4),
-                            libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[1] == 0x35);
-  // less then one byte crossing
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x49;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 20, testSrc, 8, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[2] == 0x95);
-  minUnitCheck(testDest[3] == 0xA4);
-  // single byte aligned
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x13;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 8, testSrc, 8, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[1] == 0x13);
-  // single byte crossing boundary
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x2C;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 4, testSrc, 8, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[0] == 0xC5);
-  minUnitCheck(testDest[1] == 0xA2);
-  // single byte crossing boundary at the edge
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x6F;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 28, testSrc, 8, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[3] == 0xF5);
-  minUnitCheck(testDest[4] == 0xA5);
-  // two byte aligned
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x29;
-  testSrc[1] = 0x7A;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 8, testSrc, 16, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[1] == 0x29);
-  minUnitCheck(testDest[2] == 0x7A);
-  // two byte aligned, crossing boundary
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x13;
-  testSrc[1] = 0x9C;
-  testSrc[2] = 0xC1;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 8, testSrc, 20, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[1] == 0x13);
-  minUnitCheck(testDest[2] == 0x9C);
-  minUnitCheck(testDest[3] == 0xA1);
-  // two byte crossing boundary
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x2C;
-  testSrc[1] = 0x9C;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 12, testSrc, 16, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[1] == 0xC5);
-  minUnitCheck(testDest[2] == 0xC2);
-  minUnitCheck(testDest[3] == 0xA9);
-  // n byte aligned
-  memset(testDest, 0xA5, sizeof(testDest));
-  testSrc[0] = 0x12;
-  testSrc[1] = 0x34;
-  testSrc[2] = 0x56;
-  testSrc[3] = 0x78;
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 0, testSrc, 24, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[0] == 0x12);
-  minUnitCheck(testDest[1] == 0x34);
-  minUnitCheck(testDest[2] == 0x56);
-  minUnitCheck(testDest[3] == 0xA5);
-  minUnitCheck(testDest[4] == 0xA5);
-  // n byte aligned at the edge
-  memset(testDest, 0xA5, sizeof(testDest));
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 24, testSrc, 24, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[2] == 0xA5);
-  minUnitCheck(testDest[3] == 0x12);
-  minUnitCheck(testDest[4] == 0xA5);
-  // n byte aligned crossing boundary
-  memset(testDest, 0xA5, sizeof(testDest));
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 0, testSrc, 28, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[0] == 0x12);
-  minUnitCheck(testDest[1] == 0x34);
-  minUnitCheck(testDest[2] == 0x56);
-  minUnitCheck(testDest[3] == 0xA8);
-  minUnitCheck(testDest[4] == 0xA5);
-  // n byte crossing boundary
-  memset(testDest, 0xA5, sizeof(testDest));
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 4, testSrc, 24, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[0] == 0x25);
-  minUnitCheck(testDest[1] == 0x41);
-  minUnitCheck(testDest[2] == 0x63);
-  minUnitCheck(testDest[3] == 0xA5);
-  minUnitCheck(testDest[4] == 0xA5);
-  // n byte crossing boundary at the edge
-  memset(testDest, 0xA5, sizeof(testDest));
-  libMcu::bitmap::bitblit1d(testDest, testDestSize, 20, testSrc, 28, libMcu::bitmap::bitblitOperation::OP_MOV);
-  minUnitCheck(testDest[2] == 0x25);
-  minUnitCheck(testDest[3] == 0x41);
-  minUnitCheck(testDest[4] == 0xA5);
-}
-
 MINUNIT_ADD(testBitBlit1DOperations, NULL, NULL) {
   minUnitPass();
 }
