@@ -16,6 +16,24 @@
 #include <array>
 #include <libmcu/libmcu_functions.hpp>
 #include <libmcu/bitmap/bitblit1d.hpp>
+MINUNIT_ADD(BitBlit1Bbp8To8Move, NULL, NULL) {
+  minUnitPass();
+  std::array<uint8_t, 5> testDest;
+  std::array<uint8_t, 4> testSrc{0x21, 0x43, 0x65, 0x87};
+  // test case: less then element write with destination offset
+  testDest.fill(0xA5);
+  libMcu::bitmap::bitblit<1>(std::span<std::uint8_t>(testDest), 4u, std::span<const std::uint8_t>(testSrc), 0u, 4u,
+                             libMcu::bitmap::bitblitOperation::OP_MOV);
+  minUnitCheck(testDest[0] == 0xA1);
+  // test case: less then element write with source offset
+  // test case: less then element write with source and destination offset
+  // test case: less then element write with boundary cross
+  // test case: full element write with boundary cross
+  // test case: full element write with end of buffer clamp, use a subspan
+  // test case: multiple element write
+  // test case: multiple element write with
+}
+/*
 MINUNIT_ADD(testBitBlit1DMove8bitTo8bit, NULL, NULL) {
   std::array<uint8_t, 5> testDest;
   std::array<uint8_t, 4> testSrc{0x21, 0x43, 0x65, 0x87};
@@ -56,6 +74,7 @@ MINUNIT_ADD(testBitBlit1DMove8bitTo8bit, NULL, NULL) {
   minUnitCheck(testDest[2] == 0x43);
   minUnitCheck(testDest[3] == 0xA5);  // check if we wrote out of bounds
 }
+*/
 /*
 MINUNIT_ADD(testBitBlit1DMove8bitTo16bit, NULL, NULL) {
   std::array<uint16_t, 4> testDest;
