@@ -16,8 +16,9 @@ $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_ringbuf.cpp \
 $(PROJ_DIR)/src/test.cpp \
 $(PROJ_DIR)/src/test_rmw.cpp \
-$(PROJ_DIR)/src/test_bitblit.cpp \
-$(PROJ_DIR)/src/test_bitblit2dsmall.cpp
+$(PROJ_DIR)/src/test_bitblit_eq.cpp \
+$(PROJ_DIR)/src/test_bitblit_gr.cpp \
+$(PROJ_DIR)/src/test_bitblit_sm.cpp 
 # $(PROJ_DIR)/src/test_bitblit2d.cpp
 # $(PROJ_DIR)/src/test_elementpack.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc

@@ -1,13 +1,12 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2021 Bart Bilos
+ * Copyright (c) 2024 Bart Bilos
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * \file test_bitblit1d.cpp
- *
- * Bit blit 1d tests
+ * @file test_bitblit_eq.cpp
+ * @brief bitblit tests for equal data sizes
  */
 
 #include <MinUnit.h>
@@ -16,6 +15,7 @@
 #include <array>
 #include <libmcu/libmcu_functions.hpp>
 #include <libmcu/bitmap/bitblit1d.hpp>
+
 MINUNIT_ADD(BitBlit1Bbp8To8Move, NULL, NULL) {
   minUnitPass();
   std::array<uint8_t, 5> testDest;
@@ -212,3 +212,5 @@ MINUNIT_ADD(testBitBlit1DOperations, NULL, NULL) {
   minUnitPass();
 }
 */
+
+// bitblit tests for 16 bit
