@@ -20,7 +20,7 @@ static constexpr libMcu::hwAddressType ioconAddress = libMcuHw::ioconAddress; /*
 libMcuHw::iocon::iocon *const dutRegisters{reinterpret_cast<libMcuHw::iocon::iocon *>(ioconAddress)};
 
 /**
- * @brief Spi setup and initialisation
+ * @brief Iocon setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupIocon) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
