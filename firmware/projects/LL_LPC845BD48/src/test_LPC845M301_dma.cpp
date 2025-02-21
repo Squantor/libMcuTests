@@ -33,5 +33,8 @@ MINUNIT_SETUP(LPC845M301SetupDma) {
  */
 MINUNIT_ADD(LPC845M301DH20DmaInit, LPC845M301SetupDma, LPC845M301Teardown) {
   dmaPeripheral.init();
-  minUnitPass();
+  uint32_t PeripheralAddress = dutRegisters->SRAMBASE;
+  uint32_t classAddress = reinterpret_cast<uint32_t>(dmaPeripheral.getDescriptorTable().data());
+  minUnitCheck((classAddress & 0x1FF) == 0);  // 512 byte aligned check
+  minUnitCheck(PeripheralAddress == classAddress);
 }
