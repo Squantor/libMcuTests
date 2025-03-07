@@ -16,6 +16,7 @@
 
 using namespace libMcuHw::dma;
 using namespace libMcuLL::dma;
+using namespace libMcuLL::usart;
 
 // peripheral register sets
 static constexpr libMcu::hwAddressType dmaAddress = libMcuHw::dmaAddress; /**< peripheral address */
@@ -30,7 +31,10 @@ std::array<std::uint8_t, 128> outputBuffer;
  */
 MINUNIT_SETUP(LPC845M301SetupDma) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::DMA, 0);
+  sysconPeripheral.resetPeripherals(libMcuLL::syscon::peripheralResets0::DMA | libMcuLL::syscon::peripheralResets0::UART0, 0);
+  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::DMA | libMcuLL::syscon::peripheralClocks0::UART0 |
+                                            libMcuLL::syscon::peripheralClocks0::SWM | libMcuLL::syscon::peripheralClocks0::IOCON,
+                                          0);
 }
 
 /**
@@ -42,6 +46,12 @@ MINUNIT_ADD(LPC845M301DH20DmaInit, LPC845M301SetupDma, LPC845M301Teardown) {
   uint32_t classAddress = reinterpret_cast<uint32_t>(dmaPeripheral.GetDescriptorTable().data());
   minUnitCheck((classAddress & 0x1FF) == 0);  // 512 byte aligned check
   minUnitCheck(PeripheralAddress == classAddress);
+  for (auto &element : dmaPeripheral.GetDescriptorTable()) {
+    minUnitCheck(element.reserved == 0);
+    minUnitCheck(element.source_end_address == 0);
+    minUnitCheck(element.destination_end_address == 0);
+    minUnitCheck(element.next_descriptor == nullptr);
+  }
 }
 
 MINUNIT_ADD(LPC845M301DH20DmaMemToMemTransfer, LPC845M301SetupDma, LPC845M301Teardown) {
@@ -55,27 +65,71 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToMemTransfer, LPC845M301SetupDma, LPC845M301Tea
   }
   outputBuffer.fill(0);
   // setup single memory to memory transfer descriptor
-  dmaPeripheral.ConfigureChanDescr(Descriptors::kChannel12, inputBuffer.data() + inputBuffer.size() - 1,
+  dmaPeripheral.ConfigureChanDescr(SoftwareDescriptors::kChannel12, inputBuffer.data() + inputBuffer.size() - 1,
                                    outputBuffer.data() + inputBuffer.size() - 1, nullptr);
   // check descriptor entry
   minUnitCheck(table[12].source_end_address == reinterpret_cast<std::uint32_t>(inputBuffer.data() + inputBuffer.size() - 1));
   minUnitCheck(table[12].destination_end_address == reinterpret_cast<std::uint32_t>(outputBuffer.data() + inputBuffer.size() - 1));
   minUnitCheck(table[12].next_descriptor == nullptr);
   // setup channel hardware
-  dmaPeripheral.ConfigureChannel(Descriptors::kChannel12, TriggerConfigs::kNone, BurstSizes::k1, false, false,
+  dmaPeripheral.ConfigureChannel(SoftwareDescriptors::kChannel12, TriggerConfigs::kNone, BurstSizes::k1, false, false,
                                  ChannelPrios::kLowest);
-  dmaPeripheral.ConfigureTransfer(Descriptors::kChannel12, false, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
+  dmaPeripheral.ConfigureTransfer(SoftwareDescriptors::kChannel12, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
                                   SrcIncrements::k1, DstIncrements::k1, inputBuffer.size());
-  dmaPeripheral.ValidateChannel(Descriptors::kChannel12);
-  dmaPeripheral.EnableChannel(Descriptors::kChannel12);
-  dmaPeripheral.SetChannelTrigger(Descriptors::kChannel12);
+  dmaPeripheral.ValidateChannel(SoftwareDescriptors::kChannel12);
+  dmaPeripheral.EnableChannel(SoftwareDescriptors::kChannel12);
+  dmaPeripheral.SetChannelTrigger(SoftwareDescriptors::kChannel12);
   // wait until transfer completes
   std::uint32_t wait_count = 0;
-  while (dmaPeripheral.IsChannelActive(Descriptors::kChannel12) && wait_count < 1000) {
+  while (dmaPeripheral.IsChannelActive(SoftwareDescriptors::kChannel12) && wait_count < 1000) {
     wait_count += 1;
   }
   // check transfer results
   minUnitCheck(wait_count < 1000);
-  minUnitCheck(dmaPeripheral.IsChannelActive(Descriptors::kChannel12) == false);
+  minUnitCheck(dmaPeripheral.IsChannelActive(SoftwareDescriptors::kChannel12) == false);
   minUnitCheck(memcmp(inputBuffer.data(), outputBuffer.data(), inputBuffer.size()) == 0);
 }
+
+MINUNIT_ADD(LPC845M301DH20DmaMemToPeriTransfer, LPC845M301SetupDma, LPC845M301Teardown) {
+  dmaPeripheral.Init();
+  std::uint8_t counter = 83;
+  // Setup buffers
+  for (auto &element : inputBuffer) {
+    element = counter;
+    counter++;
+  }
+  outputBuffer.fill(0);
+  // setup uart but only TX
+  swmPeriperhal.setup(testPin2, uartMainTxFunction);
+  usartPeripheral.init<uart0ClockConfig>(115200);
+  sysconPeripheral.peripheralClockSource(libMcuLL::syscon::clockSourceSelects::UART0, libMcuLL::syscon::clockSources::MAIN);
+  // check if UART is ready
+  std::uint32_t status = usartPeripheral.status();
+  minUnitCheck((status & uartStatus::TXIDLE) != 0);
+  minUnitCheck((status & uartStatus::RXIDLE) != 0);
+  // setup DMA descriptors
+  // setup single memory to peripheral transfer
+  dmaPeripheral.ConfigureChanDescr(HardwareDescriptors::kUSART0_TX_DMA, inputBuffer.data() + inputBuffer.size() - 1,
+                                   usartPeripheral.getTxDatAddress(), nullptr);
+  dmaPeripheral.ConfigureChannel(HardwareDescriptors::kUSART0_TX_DMA, TriggerConfigs::kRisingEdge, BurstSizes::k1, false, false,
+                                 ChannelPrios::kLowest);
+  dmaPeripheral.ConfigureTransfer(HardwareDescriptors::kUSART0_TX_DMA, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
+                                  SrcIncrements::k1, DstIncrements::k0, inputBuffer.size());
+  dmaPeripheral.ValidateChannel(HardwareDescriptors::kUSART0_TX_DMA);
+  dmaPeripheral.EnableChannel(HardwareDescriptors::kUSART0_TX_DMA);
+  dmaPeripheral.SetChannelTrigger(HardwareDescriptors::kUSART0_TX_DMA);
+  // starts automatically as uart is ready to transmit
+  // wait until transfer completes
+  std::uint32_t wait_count = 0;
+  while (dmaPeripheral.IsChannelActive(HardwareDescriptors::kUSART0_TX_DMA) && wait_count < 2000) {
+    wait_count += 1;
+  }
+  // check transfer results
+  minUnitCheck(wait_count < 2000);
+  minUnitCheck(dmaPeripheral.IsChannelActive(HardwareDescriptors::kUSART0_TX_DMA) == false);
+  // DMA seems to wrap around to 1024 when completing its transfer
+  minUnitCheck(XFERCFG::GetXFERCOUNT(dutRegisters->CHANNEL[1].XFERCFG) == 1024);
+}
+
+// todo test for DMA to peripheral and peripheral to DMA
+// todo test pingpong mode with interrupts

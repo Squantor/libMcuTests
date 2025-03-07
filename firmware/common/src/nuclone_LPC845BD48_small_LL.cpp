@@ -17,6 +17,7 @@ libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
 libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
 libMcuLL::usart::usart<libMcuHw::usart0Address, std::uint8_t> usartPeripheral;
 libMcuLL::dma::Dma<libMcuHw::dmaAddress> dmaPeripheral;
+libMcuLL::inmux::InMux<libMcuHw::inmuxAddress> inmux_peripheral;
 
 void boardInit(void) {
   // clock enables and resets

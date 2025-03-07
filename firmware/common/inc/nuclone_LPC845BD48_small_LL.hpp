@@ -97,6 +97,7 @@ constexpr inline libMcuHw::clock::periClockConfig<nucloneClockConfig, libMcuHw::
                                                   libMcuHw::clock::periSource::MAIN>
   uart0ClockConfig;
 extern libMcuLL::dma::Dma<libMcuHw::dmaAddress> dmaPeripheral;
+extern libMcuLL::inmux::InMux<libMcuHw::inmuxAddress> inmux_peripheral;
 
 void boardInit(void);
 
