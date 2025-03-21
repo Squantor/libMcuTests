@@ -5,7 +5,8 @@
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * @brief main test entry point for LPC844 libMcuLL tests
+ * @file main.cpp
+ * @brief main test entry point for LPC845 LibMcu HAL tests
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
 #include <MinUnit.h>

@@ -16,7 +16,7 @@ using namespace libMcuHw::usart;
 using namespace libMcuLL::usart;
 
 static constexpr libMcu::hwAddressType usart0Address = libMcuHw::usart0Address;
-libMcuHw::usart::usart *const dutRegisters{reinterpret_cast<libMcuHw::usart::usart *>(usart0Address)};
+libMcuHw::usart::usart *const dut_registers{reinterpret_cast<libMcuHw::usart::usart *>(usart0Address)};
 
 /**
  * @brief USART setup and initialisation
@@ -34,11 +34,11 @@ MINUNIT_ADD(LPC845M301UsartInit, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   realBaudRate = usartPeripheral.init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
-  dutRegisters->CFG = 0x00000000;
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
+  dut_registers->CFG = 0x00000000;
   realBaudRate = usartPeripheral.init<uart0ClockConfig>(9600, uartLength::SIZE_7, uartParity::EVEN, uartStop::STOP_2);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
 }
 
 MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
@@ -47,7 +47,7 @@ MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
   int timeout;
   usartPeripheral.init<uart0ClockConfig>(115200);
   sysconPeripheral.peripheralClockSource(libMcuLL::syscon::clockSourceSelects::UART0, libMcuLL::syscon::clockSources::MAIN);
-  minUnitCheck((dutRegisters->STAT & STAT::RESERVED_MASK) == 0x0000001E);
+  minUnitCheck((dut_registers->STAT & STAT::RESERVED_MASK) == 0x0000001E);
   minUnitCheck(usartPeripheral.status() & uartStatus::TXRDY);
   usartPeripheral.write(0xA5);
   timeout = 0xFFFF;

@@ -18,6 +18,13 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "build HAL LPC845M201BD48 tests, debug mode",
+      "type": "shell",
+      "command": "compiledb make PROJECT=test_HAL_LPC845BD48 CONFIG=debug -j20",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "build LL CortexM0plus tests, debug mode",
       "type": "shell",
       "command": "compiledb make PROJECT=test_LL_CortexM0plus CONFIG=debug -j28",

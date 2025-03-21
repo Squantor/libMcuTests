@@ -264,5 +264,27 @@
       "svdFile": "${workspaceFolder}/libraries/libMcu/svd/st/STM32F031x.svd",
       "debuggerArgs": [],
     },
+    {
+      "name": "LPC845BD48 HAL tests, debug mode",
+      "cwd": "${workspaceRoot}",
+      "gdbPath": "/usr/bin/gdb-multiarch",
+      "executable": "${workspaceFolder}/bin/test_HAL_LPC845BD48/debug/test_HAL_LPC845BD48.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "bmp",
+      "interface": "swd",
+      "device": "LPC845",
+      "BMPGDBSerialPort": "/dev/ttyACM0",
+      "powerOverBMP": "enable",
+      "preLaunchCommands": [],
+      "postLaunchCommands": [
+        "set {int}0x40048000 = 2",
+        "compare-sections"
+      ],
+      "preRestartCommands": [],
+      "preLaunchTask": "build HAL LPC845M201BD48 tests, debug mode",
+      "svdFile": "${workspaceFolder}/libraries/libMcu/svd/nxp/LPC845.svd",
+      "debuggerArgs": [],
+    },
   ]
 }
