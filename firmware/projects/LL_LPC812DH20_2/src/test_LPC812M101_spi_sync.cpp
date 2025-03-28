@@ -14,10 +14,10 @@
 #include <array>
 
 using namespace libMcuLL::sw::spi;
-using namespace libMcuLL::hw::spi;
+using namespace libmcuhw::spi;
 
 static constexpr libMcu::hwAddressType spi0Address = libMcuHw::spi0Address;
-libMcuLL::hw::spi::spi *const dutRegisters{reinterpret_cast<libMcuLL::hw::spi::spi *>(spi0Address)};
+libmcuhw::spi::spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::spi *>(spi0Address)};
 
 /**
  * @brief Spi setup and initialisation

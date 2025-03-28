@@ -47,7 +47,7 @@ MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, CortexM0plusTear
   systickPeripheral.init(0x1000);  // short reload value so we can check value
   systickPeripheral.start();
   std::uint32_t firstCount = systickPeripheral.getCount();
-  libMcuLL::delay(101);
+  libMcu::delay(101);
   std::uint32_t secondCount = systickPeripheral.getCount();
   minUnitCheck(firstCount != secondCount);
   // we need longer intervals for this test
@@ -57,13 +57,13 @@ MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, CortexM0plusTear
     libMcuLL::nop();
   }
   minUnitCheck(systickPeripheral.getZeroPass() == 0);
-  libMcuLL::delay(0xFFF);
+  libMcu::delay(0xFFF);
   minUnitCheck(systickPeripheral.getZeroPass() != 0);
   systickPeripheral.stop();
   // interrupt based tests
   systickPeripheral.setReload(0xFFF);
   systickPeripheral.start(systickIsrLambda);
-  libMcuLL::delay(0xFFF);
+  libMcu::delay(0xFFF);
   systickPeripheral.stop();
   minUnitCheck(systickIsrCount != 0);
 }

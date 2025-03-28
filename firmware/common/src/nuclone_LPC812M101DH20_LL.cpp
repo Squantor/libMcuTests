@@ -33,7 +33,7 @@ void boardInit(void) {
   // setup system clocks
   sysconPeripheral.setSysOscControl(libMcuLL::hw::syscon::SYSOSCCTRL::NO_BYPASS | libMcuLL::hw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
   sysconPeripheral.powerPeripherals(libMcuLL::sw::syscon::peripheralPowers::SYSOSC);
-  libMcuLL::delay(6000);
+  libMcu::delay(6000);
   sysconPeripheral.selectPllClock(libMcuLL::sw::syscon::pllClockSources::SYSOSC);
   fcmPeripheral.setFlashWaitState(libMcuLL::sw::fmc::waitstates::WAIT_2_CLOCK);
   sysconPeripheral.depowerPeripherals(libMcuLL::sw::syscon::peripheralPowers::SYSPLL);

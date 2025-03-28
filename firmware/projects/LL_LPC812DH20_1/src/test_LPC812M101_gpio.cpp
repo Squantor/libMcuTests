@@ -57,7 +57,7 @@ MINUNIT_ADD(LPC812M101DH20GpioPin, LPC812M101CppSetupGpio, LPC812M101Teardown) {
 MINUNIT_ADD(LPC812M101DH20GpioPort, LPC812M101CppSetupGpio, LPC812M101Teardown) {
   gpioPeripheral.portDirection(test0Pin, test0Pin.gpioPinMask);
   gpioPeripheral.portLow(test0Pin, test0Pin.gpioPinMask);
-  libMcuLL::delay(10);
+  libMcu::delay(10);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == 0x00000000);
   gpioPeripheral.portHigh(test0Pin, test0Pin.gpioPinMask);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == test1Pin.gpioPinMask);

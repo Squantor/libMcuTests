@@ -26,10 +26,10 @@ libMcuHw::sio::sio *const sioRegisters{reinterpret_cast<libMcuHw::sio::sio *>(si
 MINUNIT_SETUP(RP2040SetupHalgpio) {
   pinsHal.initialize();
   // setup test pins to gpio mode
-  pinsHal.setup(gpio0Pin, libMcuHal::pins::driveModes::DRIVE_4MA, libMcuHal::pins::pullModes::NONE,
-                libMcuHal::pins::speedModes::SLEW_MEDIUM, true);
-  pinsHal.setup(gpio1Pin, libMcuHal::pins::driveModes::DRIVE_4MA, libMcuHal::pins::pullModes::NONE,
-                libMcuHal::pins::speedModes::SLEW_MEDIUM, true);
+  pinsHal.setup(gpio0Pin, libmcuhal::pins::driveModes::DRIVE_4MA, libmcuhal::pins::pullModes::NONE,
+                libmcuhal::pins::speedModes::SLEW_MEDIUM, true);
+  pinsHal.setup(gpio1Pin, libmcuhal::pins::driveModes::DRIVE_4MA, libmcuhal::pins::pullModes::NONE,
+                libmcuhal::pins::speedModes::SLEW_MEDIUM, true);
   gpioHal.initialize();
   minUnitPass();
 }
@@ -82,8 +82,8 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck(gpioHal.get(gpio1Pin) == 0);
   minUnitCheck(gpioHal.get(gpio0Pin) == 0);
   gpioHal.input(gpio0Pin);
-  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::NONE);
-  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::PULLUP);
+  gpioHal.pullmode(gpio0Pin, libmcuhal::gpio::pullModes::NONE);
+  gpioHal.pullmode(gpio1Pin, libmcuhal::gpio::pullModes::PULLUP);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'005Au);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -91,7 +91,7 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
   minUnitCheck(gpioHal.get(gpio1Pin) != 0);
   minUnitCheck(gpioHal.get(gpio0Pin) != 0);
-  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::PULLDOWN);
+  gpioHal.pullmode(gpio1Pin, libmcuhal::gpio::pullModes::PULLDOWN);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0056u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -99,8 +99,8 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
   minUnitCheck(gpioHal.get(gpio1Pin) == 0);
   minUnitCheck(gpioHal.get(gpio0Pin) == 0);
-  gpioHal.pullmode(gpio1Pin, libMcuHal::gpio::pullModes::NONE);
-  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::PULLUP);
+  gpioHal.pullmode(gpio1Pin, libmcuhal::gpio::pullModes::NONE);
+  gpioHal.pullmode(gpio0Pin, libmcuhal::gpio::pullModes::PULLUP);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'005Au);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
@@ -108,7 +108,7 @@ MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
   minUnitCheck(gpioHal.get(gpio1Pin) != 0);
   minUnitCheck(gpioHal.get(gpio0Pin) != 0);
-  gpioHal.pullmode(gpio0Pin, libMcuHal::gpio::pullModes::PULLDOWN);
+  gpioHal.pullmode(gpio0Pin, libmcuhal::gpio::pullModes::PULLDOWN);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0056u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);

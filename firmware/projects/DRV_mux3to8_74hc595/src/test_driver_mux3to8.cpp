@@ -12,7 +12,7 @@
 #include <common.hpp>
 
 using namespace libMcuLL;
-using namespace libMcuHal;
+using namespace libmcuhal;
 using namespace libMcuDriver::mux;
 
 /**

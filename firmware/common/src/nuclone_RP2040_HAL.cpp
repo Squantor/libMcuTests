@@ -10,8 +10,8 @@ libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
 libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
 libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
 
-libMcuHal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
-libMcuHal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
+libmcuhal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
+libmcuhal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
 
 extern "C" {
 void SysTick_Handler(void) {
@@ -70,6 +70,6 @@ void boardInit(void) {
   // reset all relevant peripherals
   (void)timeout;
   pinsHal.initialize();
-  pinsHal.setup(ledPin, libMcuHal::pins::driveModes::DRIVE_12MA, libMcuHal::pins::pullModes::NONE,
-                libMcuHal::pins::speedModes::SLEW_SLOW, false);
+  pinsHal.setup(ledPin, libmcuhal::pins::driveModes::DRIVE_12MA, libmcuhal::pins::pullModes::NONE,
+                libmcuhal::pins::speedModes::SLEW_SLOW, false);
 }

@@ -49,7 +49,7 @@ MINUNIT_SETUP(LPC812M101CppSetupacmp) {
 MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   acmpPeripheral.init(inputPositiveSettings::IN2, inputNegativeSettings::REF, edgeDetectSettings::BOTH,
                       outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
-  libMcuLL::delay(settlingDelay);
+  libMcu::delay(settlingDelay);
   // we do not check the comparator mask due to some spurious activations of the edge detector
   std::uint32_t value = dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK);
   minUnitCheck(value == 0x06003250);
@@ -64,12 +64,12 @@ MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
 MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::IN2, edgeDetectSettings::FALLING,
                       outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
-  libMcuLL::delay(settlingDelay);
+  libMcu::delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() != 0);
   minUnitCheck(acmpPeripheral.edgeOutput() == 0);
   // set pwm higher then internal reference voltage (903mv at 25C)
   sctPeripheral.setReload(libMcuLL::sw::sct::matchNumber::MATCH_1, maxPwm / 2);
-  libMcuLL::delay(settlingDelay);
+  libMcu::delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() == 0);
   minUnitCheck(acmpPeripheral.edgeOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
@@ -77,7 +77,7 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   std::uint32_t currentHalfPwm = maxPwm / 2;
   sctPeripheral.setReload(libMcuLL::sw::sct::matchNumber::MATCH_1, currentPwm);
   while (currentHalfPwm != 0) {
-    libMcuLL::delay(settlingDelay);
+    libMcu::delay(settlingDelay);
     if (acmpPeripheral.comparatorOutput() == 0) {
       currentPwm = currentPwm - currentHalfPwm;
     } else {
@@ -96,14 +96,14 @@ MINUNIT_ADD(LPC812M101CppAcmpLadder, LPC812M101CppSetupacmp, LPC812M101Teardown)
   acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::LADDER, edgeDetectSettings::FALLING,
                       outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV, ladderReferenceSetting::VDD);
   acmpPeripheral.setLadder(0);
-  libMcuLL::delay(settlingDelay);
+  libMcu::delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
   std::uint32_t currentLadder = 31;
   std::uint32_t currentHalfLadder = currentLadder / 2;
   acmpPeripheral.setLadder(currentLadder);
   while (currentHalfLadder != 0) {
-    libMcuLL::delay(settlingDelay);
+    libMcu::delay(settlingDelay);
     if (acmpPeripheral.comparatorOutput() == 0) {
       currentLadder = currentLadder - currentHalfLadder;
     } else {

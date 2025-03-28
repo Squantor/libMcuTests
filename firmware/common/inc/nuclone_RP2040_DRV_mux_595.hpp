@@ -46,8 +46,8 @@ extern libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
 extern libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
 extern libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
 
-extern libMcuHal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
-extern libMcuHal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
+extern libmcuhal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
+extern libmcuhal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
 extern libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
 /**
