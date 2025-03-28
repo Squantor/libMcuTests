@@ -12,19 +12,19 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::gpio;
-using namespace libMcuLL::sw::gpio;
+using namespace libmcuhw::gpio;
+using namespace libmcull::sw::gpio;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType gpioAddress = libMcuHw::gpioAddress;
-libMcuLL::hw::gpio::gpio *const dutRegisters{reinterpret_cast<libMcuLL::hw::gpio::gpio *>(gpioAddress)};
+static constexpr libmcu::hwAddressType gpioAddress = libmcuhw::gpioAddress;
+libmcuhw::gpio::gpio *const dutRegisters{reinterpret_cast<libmcuhw::gpio::gpio *>(gpioAddress)};
 
 /**
  * @brief Gpio setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupGpio) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::sw::syscon::peripheralClocks::GPIO);
+  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::GPIO);
 }
 
 // testing all single pin methods
@@ -57,7 +57,7 @@ MINUNIT_ADD(LPC812M101DH20GpioPin, LPC812M101CppSetupGpio, LPC812M101Teardown) {
 MINUNIT_ADD(LPC812M101DH20GpioPort, LPC812M101CppSetupGpio, LPC812M101Teardown) {
   gpioPeripheral.portDirection(test0Pin, test0Pin.gpioPinMask);
   gpioPeripheral.portLow(test0Pin, test0Pin.gpioPinMask);
-  libMcu::delay(10);
+  libmcu::Delay(10);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == 0x00000000);
   gpioPeripheral.portHigh(test0Pin, test0Pin.gpioPinMask);
   minUnitCheck(gpioPeripheral.portGet(test1Pin, test1Pin.gpioPinMask) == test1Pin.gpioPinMask);

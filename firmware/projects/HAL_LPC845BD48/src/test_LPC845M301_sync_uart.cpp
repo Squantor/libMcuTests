@@ -13,19 +13,19 @@
 #include <MinUnit.h>
 #include <LPC845M301_teardown.hpp>
 
-using namespace libMcuHw::usart;
+using namespace libmcuhw::usart;
 using namespace libmcuhal::usart;
 
 static constexpr libmcuhw::HwAddressType usart0_address = libmcuhw::kUsart0Address;
-libMcuHw::usart::usart *const dut_registers{reinterpret_cast<libMcuHw::usart::usart *>(usart0_address)};
+libmcuhw::usart::usart *const dut_registers{reinterpret_cast<libmcuhw::usart::usart *>(usart0_address)};
 
 /**
  * @brief LPC845M301 HAL UART setup
  */
 MINUNIT_SETUP(LPC845M301SetupUart) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::UART0 | libMcuLL::syscon::peripheralClocks0::SWM |
-                                            libMcuLL::syscon::peripheralClocks0::IOCON,
+  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::UART0 | libmcull::syscon::peripheralClocks0::SWM |
+                                            libmcull::syscon::peripheralClocks0::IOCON,
                                           0);
   swmPeriperhal.setup(testPin1, uartMainRxFunction);
   swmPeriperhal.setup(testPin2, uartMainTxFunction);

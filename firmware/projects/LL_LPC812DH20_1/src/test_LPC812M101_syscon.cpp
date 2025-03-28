@@ -12,12 +12,12 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::syscon;
-using namespace libMcuLL::sw::syscon;
+using namespace libmcuhw::syscon;
+using namespace libmcull::sw::syscon;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType sysconAddress = libMcuHw::sysconAddress;
-libMcuLL::hw::syscon::syscon *const dutRegisters{reinterpret_cast<libMcuLL::hw::syscon::syscon *>(sysconAddress)};
+static constexpr libmcu::hwAddressType sysconAddress = libmcuhw::sysconAddress;
+libmcuhw::syscon::syscon *const dutRegisters{reinterpret_cast<libmcuhw::syscon::syscon *>(sysconAddress)};
 
 /**
  * @brief Spi setup and initialisation
@@ -33,7 +33,7 @@ MINUNIT_ADD(LPC812M101CppSysconChipID, LPC812M101CppSetupSyscon, LPC812M101Teard
 MINUNIT_ADD(LPC812M101CppSysconResets, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
   minUnitCheck(dutRegisters->PRESETCTRL == 0x00001FFF);
   // preset the reset register to a value that will be reset by the test
-  uint32_t resetRegister = dutRegisters->PRESETCTRL & libMcuLL::hw::syscon::PRESETCTRL::RESERVED_MASK;
+  uint32_t resetRegister = dutRegisters->PRESETCTRL & libmcuhw::syscon::PRESETCTRL::RESERVED_MASK;
   resetRegister = resetRegister & ~(PRESETCTRL::SPI0_RST_N | PRESETCTRL::I2C_RST_N | PRESETCTRL::ACMP_RST_N);
   minUnitCheck(resetRegister == 0x00000FBE);
   dutRegisters->PRESETCTRL = (dutRegisters->PRESETCTRL & ~PRESETCTRL::RESERVED_MASK) | (PRESETCTRL::RESERVED_MASK & resetRegister);

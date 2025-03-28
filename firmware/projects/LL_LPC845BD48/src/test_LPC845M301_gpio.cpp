@@ -12,19 +12,19 @@
 #include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuHw::gpio;
-using namespace libMcuLL::gpio;
+using namespace libmcuhw::gpio;
+using namespace libmcull::gpio;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType gpioAddress = libMcuHw::gpioAddress;
-libMcuHw::gpio::gpio *const dutRegisters{reinterpret_cast<libMcuHw::gpio::gpio *>(gpioAddress)};
+static constexpr libmcu::hwAddressType gpioAddress = libmcuhw::gpioAddress;
+libmcuhw::gpio::gpio *const dutRegisters{reinterpret_cast<libmcuhw::gpio::gpio *>(gpioAddress)};
 
 /**
  * @brief Gpio setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupGpio) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::GPIO0 | libMcuLL::syscon::peripheralClocks0::GPIO1,
+  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::GPIO0 | libmcull::syscon::peripheralClocks0::GPIO1,
                                           0);
 }
 

@@ -12,12 +12,12 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::sct;
-using namespace libMcuLL::sw::sct;
+using namespace libmcuhw::sct;
+using namespace libmcull::sw::sct;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType sctAddress = libMcuHw::sctAddress;
-libMcuLL::hw::sct::sct *const dutRegisters{reinterpret_cast<libMcuLL::hw::sct::sct *>(sctAddress)};
+static constexpr libmcu::hwAddressType sctAddress = libmcuhw::sctAddress;
+libmcuhw::sct::sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::sct *>(sctAddress)};
 
 /**
  * @brief Spi setup and initialisation
@@ -25,11 +25,11 @@ libMcuLL::hw::sct::sct *const dutRegisters{reinterpret_cast<libMcuLL::hw::sct::s
 MINUNIT_SETUP(LPC812M101CppSetupSct) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
   sysconPeripheral.enablePeripheralClocks(
-    libMcuLL::sw::syscon::peripheralClocks::SCT | libMcuLL::sw::syscon::peripheralClocks::IOCON |
-    libMcuLL::sw::syscon::peripheralClocks::GPIO | libMcuLL::sw::syscon::peripheralClocks::SWM);
+    libmcull::sw::syscon::peripheralClocks::SCT | libmcull::sw::syscon::peripheralClocks::IOCON |
+    libmcull::sw::syscon::peripheralClocks::GPIO | libmcull::sw::syscon::peripheralClocks::SWM);
   swmPeriperhal.setup(pwmOutPin, sctOutput0Function);
   swmPeriperhal.setup(test0Pin, sctInput0Function);
-  ioconPeripheral.setup(pwmInPin, libMcuLL::sw::iocon::pullModes::INACTIVE);
+  ioconPeripheral.setup(pwmInPin, libmcull::sw::iocon::pullModes::INACTIVE);
   gpioPeripheral.low(test1Pin);
   gpioPeripheral.output(test1Pin);
   // BaBi: When using Test0pin as output it does not work, no idea why!

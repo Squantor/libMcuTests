@@ -13,8 +13,8 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType scbAddress = libMcuHw::scbAddress;
-libMcuHw::scb::scb *const scbDutRegisters{reinterpret_cast<libMcuHw::scb::scb *>(scbAddress)};
+static constexpr libmcu::hwAddressType scbAddress = libmcuhw::scbAddress;
+libmcuhw::scb::scb *const scbDutRegisters{reinterpret_cast<libmcuhw::scb::scb *>(scbAddress)};
 
 alignas(256) static std::array<std::uint32_t, 48> vectorTable;
 
@@ -26,7 +26,7 @@ MINUNIT_SETUP(CortexM0plusSetupScb) {
 }
 
 MINUNIT_ADD(CortexM0plusScbVtor, CortexM0plusSetupScb, CortexM0plusTeardown) {
-  minUnitCheck(scbPeripheral.getVtorMask() == libMcuHw::vtor::addressMask);
+  minUnitCheck(scbPeripheral.getVtorMask() == libmcuhw::vtor::addressMask);
   minUnitCheck((reinterpret_cast<std::uint32_t>(vectorTable.data()) & 0xFF) == 0);
   minUnitCheck(scbDutRegisters->VTOR == 0x00000000);
   scbPeripheral.setVtor(vectorTable.data());

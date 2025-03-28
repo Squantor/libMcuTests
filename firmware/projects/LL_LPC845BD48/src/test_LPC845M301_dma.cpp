@@ -14,13 +14,13 @@
 #include <common.hpp>
 #include <string.h>
 
-using namespace libMcuHw::dma;
-using namespace libMcuLL::dma;
-using namespace libMcuLL::usart;
+using namespace libmcuhw::dma;
+using namespace libmcull::dma;
+using namespace libmcull::usart;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType dmaAddress = libMcuHw::dmaAddress; /**< peripheral address */
-libMcuHw::dma::dma *const dutRegisters{reinterpret_cast<libMcuHw::dma::dma *>(dmaAddress)};
+static constexpr libmcu::hwAddressType dmaAddress = libmcuhw::dmaAddress; /**< peripheral address */
+libmcuhw::dma::dma *const dutRegisters{reinterpret_cast<libmcuhw::dma::dma *>(dmaAddress)};
 
 // Buffers
 std::array<std::uint8_t, 128> inputBuffer;
@@ -31,9 +31,9 @@ std::array<std::uint8_t, 128> outputBuffer;
  */
 MINUNIT_SETUP(LPC845M301SetupDma) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.resetPeripherals(libMcuLL::syscon::peripheralResets0::DMA | libMcuLL::syscon::peripheralResets0::UART0, 0);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::DMA | libMcuLL::syscon::peripheralClocks0::UART0 |
-                                            libMcuLL::syscon::peripheralClocks0::SWM | libMcuLL::syscon::peripheralClocks0::IOCON,
+  sysconPeripheral.resetPeripherals(libmcull::syscon::peripheralResets0::DMA | libmcull::syscon::peripheralResets0::UART0, 0);
+  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::DMA | libmcull::syscon::peripheralClocks0::UART0 |
+                                            libmcull::syscon::peripheralClocks0::SWM | libmcull::syscon::peripheralClocks0::IOCON,
                                           0);
 }
 
@@ -102,7 +102,7 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriTransfer, LPC845M301SetupDma, LPC845M301Te
   // setup uart but only TX
   swmPeriperhal.setup(testPin2, uartMainTxFunction);
   usartPeripheral.init<uart0ClockConfig>(115200);
-  sysconPeripheral.peripheralClockSource(libMcuLL::syscon::clockSourceSelects::UART0, libMcuLL::syscon::clockSources::MAIN);
+  sysconPeripheral.peripheralClockSource(libmcull::syscon::clockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   // check if UART is ready
   std::uint32_t status = usartPeripheral.status();
   minUnitCheck((status & uartStatus::TXIDLE) != 0);
@@ -144,7 +144,7 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, 
   swmPeriperhal.setup(testPin1, uartMainRxFunction);
   swmPeriperhal.setup(testPin2, uartMainTxFunction);
   usartPeripheral.init<uart0ClockConfig>(115200);
-  sysconPeripheral.peripheralClockSource(libMcuLL::syscon::clockSourceSelects::UART0, libMcuLL::syscon::clockSources::MAIN);
+  sysconPeripheral.peripheralClockSource(libmcull::syscon::clockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   // check if UART is ready
   std::uint32_t status = usartPeripheral.status();
   minUnitCheck((status & uartStatus::TXIDLE) != 0);

@@ -11,7 +11,7 @@
 #include <MinUnit.h>
 #include <common.hpp>
 
-using namespace libMcuLL;
+using namespace libmcull;
 using namespace libmcuhal;
 
 /**

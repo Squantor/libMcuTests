@@ -13,15 +13,15 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType dutAddress = libMcuHw::ioBank0Address;
-libMcuHw::gpioBank0::gpioBank0 *const dutRegisters{reinterpret_cast<libMcuHw::gpioBank0::gpioBank0 *>(dutAddress)};
+static constexpr libmcu::hwAddressType dutAddress = libmcuhw::ioBank0Address;
+libmcuhw::gpioBank0::gpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::gpioBank0::gpioBank0 *>(dutAddress)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupGpio) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0, 100000);
+  resetsPeripheral.reset(libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0, 100000);
   // connect all GPIO's
   gpioBank0Peripheral.setup(gpio0Pin);
   gpioBank0Peripheral.setup(gpio1Pin);

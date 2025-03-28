@@ -13,10 +13,10 @@
 #include <common.hpp>
 #include <array>
 
-using namespace libMcuLL::sw::spi;
+using namespace libmcull::sw::spi;
 using namespace libmcuhw::spi;
 
-static constexpr libMcu::hwAddressType spi0Address = libMcuHw::spi0Address;
+static constexpr libmcu::hwAddressType spi0Address = libmcuhw::spi0Address;
 libmcuhw::spi::spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::spi *>(spi0Address)};
 
 /**
@@ -24,9 +24,9 @@ libmcuhw::spi::spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::spi *>(sp
  */
 MINUNIT_SETUP(LPC812M101CppSetupSpiSync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::sw::syscon::peripheralClocks::SPI0 |
-                                          libMcuLL::sw::syscon::peripheralClocks::SWM |
-                                          libMcuLL::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::SPI0 |
+                                          libmcull::sw::syscon::peripheralClocks::SWM |
+                                          libmcull::sw::syscon::peripheralClocks::IOCON);
 }
 
 MINUNIT_ADD(LPC812M101CppSpiSyncInits, LPC812M101CppSetupSpiSync, LPC812M101Teardown) {

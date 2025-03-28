@@ -14,12 +14,12 @@
 #include <MinUnit.h>
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType sysconAddress = libMcuHw::sysconAddress;
-static constexpr libMcu::hwAddressType swmAddress = libMcuHw::swmAddress;
-static constexpr libMcu::hwAddressType fmcAddress = libMcuHw::fmcAddress;
-libMcuLL::hw::syscon::syscon *const sysconRegisters{reinterpret_cast<libMcuLL::hw::syscon::syscon *>(sysconAddress)};
-libMcuLL::hw::swm::swm *const swmRegisters{reinterpret_cast<libMcuLL::hw::swm::swm *>(swmAddress)};
-libMcuLL::hw::fmc::fmc *const fmcRegisters{reinterpret_cast<libMcuLL::hw::fmc::fmc *>(fmcAddress)};
+static constexpr libmcu::hwAddressType sysconAddress = libmcuhw::sysconAddress;
+static constexpr libmcu::hwAddressType swmAddress = libmcuhw::swmAddress;
+static constexpr libmcu::hwAddressType fmcAddress = libmcuhw::fmcAddress;
+libmcuhw::syscon::syscon *const sysconRegisters{reinterpret_cast<libmcuhw::syscon::syscon *>(sysconAddress)};
+libmcuhw::swm::swm *const swmRegisters{reinterpret_cast<libmcuhw::swm::swm *>(swmAddress)};
+libmcuhw::fmc::fmc *const fmcRegisters{reinterpret_cast<libmcuhw::fmc::fmc *>(fmcAddress)};
 
 /** @brief resets all the registers to their default states
  *
@@ -44,7 +44,7 @@ MINUNIT_TEARDOWN(LPC812M101Teardown) {
  *
  */
 bool LPC812M101TeardownCorrect(void) {
-  TESTANDRETURN((fmcRegisters->FLASHCFG & libMcuLL::hw::fmc::FLASHCFG::RESERVED_MASK) == 0x00000001);
+  TESTANDRETURN((fmcRegisters->FLASHCFG & libmcuhw::fmc::FLASHCFG::RESERVED_MASK) == 0x00000001);
   TESTANDRETURN(sysconRegisters->PRESETCTRL == 0x00001FFF);
   TESTANDRETURN(sysconRegisters->PDRUNCFG == 0x0000ED50);
   for (int i = 0; i < 9; i++) {

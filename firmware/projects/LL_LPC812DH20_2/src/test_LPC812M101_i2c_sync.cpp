@@ -13,21 +13,21 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::i2c;
-using namespace libMcuLL::sw::i2c;
+using namespace libmcuhw::i2c;
+using namespace libmcull::sw::i2c;
 
-constexpr inline libMcu::i2cDeviceAddress testExpander{0x21};
+constexpr inline libmcu::i2cDeviceAddress testExpander{0x21};
 // peripheral register sets
-static constexpr libMcu::hwAddressType i2cAddress = libMcuHw::i2c0Address;
-libMcuLL::hw::i2c::i2c *const dutRegisters{reinterpret_cast<libMcuLL::hw::i2c::i2c *>(i2cAddress)};
+static constexpr libmcu::hwAddressType i2cAddress = libmcuhw::i2c0Address;
+libmcuhw::i2c::i2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::i2c *>(i2cAddress)};
 
 /**
  * @brief Gpio setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::sw::syscon::peripheralClocks::I2C |
-                                          libMcuLL::sw::syscon::peripheralClocks::SWM);
+  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::I2C |
+                                          libmcull::sw::syscon::peripheralClocks::SWM);
   swmPeriperhal.setup(i2cSclOutPin, i2cMainSclFunction);
   swmPeriperhal.setup(i2cSdaOutPin, i2cMainSdaFunction);
 }

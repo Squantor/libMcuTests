@@ -12,19 +12,19 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuLL::hw::iocon;
-using namespace libMcuLL::sw::iocon;
+using namespace libmcuhw::iocon;
+using namespace libmcull::sw::iocon;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType ioconAddress = libMcuHw::ioconAddress; /**< peripheral address */
-libMcuLL::hw::iocon::iocon *const dutRegisters{reinterpret_cast<libMcuLL::hw::iocon::iocon *>(ioconAddress)};
+static constexpr libmcu::hwAddressType ioconAddress = libmcuhw::ioconAddress; /**< peripheral address */
+libmcuhw::iocon::iocon *const dutRegisters{reinterpret_cast<libmcuhw::iocon::iocon *>(ioconAddress)};
 
 /**
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupIocon) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::IOCON);
 }
 
 /**

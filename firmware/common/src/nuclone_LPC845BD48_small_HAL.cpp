@@ -9,29 +9,29 @@
  */
 #include <nuclone_LPC845BD48_small_HAL.hpp>
 
-namespace clocks = libMcuHw::clock;
+namespace clocks = libmcuhw::clock;
 
-libMcuLL::iocon::iocon<libMcuHw::ioconAddress> ioconPeripheral;
-libMcuLL::swm::swm<libMcuHw::swmAddress> swmPeriperhal;
-libMcuLL::gpio::gpio<libMcuHw::gpioAddress> gpioPeripheral;
-libMcuLL::syscon::syscon<libMcuHw::sysconAddress> sysconPeripheral;
+libmcull::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
+libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
+libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
 libmcull::usart::SyncUart<libmcuhw::kUsart0Address, std::uint8_t> usart_peripheral;
 libmcuhal::usart::SyncUart<usart_peripheral> hal_usart_peripheral;
 
 void boardInit(void) {
   // clock enables and resets
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::SWM | libMcuLL::syscon::peripheralClocks0::IOCON |
-                                            libMcuLL::syscon::peripheralClocks0::GPIO0 | libMcuLL::syscon::peripheralClocks0::GPIO1,
+  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::SWM | libmcull::syscon::peripheralClocks0::IOCON |
+                                            libmcull::syscon::peripheralClocks0::GPIO0 | libmcull::syscon::peripheralClocks0::GPIO1,
                                           0);
   // setup IOCON pins
-  ioconPeripheral.setup(xtalInPin, libMcuLL::iocon::pullModes::INACTIVE);
-  ioconPeripheral.setup(xtalOutPin, libMcuLL::iocon::pullModes::INACTIVE);
+  ioconPeripheral.setup(xtalInPin, libmcull::iocon::pullModes::INACTIVE);
+  ioconPeripheral.setup(xtalOutPin, libmcull::iocon::pullModes::INACTIVE);
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
   // setup clock out test pin
   // swmPeriperhal.setup(testPin, clockOutFunction);
-  // sysconPeripheral.setClockOutput(libMcuLL::syscon::clockOutSources::MAIN, 10u);
+  // sysconPeripheral.setClockOutput(libmcull::syscon::clockOutSources::MAIN, 10u);
   sysconPeripheral.configureMcuClocks<nucloneClockConfig>();
   // switch mainclock
-  // sysconPeripheral.selectMainClock(libMcuLL::syscon::mainClockSources::EXT); // for selecting crystal oscillator
+  // sysconPeripheral.selectMainClock(libmcull::syscon::mainClockSources::EXT); // for selecting crystal oscillator
 }

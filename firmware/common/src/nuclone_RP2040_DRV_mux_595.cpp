@@ -6,12 +6,12 @@
  */
 #include <nuclone_RP2040_DRV_mux_595.hpp>
 
-libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
-libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
-libMcuLL::resets::resets<libMcuHw::resetsAddress> resetsPeripheral;
+libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
+libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
+libmcull::resets::resets<libmcuhw::resetsAddress> resetsPeripheral;
 
-libmcuhal::pins::pins<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address> pinsHal;
-libmcuhal::gpio::gpio<libMcuHw::padsBank0Address, libMcuHw::ioBank0Address, libMcuHw::sioAddress> gpioHal;
+libmcuhal::pins::pins<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address> pinsHal;
+libmcuhal::gpio::gpio<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address, libmcuhw::sioAddress> gpioHal;
 
 libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
@@ -25,7 +25,7 @@ void boardInit(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
   timeout = resetsPeripheral.reset(
-    libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0 | libMcuLL::resets::PLL_SYS | libMcuLL::resets::PLL_USB, 100000);
+    libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0 | libmcull::resets::PLL_SYS | libmcull::resets::PLL_USB, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
   // 47 ticks is around 1 ms @ 12 MHz

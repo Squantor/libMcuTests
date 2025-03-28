@@ -21,57 +21,57 @@ MINUNIT_ADD(testReadModifyWrite8bit, NULL, NULL) {
   // test AND
   testSource = 0xAA;
   testDestination = 0xCC;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x0F), 0,
-                                  libMcu::bitmap::bitblitOperation::OP_AND);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x0F), 0,
+                                  libmcu::bitmap::bitblitOperation::OP_AND);
   minUnitCheck(testDestination == 0xC8);
   // test MOV
   testSource = 0xF;
   testDestination = 0x00;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x3C);
   testSource = 0xF0;
   testDestination = 0x00;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), -2,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), -2,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x3C);
   testSource = 0x0F;
   testDestination = 0x01;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x3D);
   testSource = 0x0F;
   testDestination = 0x91;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0xBD);
   testSource = 0x02;
   testDestination = 0x81;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x03), 0,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x03), 0,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x82);
   // test NOT
   testSource = 0xF;
   testDestination = 0xFF;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
-                                  libMcu::bitmap::bitblitOperation::OP_NOT);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), 2,
+                                  libmcu::bitmap::bitblitOperation::OP_NOT);
   minUnitCheck(testDestination == 0xC3);
   testSource = 0xF0;
   testDestination = 0x0F;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), -2,
-                                  libMcu::bitmap::bitblitOperation::OP_NOT);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0x3C), -2,
+                                  libmcu::bitmap::bitblitOperation::OP_NOT);
   minUnitCheck(testDestination == 0x03);
   // test OR
   testSource = 0xAA;
   testDestination = 0xCC;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0xF0), 4,
-                                  libMcu::bitmap::bitblitOperation::OP_OR);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0xF0), 4,
+                                  libmcu::bitmap::bitblitOperation::OP_OR);
   minUnitCheck(testDestination == 0xEC);
   // test XOR
   testSource = 0xAA;
   testDestination = 0xCC;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0xF0), 4,
-                                  libMcu::bitmap::bitblitOperation::OP_XOR);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint8_t>(0xF0), 4,
+                                  libmcu::bitmap::bitblitOperation::OP_XOR);
   minUnitCheck(testDestination == 0x6C);
 }
 
@@ -81,8 +81,8 @@ MINUNIT_ADD(testReadModifyWrite16bit, NULL, NULL) {
   // test MOV
   testSource = 0xFF;
   testDestination = 0x0000;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint16_t>(0x3C00), 8,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint16_t>(0x3C00), 8,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x3C00);
   minUnitPass();
   // TODO the rest
@@ -94,8 +94,8 @@ MINUNIT_ADD(testReadModifyWrite32bit, NULL, NULL) {
   // test MOV
   testSource = 0xFF;
   testDestination = 0x00000000;
-  libMcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint32_t>(0x0003C000), 12,
-                                  libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::readModifyWrite(testDestination, testSource, static_cast<uint32_t>(0x0003C000), 12,
+                                  libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(testDestination == 0x0003C000);
   // TODO the rest
 }

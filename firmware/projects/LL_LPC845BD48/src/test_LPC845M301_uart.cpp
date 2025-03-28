@@ -12,11 +12,11 @@
 #include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
-using namespace libMcuHw::usart;
-using namespace libMcuLL::usart;
+using namespace libmcuhw::usart;
+using namespace libmcull::usart;
 
-static constexpr libMcu::hwAddressType usart0Address = libMcuHw::usart0Address;
-libMcuHw::usart::usart *const dut_registers{reinterpret_cast<libMcuHw::usart::usart *>(usart0Address)};
+static constexpr libmcu::hwAddressType usart0Address = libmcuhw::usart0Address;
+libmcuhw::usart::usart *const dut_registers{reinterpret_cast<libmcuhw::usart::usart *>(usart0Address)};
 
 /**
  * @brief USART setup and initialisation
@@ -25,8 +25,8 @@ MINUNIT_SETUP(LPC845M301SetupUsart) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
   swmPeriperhal.setup(testPin1, uartMainRxFunction);
   swmPeriperhal.setup(testPin2, uartMainTxFunction);
-  sysconPeripheral.enablePeripheralClocks(libMcuLL::syscon::peripheralClocks0::UART0 | libMcuLL::syscon::peripheralClocks0::SWM |
-                                            libMcuLL::syscon::peripheralClocks0::IOCON,
+  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::UART0 | libmcull::syscon::peripheralClocks0::SWM |
+                                            libmcull::syscon::peripheralClocks0::IOCON,
                                           0);
 }
 
@@ -46,7 +46,7 @@ MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint8_t data;
   int timeout;
   usartPeripheral.init<uart0ClockConfig>(115200);
-  sysconPeripheral.peripheralClockSource(libMcuLL::syscon::clockSourceSelects::UART0, libMcuLL::syscon::clockSources::MAIN);
+  sysconPeripheral.peripheralClockSource(libmcull::syscon::clockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   minUnitCheck((dut_registers->STAT & STAT::RESERVED_MASK) == 0x0000001E);
   minUnitCheck(usartPeripheral.status() & uartStatus::TXRDY);
   usartPeripheral.write(0xA5);

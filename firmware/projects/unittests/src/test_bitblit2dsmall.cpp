@@ -21,7 +21,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination aligned, no destination element crossing
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0xcf, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0xcf);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0xcf);
@@ -34,7 +34,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination aligned, destination element crossing
   memset(dest, 0x5c, sizeof(dest));
   memset(src, 0x29, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 1u, src, 12u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 1u, src, 12u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x5c);
   minUnitCheck(dest[1] == 0x5c);
   minUnitCheck(dest[2] == 0x29);
@@ -47,7 +47,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination not aligned, no destination element crossing
   memset(dest, 0x00, sizeof(dest));
   memset(src, 0xFF, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 8u, 8u, 2u, 2u, src, 4u, 4u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 8u, 8u, 2u, 2u, src, 4u, 4u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x00);
   minUnitCheck(dest[1] == 0x00);
   minUnitCheck(dest[2] == 0x3C);
@@ -60,7 +60,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination not aligned, destination element crossing
   memset(dest, 0x31, sizeof(dest));
   memset(src, 0xC2, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 4u, 2u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 4u, 2u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x31);
   minUnitCheck(dest[1] == 0x31);
   minUnitCheck(dest[2] == 0x31);
@@ -73,7 +73,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination aligned, out of bounds cross
   memset(dest, 0xCC, sizeof(dest));
   memset(src, 0xAA, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 8u, 1u, src, 12u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 8u, 1u, src, 12u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0xCC);
   minUnitCheck(dest[1] == 0xCC);
   minUnitCheck(dest[2] == 0xCC);
@@ -86,7 +86,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination unaligned, out of bounds cross
   memset(dest, 0xAA, sizeof(dest));
   memset(src, 0x54, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 12u, 1u, src, 12u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 12u, 1u, src, 12u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0xAA);
   minUnitCheck(dest[1] == 0xAA);
   minUnitCheck(dest[2] == 0xAA);
@@ -99,7 +99,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // destination unaligned, out of bounds X and Y
   memset(dest, 0x2C, sizeof(dest));
   memset(src, 0xFF, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 12u, 3u, src, 12u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 12u, 3u, src, 12u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x2C);
   minUnitCheck(dest[1] == 0x2C);
   minUnitCheck(dest[2] == 0x2C);
@@ -112,7 +112,7 @@ MINUNIT_ADD(testBitBlit2DSameBits, NULL, NULL) {
   // fully out of bounds
   memset(dest, 0x2C, sizeof(dest));
   memset(src, 0xFF, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 8u, 8u, 12u, 12u, src, 8u, 4u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 8u, 8u, 12u, 12u, src, 8u, 4u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x2C);
   minUnitCheck(dest[1] == 0x2C);
   minUnitCheck(dest[2] == 0x2C);
@@ -129,7 +129,7 @@ MINUNIT_ADD(testBitBlit2DBiggerBits, NULL, NULL) {
   // destination aligned, no destination element crossing
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0xcf, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x22cf);
   minUnitCheck(dest[1] == 0x22cf);
   minUnitCheck(dest[2] == 0x2222);
@@ -138,7 +138,7 @@ MINUNIT_ADD(testBitBlit2DBiggerBits, NULL, NULL) {
   // destination aligned, destination element crossing
   memset(dest, 0x5c, sizeof(dest));
   memset(src, 0x29, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 32u, 2u, 0u, 1u, src, 20u, 1u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 32u, 2u, 0u, 1u, src, 20u, 1u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x5c5c);
   minUnitCheck(dest[1] == 0x5c5c);
   minUnitCheck(dest[2] == 0x2929);
@@ -151,7 +151,7 @@ MINUNIT_ADD(testBitBlit2DSmallerBits, NULL, NULL) {
   // destination aligned, no destination element crossing
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0xcf, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0xcf);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0xcf);
@@ -164,7 +164,7 @@ MINUNIT_ADD(testBitBlit2DSmallerBits, NULL, NULL) {
   // destination aligned, destination element crossing
   memset(dest, 0x5c, sizeof(dest));
   memset(src, 0x29, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 1u, src, 12u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 1u, src, 12u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x5c);
   minUnitCheck(dest[1] == 0x5c);
   minUnitCheck(dest[2] == 0x29);
@@ -181,7 +181,7 @@ MINUNIT_ADD(testBitBlit2DOperations, NULL, NULL) {
   // operation AND
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0x0F, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_AND);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_AND);
   minUnitCheck(dest[0] == 0x02);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0x02);
@@ -193,7 +193,7 @@ MINUNIT_ADD(testBitBlit2DOperations, NULL, NULL) {
   // operation move
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0x0F, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_MOV);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_MOV);
   minUnitCheck(dest[0] == 0x0F);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0x0F);
@@ -205,7 +205,7 @@ MINUNIT_ADD(testBitBlit2DOperations, NULL, NULL) {
   // operation not
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0x0F, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_NOT);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_NOT);
   minUnitCheck(dest[0] == 0xF0);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0xF0);
@@ -217,7 +217,7 @@ MINUNIT_ADD(testBitBlit2DOperations, NULL, NULL) {
   // operation not
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0x0F, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_OR);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_OR);
   minUnitCheck(dest[0] == 0x2F);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0x2F);
@@ -229,7 +229,7 @@ MINUNIT_ADD(testBitBlit2DOperations, NULL, NULL) {
   // operation not
   memset(dest, 0x22, sizeof(dest));
   memset(src, 0x0F, sizeof(src));
-  libMcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libMcu::bitmap::bitblitOperation::OP_XOR);
+  libmcu::bitmap::bitblit2dsmall(dest, 16u, 4u, 0u, 0u, src, 8u, 2u, libmcu::bitmap::bitblitOperation::OP_XOR);
   minUnitCheck(dest[0] == 0x2D);
   minUnitCheck(dest[1] == 0x22);
   minUnitCheck(dest[2] == 0x2D);

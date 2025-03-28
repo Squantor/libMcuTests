@@ -6,9 +6,9 @@
  */
 #include <nuclone_CortexM0plus_tests.hpp>
 
-libMcuLL::systick::systick<libMcuHw::systickAddress> systickPeripheral;
-libMcuLL::nvic::nvic<libMcuHw::nvicAddress, libMcuHw::scbAddress> nvicPeripheral;
-libMcuLL::scb::scb<libMcuHw::scbAddress> scbPeripheral;
+libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
+libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
+libmcull::scb::scb<libmcuhw::scbAddress> scbPeripheral;
 
 void boardInit(void) {
   systickPeripheral.systickPeripheral()->CSR = 0UL;

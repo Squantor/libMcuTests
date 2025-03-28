@@ -12,23 +12,23 @@
 #include <RP2040_LL_teardown.hpp>
 #include <common.hpp>
 
-namespace hardware = libMcuHw::uart;
+namespace hardware = libmcuhw::uart;
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType uart0Address = libMcuHw::uart0Address;
-libMcuHw::uart::uart *const uart0Registers{reinterpret_cast<libMcuHw::uart::uart *>(uart0Address)};
+static constexpr libmcu::hwAddressType uart0Address = libmcuhw::uart0Address;
+libmcuhw::uart::uart *const uart0Registers{reinterpret_cast<libmcuhw::uart::uart *>(uart0Address)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040LLSetupUart) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(libMcuLL::resets::IO_BANK0 | libMcuLL::resets::PADS_BANK0 | libMcuLL::resets::UART0, 100000);
+  resetsPeripheral.reset(libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0 | libmcull::resets::UART0, 100000);
   // connect all GPIO's
   gpioBank0Peripheral.setup(uartRxPin);
-  padsBank0Peripheral.setup(uartRxPin, libMcuLL::pads::driveModes::DRIVE_8MA, true, false, true, true);
+  padsBank0Peripheral.setup(uartRxPin, libmcull::pads::driveModes::DRIVE_8MA, true, false, true, true);
   gpioBank0Peripheral.setup(uartTxPin);
-  padsBank0Peripheral.setup(uartTxPin, libMcuLL::pads::driveModes::DRIVE_8MA, false, false, false, false);
+  padsBank0Peripheral.setup(uartTxPin, libmcull::pads::driveModes::DRIVE_8MA, false, false, false, false);
 }
 
 MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, RP2040Teardown) {
@@ -62,17 +62,17 @@ MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, RP2040Teardown) {
   minUnitCheck(uartPeripheral.setup(9600) == 9600);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
-  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libMcu::results::TIMEOUT);
+  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::TIMEOUT);
   uartPeripheral.write(singleData);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
-  libMcu::delay(1000000);                                                 // wait until data has been received
+  libmcu::Delay(1000000);                                                 // wait until data has been received
   minUnitCheck(!(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG));  // we looped TX and RX so RX FIFO should also not be empty
-  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libMcu::results::NO_ERROR);
+  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::NO_ERROR);
   minUnitCheck(receiveDataSingle[0] == 0x5A);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   uartPeripheral.write(multiData);
-  minUnitCheck(uartPeripheral.read(receiveDataMulti, 10000) == libMcu::results::NO_ERROR);
+  minUnitCheck(uartPeripheral.read(receiveDataMulti, 10000) == libmcu::Results::NO_ERROR);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   minUnitCheck(receiveDataMulti[0] == 0x01);

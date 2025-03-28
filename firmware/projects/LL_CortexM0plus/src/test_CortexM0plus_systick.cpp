@@ -13,8 +13,8 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libMcu::hwAddressType systickAddress = libMcuHw::systickAddress;
-libMcuHw::systick::systick *const systickDutRegisters{reinterpret_cast<libMcuHw::systick::systick *>(systickAddress)};
+static constexpr libmcu::hwAddressType systickAddress = libmcuhw::systickAddress;
+libmcuhw::systick::systick *const systickDutRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
 
 volatile std::uint32_t systickIsrCount;
 
@@ -47,23 +47,23 @@ MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, CortexM0plusTear
   systickPeripheral.init(0x1000);  // short reload value so we can check value
   systickPeripheral.start();
   std::uint32_t firstCount = systickPeripheral.getCount();
-  libMcu::delay(101);
+  libmcu::Delay(101);
   std::uint32_t secondCount = systickPeripheral.getCount();
   minUnitCheck(firstCount != secondCount);
   // we need longer intervals for this test
   systickPeripheral.setReload(0xFFFF);
   systickPeripheral.getZeroPass();
   while (systickPeripheral.getZeroPass() == 0) {
-    libMcuLL::nop();
+    libmcull::nop();
   }
   minUnitCheck(systickPeripheral.getZeroPass() == 0);
-  libMcu::delay(0xFFF);
+  libmcu::Delay(0xFFF);
   minUnitCheck(systickPeripheral.getZeroPass() != 0);
   systickPeripheral.stop();
   // interrupt based tests
   systickPeripheral.setReload(0xFFF);
   systickPeripheral.start(systickIsrLambda);
-  libMcu::delay(0xFFF);
+  libmcu::Delay(0xFFF);
   systickPeripheral.stop();
   minUnitCheck(systickIsrCount != 0);
 }
