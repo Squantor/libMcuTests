@@ -20,7 +20,7 @@ static constexpr std::uint32_t settlingDelay = 8000;  // determined empirically 
 
 // peripheral register sets
 static constexpr libmcu::hwAddressType acmpAddress = libmcuhw::acmpAddress;
-libmcuhw::acmp::acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::acmp *>(acmpAddress)};
+libmcuhw::acmp::Acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::Acmp *>(acmpAddress)};
 
 /**
  * @brief Spi setup and initialisation
@@ -51,13 +51,13 @@ MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
                       outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
   libmcu::Delay(settlingDelay);
   // we do not check the comparator mask due to some spurious activations of the edge detector
-  std::uint32_t value = dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK);
+  std::uint32_t value = dutRegisters->CTRL & (CTRL::kRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK);
   minUnitCheck(value == 0x06003250);
-  minUnitCheck((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000000);
+  minUnitCheck((dutRegisters->LAD & LAD::kRESERVED_MASK) == 0x00000000);
   acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::IN2, edgeDetectSettings::FALLING,
                       outputControlSettings::DIRECT, hysteresisSettings::HYS_10MV, ladderReferenceSetting::VDD);
-  minUnitCheck((dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK)) == 0x04201600);
-  minUnitCheck((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000001);
+  minUnitCheck((dutRegisters->CTRL & (CTRL::kRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK)) == 0x04201600);
+  minUnitCheck((dutRegisters->LAD & LAD::kRESERVED_MASK) == 0x00000001);
 }
 
 // test comparator functionality with internal reference only
