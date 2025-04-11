@@ -9,9 +9,9 @@
 libmcull::sw::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
 libmcull::sw::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
 libmcull::sw::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
-libmcull::sw::spi::spiSync<libmcuhw::spi0Address, libmcull::sw::spi::chipEnables, std::uint16_t> spiSyncPeripheral;
-libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::chipEnables, std::uint16_t> spiAsyncPeripheral16;
-libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::chipEnables, std::uint8_t> spiAsyncPeripheral8;
+libmcull::sw::spi::spiSync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
+libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
+libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
 libmcull::sw::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
 libmcull::sw::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
 libmcull::sw::usart::usartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;

@@ -18,7 +18,7 @@ using namespace libmcuhw::spi;
 
 static constexpr int maxIterations = 1000;
 static constexpr libmcu::hwAddressType spi0Address = libmcuhw::spi0Address;
-libmcuhw::spi::spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::spi *>(spi0Address)};
+libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(spi0Address)};
 
 /**
  * @brief Spi setup and initialisation
@@ -38,12 +38,12 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncInits, LPC812M101CppSetupSpiAsync, LPC812M101Te
   uint32_t actualClock;
   actualClock = spiAsyncPeripheral16.initMaster(100000);
   minUnitCheck(actualClock == 100000);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == 0x00000005);
+  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) == 0x00000005);
   minUnitCheck(dutRegisters->DIV == 299);
   dutRegisters->CFG = 0x00000000;
-  actualClock = spiAsyncPeripheral16.initMaster(65399, waveforms::CPHA1_CPOL1_LSB, slavePolaritySelects::SPOL_HIGH);
+  actualClock = spiAsyncPeripheral16.initMaster(65399, Waveforms::kCpha1Cpol1Lsb, SlavePolaritySelects::kHigh);
   minUnitCheck(actualClock == 65502);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == 0x0000013D);
+  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) == 0x0000013D);
   minUnitCheck(dutRegisters->DIV == 457);
 }
 
@@ -63,9 +63,9 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812
   testDataReceive.fill(0x0000u);
   spiAsyncPeripheral16.initMaster(1000000);
   minUnitCheck(spiAsyncPeripheral16.claim() == libmcu::Results::CLAIMED);
-  minUnitCheck(spiAsyncPeripheral16.startReadWrite(chipEnables::SSEL, testDataSend, testDataReceive, 8, true) ==
+  minUnitCheck(spiAsyncPeripheral16.startReadWrite(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::STARTED);
-  minUnitCheck(spiAsyncPeripheral16.startReadWrite(chipEnables::SSEL, testDataSend, testDataReceive, 8, true) ==
+  minUnitCheck(spiAsyncPeripheral16.startReadWrite(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::ERROR);
   minUnitCheck(spiAsyncPeripheral16.progress() == libmcu::Results::BUSY);
 
@@ -80,7 +80,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812
   minUnitCheck((testDataSend[0] & 0xFF) == testDataReceive[0]);
   // TODO check register statuses?
   testDataReceive.fill(0x0000u);
-  minUnitCheck(spiAsyncPeripheral16.startReadWrite(chipEnables::SSEL_NONE, testDataSend, testDataReceive, 24, true) ==
+  minUnitCheck(spiAsyncPeripheral16.startReadWrite(ChipEnables::kNone, testDataSend, testDataReceive, 24, true) ==
                libmcu::Results::STARTED);
   iterationCount = 0;
   do {
@@ -104,9 +104,9 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M
   testDataReceive.fill(0x00);
   spiAsyncPeripheral8.initMaster(1000000);
   minUnitCheck(spiAsyncPeripheral8.claim() == libmcu::Results::CLAIMED);
-  minUnitCheck(spiAsyncPeripheral8.startReadWrite(chipEnables::SSEL, testDataSend, testDataReceive, 8, true) ==
+  minUnitCheck(spiAsyncPeripheral8.startReadWrite(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::STARTED);
-  minUnitCheck(spiAsyncPeripheral8.startReadWrite(chipEnables::SSEL, testDataSend, testDataReceive, 8, true) ==
+  minUnitCheck(spiAsyncPeripheral8.startReadWrite(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::ERROR);
   minUnitCheck(spiAsyncPeripheral8.progress() == libmcu::Results::BUSY);
 
@@ -121,7 +121,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M
   minUnitCheck((testDataSend[0]) == testDataReceive[0]);
   // TODO check register statuses?
   testDataReceive.fill(0x00);
-  minUnitCheck(spiAsyncPeripheral8.startReadWrite(chipEnables::SSEL_NONE, testDataSend, testDataReceive, 28, true) ==
+  minUnitCheck(spiAsyncPeripheral8.startReadWrite(ChipEnables::kNone, testDataSend, testDataReceive, 28, true) ==
                libmcu::Results::STARTED);
   iterationCount = 0;
   do {

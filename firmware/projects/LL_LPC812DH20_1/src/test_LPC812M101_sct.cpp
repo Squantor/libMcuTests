@@ -17,7 +17,7 @@ using namespace libmcull::sw::sct;
 
 // peripheral register sets
 static constexpr libmcu::hwAddressType sctAddress = libmcuhw::sctAddress;
-libmcuhw::sct::sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::sct *>(sctAddress)};
+libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sctAddress)};
 
 /**
  * @brief Spi setup and initialisation

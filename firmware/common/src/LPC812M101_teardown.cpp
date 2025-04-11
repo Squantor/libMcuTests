@@ -19,7 +19,7 @@ static constexpr libmcu::hwAddressType swmAddress = libmcuhw::swmAddress;
 static constexpr libmcu::hwAddressType fmcAddress = libmcuhw::fmcAddress;
 libmcuhw::syscon::syscon *const sysconRegisters{reinterpret_cast<libmcuhw::syscon::syscon *>(sysconAddress)};
 libmcuhw::swm::swm *const swmRegisters{reinterpret_cast<libmcuhw::swm::swm *>(swmAddress)};
-libmcuhw::fmc::fmc *const fmcRegisters{reinterpret_cast<libmcuhw::fmc::fmc *>(fmcAddress)};
+libmcuhw::fmc::Fmc *const fmcRegisters{reinterpret_cast<libmcuhw::fmc::Fmc *>(fmcAddress)};
 
 /** @brief resets all the registers to their default states
  *
@@ -44,7 +44,7 @@ MINUNIT_TEARDOWN(LPC812M101Teardown) {
  *
  */
 bool LPC812M101TeardownCorrect(void) {
-  TESTANDRETURN((fmcRegisters->FLASHCFG & libmcuhw::fmc::FLASHCFG::RESERVED_MASK) == 0x00000001);
+  TESTANDRETURN((fmcRegisters->FLASHCFG & libmcuhw::fmc::FLASHCFG::kRESERVED_MASK) == 0x00000001);
   TESTANDRETURN(sysconRegisters->PRESETCTRL == 0x00001FFF);
   TESTANDRETURN(sysconRegisters->PDRUNCFG == 0x0000ED50);
   for (int i = 0; i < 9; i++) {

@@ -17,7 +17,7 @@ using namespace libmcull::sw::gpio;
 
 // peripheral register sets
 static constexpr libmcu::hwAddressType gpioAddress = libmcuhw::gpioAddress;
-libmcuhw::gpio::gpio *const dutRegisters{reinterpret_cast<libmcuhw::gpio::gpio *>(gpioAddress)};
+libmcuhw::gpio::Gpio *const dutRegisters{reinterpret_cast<libmcuhw::gpio::Gpio *>(gpioAddress)};
 
 /**
  * @brief Gpio setup and initialisation

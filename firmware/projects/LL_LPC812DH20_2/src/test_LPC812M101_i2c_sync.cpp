@@ -19,7 +19,7 @@ using namespace libmcull::sw::i2c;
 constexpr inline libmcu::i2cDeviceAddress testExpander{0x21};
 // peripheral register sets
 static constexpr libmcu::hwAddressType i2cAddress = libmcuhw::i2c0Address;
-libmcuhw::i2c::i2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::i2c *>(i2cAddress)};
+libmcuhw::i2c::I2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::I2c *>(i2cAddress)};
 
 /**
  * @brief Gpio setup and initialisation
@@ -36,7 +36,7 @@ MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
 MINUNIT_ADD(LPC812M101DH20I2cSyncInits, LPC812M101CppSetupI2cSync, LPC812M101Teardown) {
   uint32_t actualRate = i2cPeripheral.initMaster(133630, 100);
   minUnitCheck(actualRate == 136363);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == CFG::MSTEN);
+  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) == CFG::kMSTEN);
   minUnitCheck((dutRegisters->TIMEOUT == 1615));
 }
 
