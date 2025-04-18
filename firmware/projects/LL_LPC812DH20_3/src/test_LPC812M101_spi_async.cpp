@@ -38,12 +38,12 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncInits, LPC812M101CppSetupSpiAsync, LPC812M101Te
   uint32_t actualClock;
   actualClock = spiAsyncPeripheral16.initMaster(100000);
   minUnitCheck(actualClock == 100000);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) == 0x00000005);
+  minUnitCheck((dutRegisters->CFG & CFG::kkRESERVED_MASK) == 0x00000005);
   minUnitCheck(dutRegisters->DIV == 299);
   dutRegisters->CFG = 0x00000000;
   actualClock = spiAsyncPeripheral16.initMaster(65399, Waveforms::kCpha1Cpol1Lsb, SlavePolaritySelects::kHigh);
   minUnitCheck(actualClock == 65502);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) == 0x0000013D);
+  minUnitCheck((dutRegisters->CFG & CFG::kkRESERVED_MASK) == 0x0000013D);
   minUnitCheck(dutRegisters->DIV == 457);
 }
 

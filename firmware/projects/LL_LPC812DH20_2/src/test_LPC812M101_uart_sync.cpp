@@ -34,13 +34,13 @@ MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101T
   uint32_t realBaudRate;
   realBaudRate = usartAsyncPeripheral.init(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
-               (CFG::ENABLE | uartLength::SIZE_8 | uartParity::NONE | uartStop::STOP_1));
+  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | uartLength::SIZE_8 | uartParity::NONE | uartStop::STOP_1));
   dutRegisters->CFG = 0x00000000;
   realBaudRate = usartAsyncPeripheral.init(9600, uartLength::SIZE_7, uartParity::EVEN, uartStop::STOP_2);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
-               (CFG::ENABLE | uartLength::SIZE_7 | uartParity::EVEN | uartStop::STOP_2));
+  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | uartLength::SIZE_7 | uartParity::EVEN | uartStop::STOP_2));
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncClaiming, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {

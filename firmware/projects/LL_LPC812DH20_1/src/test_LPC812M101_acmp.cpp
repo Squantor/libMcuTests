@@ -34,7 +34,7 @@ MINUNIT_SETUP(LPC812M101CppSetupacmp) {
     libmcull::sw::syscon::peripheralClocks::ACMP);
   // switch matrix
   swmPeriperhal.setup(pwmOutPin, sctOutput0Function);
-  swmPeriperhal.enableFixedPins(libmcull::sw::swm::ACMP_I2);  // enable fixed function on PIO0_1
+  swmPeriperhal.enableFixedPins(libmcull::sw::swm::kAcmpIn2);  // enable fixed function on PIO0_1
   ioconPeripheral.setup(pwmInPin, libmcull::sw::iocon::pullModes::INACTIVE);
   gpioPeripheral.low(test1Pin);
   gpioPeripheral.output(test1Pin);
@@ -51,13 +51,13 @@ MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
                       outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
   libmcu::Delay(settlingDelay);
   // we do not check the comparator mask due to some spurious activations of the edge detector
-  std::uint32_t value = dutRegisters->CTRL & (CTRL::kRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK);
+  std::uint32_t value = dutRegisters->CTRL & (CTRL::kkRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK);
   minUnitCheck(value == 0x06003250);
-  minUnitCheck((dutRegisters->LAD & LAD::kRESERVED_MASK) == 0x00000000);
+  minUnitCheck((dutRegisters->LAD & LAD::kkRESERVED_MASK) == 0x00000000);
   acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::IN2, edgeDetectSettings::FALLING,
                       outputControlSettings::DIRECT, hysteresisSettings::HYS_10MV, ladderReferenceSetting::VDD);
-  minUnitCheck((dutRegisters->CTRL & (CTRL::kRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK)) == 0x04201600);
-  minUnitCheck((dutRegisters->LAD & LAD::kRESERVED_MASK) == 0x00000001);
+  minUnitCheck((dutRegisters->CTRL & (CTRL::kkRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK)) == 0x04201600);
+  minUnitCheck((dutRegisters->LAD & LAD::kkRESERVED_MASK) == 0x00000001);
 }
 
 // test comparator functionality with internal reference only

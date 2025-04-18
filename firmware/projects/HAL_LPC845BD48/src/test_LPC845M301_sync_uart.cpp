@@ -38,9 +38,9 @@ MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   realBaudRate = hal_usart_peripheral.Init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = hal_usart_peripheral.Init<uart0ClockConfig>(9600, UartParities::kEven, UartStops::kStop2, UartLengths::kSize7);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
 }

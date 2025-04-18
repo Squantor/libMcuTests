@@ -35,12 +35,12 @@ MINUNIT_ADD(RP2040pads, RP2040SetupPads, RP2040Teardown) {
   minUnitCheck(dutRegisters->GPIO[1] == 0x00'00'00'58u);
   libmcu::Delay(100);  // wait time until everything propagates
   // check INFROMPAD flag in GPIO status
-  minUnitCheck((gpioRegisters->GPIO[0].STATUS & libmcuhw::gpioBank0::STATUS::RESERVED_MASK) == 0x05'0A'00'00u);
-  minUnitCheck((gpioRegisters->GPIO[1].STATUS & libmcuhw::gpioBank0::STATUS::RESERVED_MASK) == 0x05'0A'00'00u);
+  minUnitCheck((gpioRegisters->GPIO[0].STATUS & libmcuhw::gpioBank0::STATUS::kRESERVED_MASK) == 0x05'0A'00'00u);
+  minUnitCheck((gpioRegisters->GPIO[1].STATUS & libmcuhw::gpioBank0::STATUS::kRESERVED_MASK) == 0x05'0A'00'00u);
   padsBank0Peripheral.setup(gpio0Pin, libmcull::pads::driveModes::DRIVE_4MA, false, true, false, false);
   padsBank0Peripheral.setup(gpio1Pin, libmcull::pads::driveModes::DRIVE_4MA, false, false, false, false);
   minUnitCheck(dutRegisters->GPIO[1] == 0x00'00'00'50u);
   libmcu::Delay(100);
-  minUnitCheck((gpioRegisters->GPIO[0].STATUS & libmcuhw::gpioBank0::STATUS::RESERVED_MASK) == 0x00'00'00'00u);
-  minUnitCheck((gpioRegisters->GPIO[1].STATUS & libmcuhw::gpioBank0::STATUS::RESERVED_MASK) == 0x00'00'00'00u);
+  minUnitCheck((gpioRegisters->GPIO[0].STATUS & libmcuhw::gpioBank0::STATUS::kRESERVED_MASK) == 0x00'00'00'00u);
+  minUnitCheck((gpioRegisters->GPIO[1].STATUS & libmcuhw::gpioBank0::STATUS::kRESERVED_MASK) == 0x00'00'00'00u);
 }

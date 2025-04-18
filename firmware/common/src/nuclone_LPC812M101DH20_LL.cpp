@@ -31,7 +31,7 @@ void boardInit(void) {
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
   // setup system clocks
-  sysconPeripheral.setSysOscControl(libmcuhw::syscon::SYSOSCCTRL::NO_BYPASS | libmcuhw::syscon::SYSOSCCTRL::FREQ_1_20MHz);
+  sysconPeripheral.setSysOscControl(libmcuhw::syscon::SYSOSCCTRL::kNO_BYPASS | libmcuhw::syscon::SYSOSCCTRL::kFREQ_1_20MHz);
   sysconPeripheral.powerPeripherals(libmcull::sw::syscon::peripheralPowers::SYSOSC);
   libmcu::Delay(6000);
   sysconPeripheral.selectPllClock(libmcull::sw::syscon::pllClockSources::SYSOSC);
