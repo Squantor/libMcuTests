@@ -11,7 +11,7 @@
 
 namespace clocks = libmcuhw::clock;
 
-libmcull::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+libmcull::iocon::Iocon<libmcuhw::ioconAddress> iocon_peripheral;
 libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
 libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
 libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
@@ -25,8 +25,8 @@ void boardInit(void) {
                                             libmcull::syscon::peripheralClocks0::GPIO0 | libmcull::syscon::peripheralClocks0::GPIO1,
                                           0);
   // setup IOCON pins
-  ioconPeripheral.setup(xtalInPin, libmcull::iocon::pullModes::INACTIVE);
-  ioconPeripheral.setup(xtalOutPin, libmcull::iocon::pullModes::INACTIVE);
+  iocon_peripheral.setup(xtalInPin, libmcull::iocon::pullModes::INACTIVE);
+  iocon_peripheral.setup(xtalOutPin, libmcull::iocon::pullModes::INACTIVE);
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
   // setup clock out test pin

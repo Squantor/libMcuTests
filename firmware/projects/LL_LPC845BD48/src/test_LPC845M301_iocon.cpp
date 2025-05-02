@@ -16,8 +16,8 @@ using namespace libmcuhw::iocon;
 using namespace libmcull::iocon;
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType ioconAddress = libmcuhw::ioconAddress; /**< peripheral address */
-libmcuhw::iocon::iocon *const dutRegisters{reinterpret_cast<libmcuhw::iocon::iocon *>(ioconAddress)};
+static constexpr libmcu::hwAddressType iocon_address = libmcuhw::ioconAddress; /**< peripheral address */
+libmcuhw::iocon::Iocon *const iocon_registers{reinterpret_cast<libmcuhw::iocon::Iocon *>(iocon_address)};
 
 /**
  * @brief Iocon setup and initialisation
@@ -36,14 +36,14 @@ MINUNIT_SETUP(LPC845M301SetupIocon) {
 MINUNIT_ADD(LPC845M301DH20IoconPull, LPC845M301SetupIocon, LPC845M301Teardown) {
   gpioPeripheral.input(testPin2);
   gpioPeripheral.input(testPin1);
-  ioconPeripheral.setup(testPin1, pullModes::PULLUP);
-  ioconPeripheral.setup(testPin2, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin1, pullModes::PULLUP);
+  iocon_peripheral.setup(testPin2, pullModes::INACTIVE);
   libmcu::Delay(100);
   minUnitCheck(gpioPeripheral.get(testPin2) != 0);
-  ioconPeripheral.setup(testPin1, pullModes::PULLDOWN);
+  iocon_peripheral.setup(testPin1, pullModes::PULLDOWN);
   libmcu::Delay(100);
   minUnitCheck(gpioPeripheral.get(testPin2) == 0);
-  ioconPeripheral.setup(testPin1, pullModes::PULLUP);
+  iocon_peripheral.setup(testPin1, pullModes::PULLUP);
   libmcu::Delay(100);
   minUnitCheck(gpioPeripheral.get(testPin2) != 0);
 }
@@ -55,20 +55,20 @@ MINUNIT_ADD(LPC845M301DH20IoconRepeater, LPC845M301SetupIocon, LPC845M301Teardow
   gpioPeripheral.input(testPin2);
   gpioPeripheral.input(testPin1);
   // check pulled up buskeeper
-  ioconPeripheral.setup(testPin1, pullModes::INACTIVE);
-  ioconPeripheral.setup(testPin2, pullModes::INACTIVE);
-  ioconPeripheral.setup(testPin1, pullModes::PULLUP);
-  ioconPeripheral.setup(testPin2, pullModes::REPEATER);
+  iocon_peripheral.setup(testPin1, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin2, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin1, pullModes::PULLUP);
+  iocon_peripheral.setup(testPin2, pullModes::REPEATER);
   libmcu::Delay(100);
-  ioconPeripheral.setup(testPin1, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin1, pullModes::INACTIVE);
   minUnitCheck(gpioPeripheral.get(testPin1) != 0);
   // check pulled down buskeeper and also flipping the pins
-  ioconPeripheral.setup(testPin2, pullModes::INACTIVE);
-  ioconPeripheral.setup(testPin1, pullModes::INACTIVE);
-  ioconPeripheral.setup(testPin2, pullModes::PULLDOWN);
-  ioconPeripheral.setup(testPin1, pullModes::REPEATER);
+  iocon_peripheral.setup(testPin2, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin1, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin2, pullModes::PULLDOWN);
+  iocon_peripheral.setup(testPin1, pullModes::REPEATER);
   libmcu::Delay(100);
-  ioconPeripheral.setup(testPin2, pullModes::INACTIVE);
+  iocon_peripheral.setup(testPin2, pullModes::INACTIVE);
   minUnitCheck(gpioPeripheral.get(testPin2) == 0);
 }
 
@@ -78,15 +78,15 @@ MINUNIT_ADD(LPC845M301DH20IoconRepeater, LPC845M301SetupIocon, LPC845M301Teardow
 MINUNIT_ADD(LPC845M301DH20IoconOpenDrain, LPC845M301SetupIocon, LPC845M301Teardown) {
   gpioPeripheral.input(testPin2);
   gpioPeripheral.input(testPin1);
-  ioconPeripheral.setup(testPin1, pullModes::INACTIVE, PIO::OD);
-  ioconPeripheral.setup(testPin2, pullModes::PULLUP);
+  iocon_peripheral.setup(testPin1, pullModes::INACTIVE, PIO::kOD);
+  iocon_peripheral.setup(testPin2, pullModes::PULLUP);
   gpioPeripheral.output(testPin1);
   gpioPeripheral.low(testPin1);
   minUnitCheck(gpioPeripheral.get(testPin2) == 0);
   gpioPeripheral.high(testPin1);
   libmcu::Delay(100);
   minUnitCheck(gpioPeripheral.get(testPin2) != 0);
-  ioconPeripheral.setup(testPin2, pullModes::PULLDOWN);
+  iocon_peripheral.setup(testPin2, pullModes::PULLDOWN);
   libmcu::Delay(100);
   minUnitCheck(gpioPeripheral.get(testPin2) == 0);
 }

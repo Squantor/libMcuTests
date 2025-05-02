@@ -19,8 +19,8 @@ using namespace libmcull::dma;
 using namespace libmcull::usart;
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType dmaAddress = libmcuhw::dmaAddress; /**< peripheral address */
-libmcuhw::dma::dma *const dutRegisters{reinterpret_cast<libmcuhw::dma::dma *>(dmaAddress)};
+static constexpr libmcu::hwAddressType dma_address = libmcuhw::dmaAddress; /**< peripheral address */
+libmcuhw::dma::Dma *const dma_registers{reinterpret_cast<libmcuhw::dma::Dma *>(dma_address)};
 
 // Buffers
 std::array<std::uint8_t, 128> inputBuffer;
@@ -42,7 +42,7 @@ MINUNIT_SETUP(LPC845M301SetupDma) {
  */
 MINUNIT_ADD(LPC845M301DH20DmaInit, LPC845M301SetupDma, LPC845M301Teardown) {
   dmaPeripheral.Init();
-  uint32_t PeripheralAddress = dutRegisters->SRAMBASE;
+  uint32_t PeripheralAddress = dma_registers->SRAMBASE;
   uint32_t classAddress = reinterpret_cast<uint32_t>(dmaPeripheral.GetDescriptorTable().data());
   minUnitCheck((classAddress & 0x1FF) == 0);  // 512 byte aligned check
   minUnitCheck(PeripheralAddress == classAddress);
@@ -128,7 +128,7 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriTransfer, LPC845M301SetupDma, LPC845M301Te
   minUnitCheck(wait_count < 2000);
   minUnitCheck(dmaPeripheral.IsChannelActive(HardwareDescriptors::kUSART0_TX_DMA) == false);
   // DMA seems to wrap around to 1024 when completing its transfer
-  minUnitCheck(XFERCFG::GetXFERCOUNT(dutRegisters->CHANNEL[1].XFERCFG) == 1024);
+  minUnitCheck(XFERCFG::GetXFERCOUNT(dma_registers->CHANNEL[1].XFERCFG) == 1024);
 }
 
 MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, LPC845M301Teardown) {
@@ -182,8 +182,8 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, 
   minUnitCheck(dmaPeripheral.IsChannelActive(HardwareDescriptors::kUSART0_TX_DMA) == false);
   minUnitCheck(dmaPeripheral.IsChannelActive(HardwareDescriptors::kUSART0_RX_DMA) == false);
   // DMA seems to wrap around to 1024 when completing its transfer
-  minUnitCheck(XFERCFG::GetXFERCOUNT(dutRegisters->CHANNEL[0].XFERCFG) == 1024);
-  minUnitCheck(XFERCFG::GetXFERCOUNT(dutRegisters->CHANNEL[1].XFERCFG) == 1024);
+  minUnitCheck(XFERCFG::GetXFERCOUNT(dma_registers->CHANNEL[0].XFERCFG) == 1024);
+  minUnitCheck(XFERCFG::GetXFERCOUNT(dma_registers->CHANNEL[1].XFERCFG) == 1024);
   minUnitCheck(std::equal(inputBuffer.begin(), inputBuffer.end(), outputBuffer.begin()) == true);
 }
 // todo test pingpong mode with interrupts

@@ -86,7 +86,7 @@ constexpr mainUartTxFunctionType uartMainTxFunction;
 constexpr mainUartRxFunctionType uartMainRxFunction;
 
 // peripheral externs
-extern libmcull::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+extern libmcull::iocon::Iocon<libmcuhw::ioconAddress> iocon_peripheral;
 extern libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
 extern libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
 extern libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;

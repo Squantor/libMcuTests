@@ -16,7 +16,7 @@ using namespace libmcull::sw::usart;
 using namespace libmcuhw::usart;
 
 static constexpr libmcu::hwAddressType usart0Address = libmcuhw::usart0Address;
-libmcuhw::usart::usart *const dutRegisters{reinterpret_cast<libmcuhw::usart::usart *>(usart0Address)};
+libmcuhw::usart::Usart *const dutRegisters{reinterpret_cast<libmcuhw::usart::Usart *>(usart0Address)};
 
 /**
  * @brief USART setup and initialisation
