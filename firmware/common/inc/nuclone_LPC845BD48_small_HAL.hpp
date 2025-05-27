@@ -46,13 +46,13 @@ using i2cSdaPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::
 using i2cSclPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN10>;
 
 // function types
-using xtalInFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::XTALIN>;
-using xtalOutFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::XTALOUT>;
-using clockOutFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::CLKOUT_O>;
-using mainI2cSdaFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::I2C0_SDA_IO>;
-using mainI2cSclFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::I2C0_SCL_IO>;
-using mainUartTxFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::U0_TXD_O>;
-using mainUartRxFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::U0_RXD_I>;
+using xtalInFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kXtalIn>;
+using xtalOutFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kXtalOut>;
+using clockOutFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kClkOut>;
+using mainI2cSdaFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2c0SdaInOut>;
+using mainI2cSclFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2c0SclInOut>;
+using mainUartTxFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kUart0TxOut>;
+using mainUartRxFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kUart0RxIn>;
 
 // pin instances
 constexpr xtalInPinType xtalInPin;
@@ -87,7 +87,7 @@ constexpr mainUartTxFunctionType uartMainTxFunction;
 constexpr mainUartRxFunctionType uartMainRxFunction;
 
 // peripheral externs
-extern libmcull::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+extern libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
 extern libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
 extern libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
 extern libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;

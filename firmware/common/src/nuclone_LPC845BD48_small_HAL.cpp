@@ -11,7 +11,7 @@
 
 namespace clocks = libmcuhw::clock;
 
-libmcull::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
 libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
 libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
 libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;

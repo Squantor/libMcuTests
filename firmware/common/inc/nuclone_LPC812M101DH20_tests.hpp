@@ -42,24 +42,24 @@ using i2cSclOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpin
 using i2cSdaOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN11>;
 
 // Peripheral functions
-using mainI2cSdaFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kI2cSdaInOut>;
-using mainI2cSclFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kI2cSclInOut>;
-using xtalInFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kXtalIn>;
-using xtalOutFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kXtalOut>;
-using mainSpiSckFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSpi0SckInOut>;
-using mainSpiSselFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSpi0SselInOut>;
-using mainSpiMosiFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSpi0MosiInOut>;
-using mainSpiMisoFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSpi0MisoInOut>;
-using mainUartTxFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kUart0TxOut>;
-using mainUartRxFunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kUart0RxIn>;
-using sctOutput0FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0Out0Out>;
-using sctOutput1FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0Out1Out>;
-using sctOutput2FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0Out2Out>;
-using sctOutput3FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0Out3Out>;
-using sctInput0FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0In0In>;
-using sctInput1FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0In1In>;
-using sctInput2FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0In2In>;
-using sctInput3FunctionType = libmcuhw::swm::pinFunction<libmcuhw::swm::pinFunctions::kSct0In3In>;
+using mainI2cSdaFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2cSdaInOut>;
+using mainI2cSclFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2cSclInOut>;
+using xtalInFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kXtalIn>;
+using xtalOutFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kXtalOut>;
+using mainSpiSckFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSpi0SckInOut>;
+using mainSpiSselFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSpi0SselInOut>;
+using mainSpiMosiFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSpi0MosiInOut>;
+using mainSpiMisoFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSpi0MisoInOut>;
+using mainUartTxFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kUart0TxOut>;
+using mainUartRxFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kUart0RxIn>;
+using sctOutput0FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0Out0Out>;
+using sctOutput1FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0Out1Out>;
+using sctOutput2FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0Out2Out>;
+using sctOutput3FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0Out3Out>;
+using sctInput0FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0In0In>;
+using sctInput1FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0In1In>;
+using sctInput2FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0In2In>;
+using sctInput3FunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kSct0In3In>;
 
 constexpr xtalInPinType xtalInPin;
 constexpr xtalOutPinType xtalOutPin;
