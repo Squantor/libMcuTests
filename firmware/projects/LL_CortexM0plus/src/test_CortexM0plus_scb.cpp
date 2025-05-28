@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType scbAddress = libmcuhw::scbAddress;
+static constexpr libmcu::HwAddressType scbAddress = libmcuhw::scbAddress;
 libmcuhw::scb::Scb *const scbDutRegisters{reinterpret_cast<libmcuhw::scb::Scb *>(scbAddress)};
 
 alignas(256) static std::array<std::uint32_t, 48> vectorTable;

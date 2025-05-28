@@ -16,7 +16,7 @@ constexpr inline libmcu::i2cDeviceAddress expanderAddress{0x21}; /**< PCF8574 I2
 constexpr inline libmcu::i2cDeviceAddress dummyAddress{0x53};    /**< I2C address that has no device*/
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType i2c0Address = libmcuhw::i2c0Address;
+static constexpr libmcu::HwAddressType i2c0Address = libmcuhw::i2c0Address;
 libmcuhw::i2c::i2c *const i2c0Registers{reinterpret_cast<libmcuhw::i2c::i2c *>(i2c0Address)};
 
 /**

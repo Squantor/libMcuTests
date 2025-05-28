@@ -14,9 +14,9 @@
 #include <MinUnit.h>
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType systickAddress = libmcuhw::systickAddress;
+static constexpr libmcu::HwAddressType systickAddress = libmcuhw::systickAddress;
 libmcuhw::systick::systick *const systickRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
-static constexpr libmcu::hwAddressType nvicAddress = libmcuhw::nvicAddress;
+static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::nvicAddress;
 libmcuhw::nvic::nvic *const nvicRegisters{reinterpret_cast<libmcuhw::nvic::nvic *>(nvicAddress)};
 
 MINUNIT_TEARDOWN(CortexM0plusTeardown) {

@@ -17,7 +17,7 @@ using namespace libmcuhw::usart;
 using namespace libmcuhal::usart;
 
 static constexpr libmcuhw::HwAddressType usart0_address = libmcuhw::kUsart0Address;
-libmcuhw::usart::usart *const dut_registers{reinterpret_cast<libmcuhw::usart::usart *>(usart0_address)};
+libmcuhw::usart::Usart *const dut_registers{reinterpret_cast<libmcuhw::usart::Usart *>(usart0_address)};
 
 /**
  * @brief LPC845M301 HAL UART setup
@@ -38,9 +38,11 @@ MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   realBaudRate = hal_usart_peripheral.Init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | CFG::kDATALEN8BIT | CFG::kPARITY_NONE | CFG::kSTOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = hal_usart_peripheral.Init<uart0ClockConfig>(9600, UartParities::kEven, UartStops::kStop2, UartLengths::kSize7);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | CFG::kDATALEN7BIT | CFG::kPARITY_EVEN | CFG::kSTOPBIT2));
 }

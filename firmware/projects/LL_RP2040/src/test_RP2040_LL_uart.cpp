@@ -15,7 +15,7 @@
 namespace hardware = libmcuhw::uart;
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType uart0Address = libmcuhw::uart0Address;
+static constexpr libmcu::HwAddressType uart0Address = libmcuhw::uart0Address;
 libmcuhw::uart::uart *const uart0Registers{reinterpret_cast<libmcuhw::uart::uart *>(uart0Address)};
 
 /**

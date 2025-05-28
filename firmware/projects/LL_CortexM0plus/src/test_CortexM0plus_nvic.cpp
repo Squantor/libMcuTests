@@ -13,9 +13,9 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType nvicAddress = libmcuhw::nvicAddress;
+static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::nvicAddress;
 libmcuhw::nvic::nvic *const nvicDutRegisters{reinterpret_cast<libmcuhw::nvic::nvic *>(nvicAddress)};
-static constexpr libmcu::hwAddressType scbAddress = libmcuhw::scbAddress;
+static constexpr libmcu::HwAddressType scbAddress = libmcuhw::scbAddress;
 libmcuhw::scb::Scb *const scbDutRegisters{reinterpret_cast<libmcuhw::scb::Scb *>(scbAddress)};
 
 /**

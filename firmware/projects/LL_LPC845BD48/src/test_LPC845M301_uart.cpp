@@ -15,8 +15,8 @@
 using namespace libmcuhw::usart;
 using namespace libmcull::usart;
 
-static constexpr libmcu::hwAddressType usart0Address = libmcuhw::usart0Address;
-libmcuhw::usart::usart *const dut_registers{reinterpret_cast<libmcuhw::usart::usart *>(usart0Address)};
+static constexpr libmcu::HwAddressType usart0Address = libmcuhw::usart0Address;
+libmcuhw::usart::Usart *const dut_registers{reinterpret_cast<libmcuhw::usart::Usart *>(usart0Address)};
 
 /**
  * @brief USART setup and initialisation
@@ -34,11 +34,13 @@ MINUNIT_ADD(LPC845M301UsartInit, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   realBaudRate = usartPeripheral.init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | CFG::kDATALEN8BIT | CFG::kPARITY_NONE | CFG::kSTOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = usartPeripheral.init<uart0ClockConfig>(9600, uartLength::SIZE_7, uartParity::EVEN, uartStop::STOP_2);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
+  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+               (CFG::kENABLE | CFG::kDATALEN7BIT | CFG::kPARITY_EVEN | CFG::kSTOPBIT2));
 }
 
 MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
@@ -46,7 +48,7 @@ MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint8_t data;
   int timeout;
   usartPeripheral.init<uart0ClockConfig>(115200);
-  sysconPeripheral.peripheralClockSource(libmcull::syscon::clockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
+  sysconPeripheral.peripheralClockSource(libmcull::syscon::ClockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   minUnitCheck((dut_registers->STAT & STAT::kRESERVED_MASK) == 0x0000001E);
   minUnitCheck(usartPeripheral.status() & uartStatus::TXRDY);
   usartPeripheral.write(0xA5);

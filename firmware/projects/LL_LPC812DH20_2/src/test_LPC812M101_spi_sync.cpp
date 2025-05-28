@@ -16,7 +16,7 @@
 using namespace libmcull::sw::spi;
 using namespace libmcuhw::spi;
 
-static constexpr libmcu::hwAddressType spi0Address = libmcuhw::spi0Address;
+static constexpr libmcu::HwAddressType spi0Address = libmcuhw::spi0Address;
 libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(spi0Address)};
 
 /**
@@ -64,13 +64,13 @@ MINUNIT_ADD(LPC812M101CppSpiSyncRxTx, LPC812M101CppSetupSpiSync, LPC812M101Teard
   // test receive
   // disable MOSI
   swmPeriperhal.clear(test1Pin, spiMainMosiFunction);
-  gpioPeripheral.output(test1Pin);
-  gpioPeripheral.high(test1Pin);
+  gpioPeripheral.SetOutput(test1Pin);
+  gpioPeripheral.SetHigh(test1Pin);
   // enable pullup, read all ones
   spiSyncPeripheral.read(ChipEnables::kNone, testDataReceive, 12, true);
   minUnitCheck(0xFFFu == testDataReceive[0]);
   // enable pulldown, read all zeroes
-  gpioPeripheral.low(test1Pin);
+  gpioPeripheral.SetLow(test1Pin);
   testDataReceive[0] = 0xFFFF;
   spiSyncPeripheral.read(ChipEnables::kNone, testDataReceive, 12, true);
   minUnitCheck(0x0u == testDataReceive[0]);

@@ -92,18 +92,18 @@ constexpr sctInput1FunctionType sctInput1Function;
 constexpr sctInput2FunctionType sctInput2Function;
 constexpr sctInput3FunctionType sctInput3Function;
 
-extern libmcull::sw::iocon::iocon<libmcuhw::ioconAddress> ioconPeripheral;
+extern libmcull::sw::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
 extern libmcull::sw::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
-extern libmcull::sw::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
+extern libmcull::sw::gpio::Gpio<libmcuhw::gpioAddress> gpioPeripheral;
 extern libmcull::sw::spi::spiSync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
 extern libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
 extern libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
 extern libmcull::sw::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
 extern libmcull::sw::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
 extern libmcull::sw::usart::usartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-extern libmcull::sw::i2c::i2c<libmcuhw::i2c0Address> i2cPeripheral;
-extern libmcull::sw::sct::sct<libmcuhw::sctAddress> sctPeripheral;
-extern libmcull::sw::acmp::acmp<libmcuhw::acmpAddress> acmpPeripheral;
+extern libmcull::sw::i2c::I2c<libmcuhw::i2c0Address> i2cPeripheral;
+extern libmcull::sw::sct::Sct<libmcuhw::sctAddress> sctPeripheral;
+extern libmcull::sw::acmp::Acmp<libmcuhw::acmpAddress> acmpPeripheral;
 
 void boardInit(void);
 void crudeDelay(uint32_t iterations);

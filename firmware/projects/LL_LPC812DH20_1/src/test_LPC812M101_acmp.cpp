@@ -19,7 +19,7 @@ static constexpr std::uint32_t maxPwm = 1000;
 static constexpr std::uint32_t settlingDelay = 8000;  // determined empirically ((RC delay + comparator delay) * 2)
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType acmpAddress = libmcuhw::acmpAddress;
+static constexpr libmcu::HwAddressType acmpAddress = libmcuhw::acmpAddress;
 libmcuhw::acmp::Acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::Acmp *>(acmpAddress)};
 
 /**
@@ -35,47 +35,47 @@ MINUNIT_SETUP(LPC812M101CppSetupacmp) {
   // switch matrix
   swmPeriperhal.setup(pwmOutPin, sctOutput0Function);
   swmPeriperhal.enableFixedPins(libmcull::sw::swm::kAcmpIn2);  // enable fixed function on PIO0_1
-  ioconPeripheral.setup(pwmInPin, libmcull::sw::iocon::pullModes::INACTIVE);
-  gpioPeripheral.low(test1Pin);
-  gpioPeripheral.output(test1Pin);
+  ioconPeripheral.Setup(pwmInPin, libmcull::sw::iocon::PullModes::INACTIVE);
+  gpioPeripheral.SetLow(test1Pin);
+  gpioPeripheral.SetOutput(test1Pin);
   // sct configuration
-  sctPeripheral.init(0x0, libmcull::sw::sct::countingMode::BIDIRECTIONAL);
-  sctPeripheral.setMatch(libmcull::sw::sct::matchNumber::MATCH_0, maxPwm);
-  sctPeripheral.setupPwm(libmcull::sw::sct::matchNumber::MATCH_1, 1, libmcull::sw::sct::eventNumber::EVENT_0,
-                         libmcull::sw::sct::outputNumber::OUTPUT_0, true);
-  sctPeripheral.start();
+  sctPeripheral.Init(0x0, libmcull::sw::sct::CountingModes::BIDIRECTIONAL);
+  sctPeripheral.SetMatch(libmcull::sw::sct::Matches::MATCH_0, maxPwm);
+  sctPeripheral.SetupPwm(libmcull::sw::sct::Matches::MATCH_1, 1, libmcull::sw::sct::Events::EVENT_0,
+                         libmcull::sw::sct::Outputs::OUTPUT_0, true);
+  sctPeripheral.Start();
 }
 
 MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
-  acmpPeripheral.init(inputPositiveSettings::IN2, inputNegativeSettings::REF, edgeDetectSettings::BOTH,
-                      outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
+  acmpPeripheral.init(PositiveInputs::IN2, NegativeInputs::REF, EdgeDetections::BOTH, OutputOptions::SYNCED,
+                      HysteresisOptions::HYS_20MV);
   libmcu::Delay(settlingDelay);
   // we do not check the comparator mask due to some spurious activations of the edge detector
   std::uint32_t value = dutRegisters->CTRL & (CTRL::kkRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK);
   minUnitCheck(value == 0x06003250);
   minUnitCheck((dutRegisters->LAD & LAD::kkRESERVED_MASK) == 0x00000000);
-  acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::IN2, edgeDetectSettings::FALLING,
-                      outputControlSettings::DIRECT, hysteresisSettings::HYS_10MV, ladderReferenceSetting::VDD);
+  acmpPeripheral.init(PositiveInputs::REF, NegativeInputs::IN2, EdgeDetections::FALLING, OutputOptions::DIRECT,
+                      HysteresisOptions::HYS_10MV, LadderReferences::VDD);
   minUnitCheck((dutRegisters->CTRL & (CTRL::kkRESERVED_MASK & ~CTRL::kCOMPEDGE_MASK)) == 0x04201600);
   minUnitCheck((dutRegisters->LAD & LAD::kkRESERVED_MASK) == 0x00000001);
 }
 
 // test comparator functionality with internal reference only
 MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
-  acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::IN2, edgeDetectSettings::FALLING,
-                      outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV);
+  acmpPeripheral.init(PositiveInputs::REF, NegativeInputs::IN2, EdgeDetections::FALLING, OutputOptions::SYNCED,
+                      HysteresisOptions::HYS_20MV);
   libmcu::Delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() != 0);
   minUnitCheck(acmpPeripheral.edgeOutput() == 0);
   // set pwm higher then internal reference voltage (903mv at 25C)
-  sctPeripheral.setReload(libmcull::sw::sct::matchNumber::MATCH_1, maxPwm / 2);
+  sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, maxPwm / 2);
   libmcu::Delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() == 0);
   minUnitCheck(acmpPeripheral.edgeOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
   std::uint32_t currentPwm = maxPwm - 1;
   std::uint32_t currentHalfPwm = maxPwm / 2;
-  sctPeripheral.setReload(libmcull::sw::sct::matchNumber::MATCH_1, currentPwm);
+  sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, currentPwm);
   while (currentHalfPwm != 0) {
     libmcu::Delay(settlingDelay);
     if (acmpPeripheral.comparatorOutput() == 0) {
@@ -83,7 +83,7 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
     } else {
       currentPwm = currentPwm + currentHalfPwm;
     }
-    sctPeripheral.setReload(libmcull::sw::sct::matchNumber::MATCH_1, currentPwm);
+    sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, currentPwm);
     currentHalfPwm = currentHalfPwm / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins
@@ -93,8 +93,8 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
 
 // test ladder functionality
 MINUNIT_ADD(LPC812M101CppAcmpLadder, LPC812M101CppSetupacmp, LPC812M101Teardown) {
-  acmpPeripheral.init(inputPositiveSettings::REF, inputNegativeSettings::LADDER, edgeDetectSettings::FALLING,
-                      outputControlSettings::SYNCED, hysteresisSettings::HYS_20MV, ladderReferenceSetting::VDD);
+  acmpPeripheral.init(PositiveInputs::REF, NegativeInputs::LADDER, EdgeDetections::FALLING, OutputOptions::SYNCED,
+                      HysteresisOptions::HYS_20MV, LadderReferences::VDD);
   acmpPeripheral.setLadder(0);
   libmcu::Delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() != 0);

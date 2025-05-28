@@ -18,7 +18,7 @@ using namespace libmcull::sw::i2c;
 
 constexpr inline libmcu::i2cDeviceAddress testExpander{0x21};
 // peripheral register sets
-static constexpr libmcu::hwAddressType i2cAddress = libmcuhw::i2c0Address;
+static constexpr libmcu::HwAddressType i2cAddress = libmcuhw::i2c0Address;
 libmcuhw::i2c::I2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::I2c *>(i2cAddress)};
 
 /**
@@ -34,7 +34,7 @@ MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
 
 // testing inits
 MINUNIT_ADD(LPC812M101DH20I2cSyncInits, LPC812M101CppSetupI2cSync, LPC812M101Teardown) {
-  uint32_t actualRate = i2cPeripheral.initMaster(133630, 100);
+  uint32_t actualRate = i2cPeripheral.InitMaster(133630, 100);
   minUnitCheck(actualRate == 136363);
   minUnitCheck((dutRegisters->CFG & CFG::kkRESERVED_MASK) == CFG::kMSTEN);
   minUnitCheck((dutRegisters->TIMEOUT == 1615));
@@ -46,14 +46,14 @@ MINUNIT_ADD(LPC812M101DH20I2cSyncWriteRead, LPC812M101CppSetupI2cSync, LPC812M10
   std::array<std::uint8_t, 3> testReadData{};
   std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
   std::array<std::uint8_t, 1> testI2cExpanderInput{};
-  uint32_t actualRate = i2cPeripheral.initMaster(100000, 100);
+  uint32_t actualRate = i2cPeripheral.InitMaster(100000, 100);
   minUnitCheck(actualRate == 100000);
-  i2cPeripheral.write(testExpander, testWriteData);
-  i2cPeripheral.read(testExpander, testReadData);
+  i2cPeripheral.Write(testExpander, testWriteData);
+  i2cPeripheral.Read(testExpander, testReadData);
   minUnitCheck(testReadData[0] == 0xC5);
   minUnitCheck(testReadData[1] == 0xC5);
   minUnitCheck(testReadData[2] == 0xC5);
-  i2cPeripheral.write(testExpander, testI2cExpanderOutput);
-  i2cPeripheral.read(testExpander, testI2cExpanderInput);
+  i2cPeripheral.Write(testExpander, testI2cExpanderOutput);
+  i2cPeripheral.Read(testExpander, testI2cExpanderInput);
   minUnitCheck(testI2cExpanderInput[0] == 0x30);
 }

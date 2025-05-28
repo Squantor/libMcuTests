@@ -17,7 +17,7 @@ using namespace libmcull::sw::spi;
 using namespace libmcuhw::spi;
 
 static constexpr int maxIterations = 1000;
-static constexpr libmcu::hwAddressType spi0Address = libmcuhw::spi0Address;
+static constexpr libmcu::HwAddressType spi0Address = libmcuhw::spi0Address;
 libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(spi0Address)};
 
 /**

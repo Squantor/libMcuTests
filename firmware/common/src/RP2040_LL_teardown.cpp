@@ -16,14 +16,14 @@
 using namespace libmcull;
 
 // local peripheral register sets
-static constexpr libmcu::hwAddressType sioAddressLocal = libmcuhw::sioAddress;
+static constexpr libmcu::HwAddressType sioAddressLocal = libmcuhw::sioAddress;
 libmcuhw::sio::sio *const sioRegisters{reinterpret_cast<libmcuhw::sio::sio *>(sioAddressLocal)};
-static constexpr libmcu::hwAddressType padsBank0AddressLocal = libmcuhw::padsBank0Address;
+static constexpr libmcu::HwAddressType padsBank0AddressLocal = libmcuhw::padsBank0Address;
 libmcuhw::padsBank0::padsBank0 *const padsBank0ARegisters{
   reinterpret_cast<libmcuhw::padsBank0::padsBank0 *>(padsBank0AddressLocal)};
-static constexpr libmcu::hwAddressType ioBankAddressLocal = libmcuhw::ioBank0Address;
+static constexpr libmcu::HwAddressType ioBankAddressLocal = libmcuhw::ioBank0Address;
 libmcuhw::gpioBank0::gpioBank0 *const ioBankRegisters{reinterpret_cast<libmcuhw::gpioBank0::gpioBank0 *>(ioBankAddressLocal)};
-static constexpr libmcu::hwAddressType resetsAddressLocal = libmcuhw::resetsAddress;
+static constexpr libmcu::HwAddressType resetsAddressLocal = libmcuhw::resetsAddress;
 libmcuhw::resets::resets *const resetsRegisters{reinterpret_cast<libmcuhw::resets::resets *>(resetsAddressLocal)};
 
 /** @brief resets all the registers to their default states

@@ -16,7 +16,7 @@ using namespace libmcuhw::gpio;
 using namespace libmcull::gpio;
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType gpio_address = libmcuhw::gpioAddress;
+static constexpr libmcu::HwAddressType gpio_address = libmcuhw::gpioAddress;
 libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio *>(gpio_address)};
 
 /**
@@ -58,20 +58,20 @@ MINUNIT_ADD(LPC845M301DH20GpioPin, LPC845M301SetupGpio, LPC845M301Teardown) {
 MINUNIT_ADD(LPC845M301DH20GpioPort, LPC845M301SetupGpio, LPC845M301Teardown) {
   gpioPeripheral.portDirection(testPin2Port, 0);
   gpioPeripheral.portDirection(testPin1Port, testPin1.gpioPinMask);
-  gpioPeripheral.portLow(testPin1Port, testPin1.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin2Port, testPin2.gpioPinMask) == 0x00000000);
-  gpioPeripheral.portHigh(testPin1Port, testPin1.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin2Port, testPin2.gpioPinMask) == testPin2.gpioPinMask);
+  gpioPeripheral.SetPortLow(testPin1Port, testPin1.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin2Port, testPin2.gpioPinMask) == 0x00000000);
+  gpioPeripheral.SetPortHigh(testPin1Port, testPin1.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin2Port, testPin2.gpioPinMask) == testPin2.gpioPinMask);
   // switch around pins
   gpioPeripheral.portDirection(testPin1Port, 0);
   gpioPeripheral.portDirection(testPin2Port, testPin2.gpioPinMask);
-  gpioPeripheral.portHigh(testPin2Port, testPin2.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin1Port, testPin1.gpioPinMask) == testPin1.gpioPinMask);
-  gpioPeripheral.portLow(testPin2Port, testPin2.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin1Port, testPin1.gpioPinMask) == 0x00000000);
+  gpioPeripheral.SetPortHigh(testPin2Port, testPin2.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin1Port, testPin1.gpioPinMask) == testPin1.gpioPinMask);
+  gpioPeripheral.SetPortLow(testPin2Port, testPin2.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin1Port, testPin1.gpioPinMask) == 0x00000000);
   // testing the remainder methods
-  gpioPeripheral.portToggle(testPin2Port, testPin2.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin1Port, testPin1.gpioPinMask) == testPin1.gpioPinMask);
-  gpioPeripheral.portToggle(testPin2Port, testPin2.gpioPinMask);
-  minUnitCheck(gpioPeripheral.portGet(testPin1Port, testPin1.gpioPinMask) == 0x00000000);
+  gpioPeripheral.TogglePort(testPin2Port, testPin2.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin1Port, testPin1.gpioPinMask) == testPin1.gpioPinMask);
+  gpioPeripheral.TogglePort(testPin2Port, testPin2.gpioPinMask);
+  minUnitCheck(gpioPeripheral.GetPort(testPin1Port, testPin1.gpioPinMask) == 0x00000000);
 }

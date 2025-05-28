@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType dutAddress = libmcuhw::sioAddress;
+static constexpr libmcu::HwAddressType dutAddress = libmcuhw::sioAddress;
 libmcuhw::sio::sio *const dutRegisters{reinterpret_cast<libmcuhw::sio::sio *>(dutAddress)};
 
 /**

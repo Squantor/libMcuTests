@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType systickAddress = libmcuhw::systickAddress;
+static constexpr libmcu::HwAddressType systickAddress = libmcuhw::systickAddress;
 libmcuhw::systick::systick *const systickDutRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
 
 volatile std::uint32_t systickIsrCount;

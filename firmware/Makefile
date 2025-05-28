@@ -5,7 +5,7 @@
 # Generic project makefile
 # Heavily inspired by: https://github.com/bronson/makefile-death
 #
-# Version: 20230304
+# Version: 20250528
 
 # User definable settings are here
 
@@ -198,6 +198,7 @@ clean: $(BINDEPS) $(DOCDEPS)
 > $(C)$(RM) -rf $(BIN_ROOT)
 > $(C)$(RM) -rf $(OBJ_ROOT)
 > $(C)$(RM) -rf $(DOC_ROOT)
+> $(C)$(RM) compile_commands.json
 .PHONY: clean
 
 # utility rules

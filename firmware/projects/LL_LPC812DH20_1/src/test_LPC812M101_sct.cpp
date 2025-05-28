@@ -16,7 +16,7 @@ using namespace libmcuhw::sct;
 using namespace libmcull::sw::sct;
 
 // peripheral register sets
-static constexpr libmcu::hwAddressType sctAddress = libmcuhw::sctAddress;
+static constexpr libmcu::HwAddressType sctAddress = libmcuhw::sctAddress;
 libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sctAddress)};
 
 /**
@@ -29,48 +29,48 @@ MINUNIT_SETUP(LPC812M101CppSetupSct) {
     libmcull::sw::syscon::peripheralClocks::GPIO | libmcull::sw::syscon::peripheralClocks::SWM);
   swmPeriperhal.setup(pwmOutPin, sctOutput0Function);
   swmPeriperhal.setup(test0Pin, sctInput0Function);
-  ioconPeripheral.setup(pwmInPin, libmcull::sw::iocon::pullModes::INACTIVE);
-  gpioPeripheral.low(test1Pin);
-  gpioPeripheral.output(test1Pin);
+  ioconPeripheral.Setup(pwmInPin, libmcull::sw::iocon::PullModes::INACTIVE);
+  gpioPeripheral.SetLow(test1Pin);
+  gpioPeripheral.SetOutput(test1Pin);
   // BaBi: When using Test0pin as output it does not work, no idea why!
 }
 
 MINUNIT_ADD(LPC812M101CppSctInit, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sctPeripheral.init(0x4u, countingMode::BIDIRECTIONAL);
+  sctPeripheral.Init(0x4u, CountingModes::BIDIRECTIONAL);
   minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
   minUnitCheck(dutRegisters->CTRL == 0x00040094u);
 }
 
 MINUNIT_ADD(LPC812M101CppSctRunning, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sctPeripheral.init(0x4u, countingMode::BIDIRECTIONAL);
+  sctPeripheral.Init(0x4u, CountingModes::BIDIRECTIONAL);
   minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
   minUnitCheck(dutRegisters->CTRL == 0x00040094u);
-  sctPeripheral.setMatch(matchNumber::MATCH_0, 30000u);
+  sctPeripheral.SetMatch(Matches::MATCH_0, 30000u);
   minUnitCheck(dutRegisters->MATCH[0].U == 30000u);
   minUnitCheck(dutRegisters->MATCHREL[0].U == 30000u);
-  sctPeripheral.start();
+  sctPeripheral.Start();
   minUnitCheck((dutRegisters->CTRL & 0x4u) == 0u);
-  std::uint32_t countFirst = sctPeripheral.counter();
-  std::uint32_t countSecond = sctPeripheral.counter();
+  std::uint32_t countFirst = sctPeripheral.GetCount();
+  std::uint32_t countSecond = sctPeripheral.GetCount();
   minUnitCheck(countFirst != countSecond);
-  sctPeripheral.halt();
+  sctPeripheral.Halt();
   minUnitCheck((dutRegisters->CTRL & 0x4u) == 0x4u);
 }
 
 MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sctPeripheral.init(0x0, countingMode::BIDIRECTIONAL);
-  sctPeripheral.setMatch(matchNumber::MATCH_0, 1000u);
-  sctPeripheral.setupPwm(matchNumber::MATCH_1, 500, eventNumber::EVENT_0, outputNumber::OUTPUT_1, false);
+  sctPeripheral.Init(0x0, CountingModes::BIDIRECTIONAL);
+  sctPeripheral.SetMatch(Matches::MATCH_0, 1000u);
+  sctPeripheral.SetupPwm(Matches::MATCH_1, 500, Events::EVENT_0, Outputs::OUTPUT_1, false);
   minUnitCheck(dutRegisters->MATCH[1].U == 500u);
   minUnitCheck(dutRegisters->MATCHREL[1].U == 500u);
-  sctPeripheral.start();
+  sctPeripheral.Start();
   // detect edges on SCT output1
   int timeout = 10000;
   int edgeCount = 0;
-  bool oldOutput = sctPeripheral.output(outputNumber::OUTPUT_1);
+  bool oldOutput = sctPeripheral.GetOutputState(Outputs::OUTPUT_1);
   bool newOutput;
   while (timeout > 0 && edgeCount < 500) {
-    newOutput = sctPeripheral.output(outputNumber::OUTPUT_1);
+    newOutput = sctPeripheral.GetOutputState(Outputs::OUTPUT_1);
     if (oldOutput != newOutput) {
       edgeCount++;
       oldOutput = newOutput;
@@ -79,26 +79,26 @@ MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown)
   }
   minUnitCheck(edgeCount == 500);
   minUnitCheck(timeout != 0);
-  sctPeripheral.halt();
+  sctPeripheral.Halt();
 }
 
 MINUNIT_ADD(LPC812M101CppSctSetupCapture, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sctPeripheral.init(0x0, countingMode::BIDIRECTIONAL);
+  sctPeripheral.Init(0x0, CountingModes::BIDIRECTIONAL);
   dutRegisters->CONFIG = dutRegisters->CONFIG | CONFIG::INSYNC(0xF);
-  sctPeripheral.setMatch(matchNumber::MATCH_0, 3000000u);
-  sctPeripheral.setupCapture(captureNumber::CAPTURE_1, eventNumber::EVENT_0, inputNumber::INPUT_0, captureCondition::CAPTURE_RISE);
-  sctPeripheral.start();
+  sctPeripheral.SetMatch(Matches::MATCH_0, 3000000u);
+  sctPeripheral.setupCapture(Captures::CAPTURE_1, Events::EVENT_0, Inputs::INPUT_0, CaptureConditions::CAPTURE_RISE);
+  sctPeripheral.Start();
   minUnitCheck(dutRegisters->CAP[1].U == 0u);
-  gpioPeripheral.low(test1Pin);
-  gpioPeripheral.high(test1Pin);
+  gpioPeripheral.SetLow(test1Pin);
+  gpioPeripheral.SetHigh(test1Pin);
   // check if we got event in SCT event flag register
   minUnitCheck(dutRegisters->EVFLAG == 0x01u);
   dutRegisters->EVFLAG = 0x01u;
-  std::uint32_t firstCapture = sctPeripheral.getCapture(captureNumber::CAPTURE_1);
+  std::uint32_t firstCapture = sctPeripheral.GetCapture(Captures::CAPTURE_1);
   minUnitCheck(firstCapture != 0u);
-  gpioPeripheral.low(test1Pin);
-  gpioPeripheral.high(test1Pin);
-  std::uint32_t secondCapture = sctPeripheral.getCapture(captureNumber::CAPTURE_1);
+  gpioPeripheral.SetLow(test1Pin);
+  gpioPeripheral.SetHigh(test1Pin);
+  std::uint32_t secondCapture = sctPeripheral.GetCapture(Captures::CAPTURE_1);
   minUnitCheck(firstCapture != secondCapture);
-  sctPeripheral.halt();
+  sctPeripheral.Halt();
 }
