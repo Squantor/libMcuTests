@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 using namespace libmcuhw::acmp;
-using namespace libmcull::sw::acmp;
+using namespace libmcull::acmp;
 
 static constexpr std::uint32_t maxPwm = 1000;
 static constexpr std::uint32_t settlingDelay = 8000;  // determined empirically ((RC delay + comparator delay) * 2)
@@ -27,22 +27,21 @@ libmcuhw::acmp::Acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::Acmp *
  */
 MINUNIT_SETUP(LPC812M101CppSetupacmp) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.powerPeripherals(libmcull::sw::syscon::peripheralPowers::ACMP);
-  sysconPeripheral.enablePeripheralClocks(
-    libmcull::sw::syscon::peripheralClocks::SCT | libmcull::sw::syscon::peripheralClocks::IOCON |
-    libmcull::sw::syscon::peripheralClocks::GPIO | libmcull::sw::syscon::peripheralClocks::SWM |
-    libmcull::sw::syscon::peripheralClocks::ACMP);
+  sysconPeripheral.PowerPeripherals(libmcull::syscon::PeripheralPowers::kPowerAcmp);
+  sysconPeripheral.EnablePeripheralClocks(
+    libmcull::syscon::PeripheralClocks::kClockSct | libmcull::syscon::PeripheralClocks::kClockIocon |
+    libmcull::syscon::PeripheralClocks::kClockGpio | libmcull::syscon::PeripheralClocks::kClockSwm |
+    libmcull::syscon::PeripheralClocks::kClockAcmp);
   // switch matrix
   swmPeriperhal.setup(pwmOutPin, sctOutput0Function);
-  swmPeriperhal.enableFixedPins(libmcull::sw::swm::kAcmpIn2);  // enable fixed function on PIO0_1
-  ioconPeripheral.Setup(pwmInPin, libmcull::sw::iocon::PullModes::INACTIVE);
+  swmPeriperhal.enableFixedPins(libmcuhw::swm::kAcmpIn2);  // enable fixed function on PIO0_1
+  ioconPeripheral.Setup(pwmInPin, libmcull::iocon::PullModes::INACTIVE);
   gpioPeripheral.SetLow(test1Pin);
   gpioPeripheral.SetOutput(test1Pin);
   // sct configuration
-  sctPeripheral.Init(0x0, libmcull::sw::sct::CountingModes::BIDIRECTIONAL);
-  sctPeripheral.SetMatch(libmcull::sw::sct::Matches::MATCH_0, maxPwm);
-  sctPeripheral.SetupPwm(libmcull::sw::sct::Matches::MATCH_1, 1, libmcull::sw::sct::Events::EVENT_0,
-                         libmcull::sw::sct::Outputs::OUTPUT_0, true);
+  sctPeripheral.Init(0x0, libmcull::sct::CountingModes::kBidirectional);
+  sctPeripheral.SetMatch(libmcull::sct::Matches::k0, maxPwm);
+  sctPeripheral.SetupPwm(libmcull::sct::Matches::k1, 1, libmcull::sct::Events::k0, libmcull::sct::Outputs::k0, true);
   sctPeripheral.Start();
 }
 
@@ -68,14 +67,14 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   minUnitCheck(acmpPeripheral.comparatorOutput() != 0);
   minUnitCheck(acmpPeripheral.edgeOutput() == 0);
   // set pwm higher then internal reference voltage (903mv at 25C)
-  sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, maxPwm / 2);
+  sctPeripheral.SetReload(libmcull::sct::Matches::k1, maxPwm / 2);
   libmcu::Delay(settlingDelay);
   minUnitCheck(acmpPeripheral.comparatorOutput() == 0);
   minUnitCheck(acmpPeripheral.edgeOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
   std::uint32_t currentPwm = maxPwm - 1;
   std::uint32_t currentHalfPwm = maxPwm / 2;
-  sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, currentPwm);
+  sctPeripheral.SetReload(libmcull::sct::Matches::k1, currentPwm);
   while (currentHalfPwm != 0) {
     libmcu::Delay(settlingDelay);
     if (acmpPeripheral.comparatorOutput() == 0) {
@@ -83,7 +82,7 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
     } else {
       currentPwm = currentPwm + currentHalfPwm;
     }
-    sctPeripheral.SetReload(libmcull::sw::sct::Matches::MATCH_1, currentPwm);
+    sctPeripheral.SetReload(libmcull::sct::Matches::k1, currentPwm);
     currentHalfPwm = currentHalfPwm / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins

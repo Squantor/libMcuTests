@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 using namespace libmcuhw::iocon;
-using namespace libmcull::sw::iocon;
+using namespace libmcull::iocon;
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType iocon_address = libmcuhw::ioconAddress; /**< peripheral address */
@@ -24,7 +24,7 @@ libmcuhw::iocon::Iocon *const iocon_registers{reinterpret_cast<libmcuhw::iocon::
  */
 MINUNIT_SETUP(LPC812M101CppSetupIocon) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockIocon);
 }
 
 /**

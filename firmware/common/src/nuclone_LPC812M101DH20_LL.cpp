@@ -6,43 +6,43 @@
  */
 #include <nuclone_LPC812M101DH20_tests.hpp>
 
-libmcull::sw::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
-libmcull::sw::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
-libmcull::sw::gpio::Gpio<libmcuhw::gpioAddress> gpioPeripheral;
-libmcull::sw::spi::spiSync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
-libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
-libmcull::sw::spi::spiAsync<libmcuhw::spi0Address, libmcull::sw::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
-libmcull::sw::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
-libmcull::sw::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
-libmcull::sw::usart::usartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-libmcull::sw::i2c::I2c<libmcuhw::i2c0Address> i2cPeripheral;
-libmcull::sw::sct::Sct<libmcuhw::sctAddress> sctPeripheral;
-libmcull::sw::acmp::Acmp<libmcuhw::acmpAddress> acmpPeripheral;
-libmcull::sw::fmc::Fmc<libmcuhw::fmcAddress> fcmPeripheral;
+libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
+libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
+libmcull::gpio::Gpio<libmcuhw::gpioAddress> gpioPeripheral;
+libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
+libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
+libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
+libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
+libmcull::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
+libmcull::usart::usartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;
+libmcull::i2c::I2c<libmcuhw::i2c0Address> i2cPeripheral;
+libmcull::sct::Sct<libmcuhw::sctAddress> sctPeripheral;
+libmcull::acmp::Acmp<libmcuhw::acmpAddress> acmpPeripheral;
+libmcull::fmc::Fmc<libmcuhw::fmcAddress> fcmPeripheral;
 
 void boardInit(void) {
   // clock enables and resets
-  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::SWM |
-                                          libmcull::sw::syscon::peripheralClocks::IOCON |
-                                          libmcull::sw::syscon::peripheralClocks::GPIO);
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockSwm |
+                                          libmcull::syscon::PeripheralClocks::kClockIocon |
+                                          libmcull::syscon::PeripheralClocks::kClockGpio);
   // setup IOCON pins
-  ioconPeripheral.Setup(xtalInPin, libmcull::sw::iocon::PullModes::INACTIVE);
-  ioconPeripheral.Setup(xtalOutPin, libmcull::sw::iocon::PullModes::INACTIVE);
+  ioconPeripheral.Setup(xtalInPin, libmcull::iocon::PullModes::INACTIVE);
+  ioconPeripheral.Setup(xtalOutPin, libmcull::iocon::PullModes::INACTIVE);
   swmPeriperhal.setup(xtalInPin, xtalInFunction);
   swmPeriperhal.setup(xtalOutPin, xtalOutFunction);
   // setup system clocks
-  sysconPeripheral.setSysOscControl(libmcuhw::syscon::SYSOSCCTRL::kNO_BYPASS | libmcuhw::syscon::SYSOSCCTRL::kFREQ_1_20MHz);
-  sysconPeripheral.powerPeripherals(libmcull::sw::syscon::peripheralPowers::SYSOSC);
+  sysconPeripheral.SetSysOscControl(libmcuhw::syscon::SYSOSCCTRL::kNO_BYPASS | libmcuhw::syscon::SYSOSCCTRL::kFREQ_1_20MHz);
+  sysconPeripheral.PowerPeripherals(libmcull::syscon::PeripheralPowers::kPowerSysOsc);
   libmcu::Delay(6000);
-  sysconPeripheral.selectPllClock(libmcull::sw::syscon::pllClockSources::SYSOSC);
-  fcmPeripheral.setFlashWaitState(libmcull::sw::fmc::WaitStates::WAIT_2_CLOCK);
-  sysconPeripheral.depowerPeripherals(libmcull::sw::syscon::peripheralPowers::SYSPLL);
-  sysconPeripheral.setSystemPllControl(4, libmcull::sw::syscon::pllPostDivider::DIV_4);
-  sysconPeripheral.powerPeripherals(libmcull::sw::syscon::peripheralPowers::SYSPLL);
-  while (!sysconPeripheral.getSystemPllStatus())
+  sysconPeripheral.SelectPllClockSource(libmcull::syscon::PllClockSources::kSysOsc);
+  fcmPeripheral.setFlashWaitState(libmcull::fmc::WaitStates::WAIT_2_CLOCK);
+  sysconPeripheral.DepowerPeripherals(libmcull::syscon::PeripheralPowers::kPowerSysPll);
+  sysconPeripheral.SetSystemPllControl(4, libmcull::syscon::PllPostDividers::kDiv4);
+  sysconPeripheral.PowerPeripherals(libmcull::syscon::PeripheralPowers::kPowerSysPll);
+  while (!sysconPeripheral.GetSystemPllStatus())
     ;
-  sysconPeripheral.setSystemClockDivider(2);
-  sysconPeripheral.selectMainClock(libmcull::sw::syscon::mainClockSources::PLL_OUT);
+  sysconPeripheral.SetSystemClockDivider(2);
+  sysconPeripheral.SelectMainClockSource(libmcull::syscon::MainClockSources::kPllOut);
   // disable all unneeded clocks
-  sysconPeripheral.disablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.DisablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockIocon);
 }

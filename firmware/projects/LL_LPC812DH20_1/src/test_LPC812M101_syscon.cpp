@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 using namespace libmcuhw::syscon;
-using namespace libmcull::sw::syscon;
+using namespace libmcull::syscon;
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType sysconAddress = libmcuhw::sysconAddress;
@@ -27,7 +27,7 @@ MINUNIT_SETUP(LPC812M101CppSetupSyscon) {
 }
 
 MINUNIT_ADD(LPC812M101CppSysconChipID, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
-  minUnitCheck(sysconPeripheral.getChipId() == 0x00008122);
+  minUnitCheck(sysconPeripheral.GetChipId() == 0x00008122);
 }
 
 MINUNIT_ADD(LPC812M101CppSysconResets, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
@@ -38,30 +38,30 @@ MINUNIT_ADD(LPC812M101CppSysconResets, LPC812M101CppSetupSyscon, LPC812M101Teard
   minUnitCheck(resetRegister == 0x00000FBE);
   SysconRegisters->PRESETCTRL =
     (SysconRegisters->PRESETCTRL & ~PRESETCTRL::kRESERVED_MASK) | (PRESETCTRL::kRESERVED_MASK & resetRegister);
-  sysconPeripheral.resetPeripherals(peripheralResets::SPI0);
+  sysconPeripheral.ResetPeripherals(PeripheralResets::kResetSpi0);
   // the reset function will restore all bits to operational
   minUnitCheck(SysconRegisters->PRESETCTRL == 0x00000FBF);
-  sysconPeripheral.resetPeripherals(peripheralResets::I2C | peripheralResets::ACMP);
+  sysconPeripheral.ResetPeripherals(PeripheralResets::kResetI2c | PeripheralResets::kResetAcmp);
   minUnitCheck(SysconRegisters->PRESETCTRL == 0x00001FFF);
 }
 
 // We only test analog comparator for now
 MINUNIT_ADD(LPC812M101CppSysconPowering, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
   minUnitCheck(SysconRegisters->PDRUNCFG == 0x0000ED50);
-  sysconPeripheral.powerPeripherals(peripheralPowers::ACMP);
+  sysconPeripheral.PowerPeripherals(PeripheralPowers::kPowerAcmp);
   minUnitCheck(SysconRegisters->PDRUNCFG == 0x00006D50);
-  sysconPeripheral.depowerPeripherals(peripheralPowers::ACMP);
+  sysconPeripheral.DepowerPeripherals(PeripheralPowers::kPowerAcmp);
   minUnitCheck(SysconRegisters->PDRUNCFG == 0x0000ED50);
 }
 
 MINUNIT_ADD(LPC812M101CppSysconClocking, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
   minUnitCheck(SysconRegisters->SYSAHBCLKCTRL == 0x000000DF);
-  sysconPeripheral.enablePeripheralClocks(peripheralClocks::ACMP);
+  sysconPeripheral.EnablePeripheralClocks(PeripheralClocks::kClockAcmp);
   minUnitCheck(SysconRegisters->SYSAHBCLKCTRL == 0x000800DF);
-  sysconPeripheral.enablePeripheralClocks(peripheralClocks::IOCON);
+  sysconPeripheral.EnablePeripheralClocks(PeripheralClocks::kClockIocon);
   minUnitCheck(SysconRegisters->SYSAHBCLKCTRL == 0x000C00DF);
-  sysconPeripheral.disablePeripheralClocks(peripheralClocks::ACMP);
+  sysconPeripheral.DisablePeripheralClocks(PeripheralClocks::kClockAcmp);
   minUnitCheck(SysconRegisters->SYSAHBCLKCTRL == 0x000400DF);
-  sysconPeripheral.disablePeripheralClocks(peripheralClocks::IOCON);
+  sysconPeripheral.DisablePeripheralClocks(PeripheralClocks::kClockIocon);
   minUnitCheck(SysconRegisters->SYSAHBCLKCTRL == 0x000000DF);
 }

@@ -14,7 +14,7 @@
 #include <common.hpp>
 
 using namespace libmcuhw::i2c;
-using namespace libmcull::sw::i2c;
+using namespace libmcull::i2c;
 
 constexpr inline libmcu::i2cDeviceAddress testExpander{0x21};
 // peripheral register sets
@@ -26,8 +26,8 @@ libmcuhw::i2c::I2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::I2c *>(i2
  */
 MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::I2C |
-                                          libmcull::sw::syscon::peripheralClocks::SWM);
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockI2c |
+                                          libmcull::syscon::PeripheralClocks::kClockSwm);
   swmPeriperhal.setup(i2cSclOutPin, i2cMainSclFunction);
   swmPeriperhal.setup(i2cSdaOutPin, i2cMainSdaFunction);
 }

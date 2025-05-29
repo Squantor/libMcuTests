@@ -12,7 +12,7 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libmcull::sw::usart;
+using namespace libmcull::usart;
 using namespace libmcuhw::usart;
 
 static constexpr libmcu::HwAddressType usart0Address = libmcuhw::usart0Address;
@@ -25,9 +25,9 @@ MINUNIT_SETUP(LPC812M101CppSetupUsartAsync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
   swmPeriperhal.setup(test0Pin, uartMainRxFunction);
   swmPeriperhal.setup(test1Pin, uartMainTxFunction);
-  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::UART0 |
-                                          libmcull::sw::syscon::peripheralClocks::SWM |
-                                          libmcull::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockUart0 |
+                                          libmcull::syscon::PeripheralClocks::kClockSwm |
+                                          libmcull::syscon::PeripheralClocks::kClockIocon);
 }
 
 MINUNIT_ADD(LPC812M101CppUsartAsyncInit, LPC812M101CppSetupUsartAsync, LPC812M101Teardown) {
@@ -48,7 +48,7 @@ MINUNIT_ADD(LPC812M101CppUsartAsyncComms, LPC812M101CppSetupUsartAsync, LPC812M1
   std::uint8_t data;
   int timeout;
   usartSyncPeripheral.init(115200);
-  sysconPeripheral.setUsartClockDivider(1);
+  sysconPeripheral.SetUsartClockDivider(1);
   minUnitCheck((dutRegisters->STAT & STAT::kRESERVED_MASK) == 0x0000000E);
   minUnitCheck(usartSyncPeripheral.status() & uartStatus::TXRDY);
   usartSyncPeripheral.write(0xA5);

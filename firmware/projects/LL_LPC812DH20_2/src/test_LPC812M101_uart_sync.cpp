@@ -12,7 +12,7 @@
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
-using namespace libmcull::sw::usart;
+using namespace libmcull::usart;
 using namespace libmcuhw::usart;
 
 static constexpr libmcu::HwAddressType usart0Address = libmcuhw::usart0Address;
@@ -25,9 +25,9 @@ MINUNIT_SETUP(LPC812M101CppSetupUsartSync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
   swmPeriperhal.setup(test0Pin, uartMainRxFunction);
   swmPeriperhal.setup(test1Pin, uartMainTxFunction);
-  sysconPeripheral.enablePeripheralClocks(libmcull::sw::syscon::peripheralClocks::UART0 |
-                                          libmcull::sw::syscon::peripheralClocks::SWM |
-                                          libmcull::sw::syscon::peripheralClocks::IOCON);
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockUart0 |
+                                          libmcull::syscon::PeripheralClocks::kClockSwm |
+                                          libmcull::syscon::PeripheralClocks::kClockIocon);
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
@@ -57,7 +57,7 @@ MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101
   testDataReceive.fill(0x0000u);
   swmPeriperhal.setup(test1Pin, uartMainRxFunction);
   swmPeriperhal.setup(test0Pin, uartMainTxFunction);
-  sysconPeripheral.setUsartClockDivider(1);
+  sysconPeripheral.SetUsartClockDivider(1);
   usartAsyncPeripheral.init(115200);
   minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::CLAIMED);
   minUnitCheck(usartAsyncPeripheral.startRead(testDataReceive) == libmcu::Results::STARTED);

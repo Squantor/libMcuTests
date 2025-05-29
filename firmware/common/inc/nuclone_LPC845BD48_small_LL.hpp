@@ -87,9 +87,9 @@ constexpr mainUartRxFunctionType uartMainRxFunction;
 
 // peripheral externs
 extern libmcull::iocon::Iocon<libmcuhw::ioconAddress> iocon_peripheral;
-extern libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
+extern libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
 extern libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
-extern libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
+extern libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
 extern libmcull::usart::usart<libmcuhw::usart0Address, std::uint8_t> usartPeripheral;
 constexpr inline libmcuhw::clock::mcuClockConfig<libmcuhw::clock::clockInputSources::XTAL, 12'000'000u, 30'000'000u>
   nucloneClockConfig;

@@ -12,9 +12,9 @@
 namespace clocks = libmcuhw::clock;
 
 libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
-libmcull::swm::swm<libmcuhw::swmAddress> swmPeriperhal;
+libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
 libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
-libmcull::syscon::syscon<libmcuhw::sysconAddress> sysconPeripheral;
+libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
 libmcull::usart::SyncUart<libmcuhw::kUsart0Address, std::uint8_t> usart_peripheral;
 libmcuhal::usart::SyncUart<usart_peripheral> hal_usart_peripheral;
 
