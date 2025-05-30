@@ -45,9 +45,9 @@ MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101T
 
 MINUNIT_ADD(LPC812M101CppUsartSyncClaiming, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
   usartAsyncPeripheral.init(115200);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::CLAIMED);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::IN_USE);
-  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::UNCLAIMED);
+  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kClaimed);
+  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kInUse);
+  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::kUnclaimed);
   minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::ERROR);
 }
 
@@ -59,7 +59,7 @@ MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101
   swmPeriperhal.setup(test0Pin, uartMainTxFunction);
   sysconPeripheral.SetUsartClockDivider(1);
   usartAsyncPeripheral.init(115200);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::CLAIMED);
+  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kClaimed);
   minUnitCheck(usartAsyncPeripheral.startRead(testDataReceive) == libmcu::Results::STARTED);
   minUnitCheck(usartAsyncPeripheral.startRead(testDataReceive) == libmcu::Results::ERROR);
   minUnitCheck(usartAsyncPeripheral.startWrite(testDataSend) == libmcu::Results::STARTED);
@@ -82,5 +82,5 @@ MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101
   minUnitCheck(testDataReceive[2] == 0x34);
   minUnitCheck(testDataReceive[3] == 0xDC);
   minUnitCheck(testDataReceive[4] == 0x5A);
-  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::UNCLAIMED);
+  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::kUnclaimed);
 }

@@ -101,16 +101,16 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriTransfer, LPC845M301SetupDma, LPC845M301Te
   outputBuffer.fill(0);
   // setup uart but only TX
   swmPeriperhal.setup(testPin2, uartMainTxFunction);
-  usartPeripheral.init<uart0ClockConfig>(115200);
+  usartPeripheral.Init<uart0ClockConfig>(115200);
   sysconPeripheral.peripheralClockSource(libmcull::syscon::ClockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   // check if UART is ready
-  std::uint32_t status = usartPeripheral.status();
-  minUnitCheck((status & uartStatus::TXIDLE) != 0);
-  minUnitCheck((status & uartStatus::RXIDLE) != 0);
+  std::uint32_t status = usartPeripheral.Status();
+  minUnitCheck((status & UartStatuses::kTxIdle) != 0);
+  minUnitCheck((status & UartStatuses::kRxIdle) != 0);
   // setup DMA descriptors
   // setup single memory to peripheral transfer
   dmaPeripheral.ConfigureChanDescr(HardwareDescriptors::kUSART0_TX_DMA, inputBuffer.data() + inputBuffer.size() - 1,
-                                   usartPeripheral.getTxDatAddress(), nullptr);
+                                   usartPeripheral.GetTxDataAddress(), nullptr);
   dmaPeripheral.ConfigureChannel(HardwareDescriptors::kUSART0_TX_DMA, TriggerConfigs::kRisingEdge, BurstSizes::k1, false, false,
                                  ChannelPrios::kLowest);
   dmaPeripheral.ConfigureTransfer(HardwareDescriptors::kUSART0_TX_DMA, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
@@ -143,14 +143,14 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, 
   // setup uart pins and connect RX to TX
   swmPeriperhal.setup(testPin1, uartMainRxFunction);
   swmPeriperhal.setup(testPin2, uartMainTxFunction);
-  usartPeripheral.init<uart0ClockConfig>(115200);
+  usartPeripheral.Init<uart0ClockConfig>(115200);
   sysconPeripheral.peripheralClockSource(libmcull::syscon::ClockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
   // check if UART is ready
-  std::uint32_t status = usartPeripheral.status();
-  minUnitCheck((status & uartStatus::TXIDLE) != 0);
-  minUnitCheck((status & uartStatus::RXIDLE) != 0);
+  std::uint32_t status = usartPeripheral.Status();
+  minUnitCheck((status & UartStatuses::kTxIdle) != 0);
+  minUnitCheck((status & UartStatuses::kRxIdle) != 0);
   // setup DMA for single peripheral to memory transfer for uart RX
-  dmaPeripheral.ConfigureChanDescr(HardwareDescriptors::kUSART0_RX_DMA, usartPeripheral.getRxDatAddress(),
+  dmaPeripheral.ConfigureChanDescr(HardwareDescriptors::kUSART0_RX_DMA, usartPeripheral.GetRxDataAddress(),
                                    outputBuffer.data() + outputBuffer.size() - 1, nullptr);
   dmaPeripheral.ConfigureChannel(HardwareDescriptors::kUSART0_RX_DMA, TriggerConfigs::kRisingEdge, BurstSizes::k1, false, false,
                                  ChannelPrios::kLowest);
@@ -161,7 +161,7 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, 
   dmaPeripheral.SetChannelTrigger(HardwareDescriptors::kUSART0_RX_DMA);
   // setup DMA for single memory to peripheral transfer for uart TX
   dmaPeripheral.ConfigureChanDescr(HardwareDescriptors::kUSART0_TX_DMA, inputBuffer.data() + inputBuffer.size() - 1,
-                                   usartPeripheral.getTxDatAddress(), nullptr);
+                                   usartPeripheral.GetTxDataAddress(), nullptr);
   dmaPeripheral.ConfigureChannel(HardwareDescriptors::kUSART0_TX_DMA, TriggerConfigs::kRisingEdge, BurstSizes::k1, false, false,
                                  ChannelPrios::kLowest);
   dmaPeripheral.ConfigureTransfer(HardwareDescriptors::kUSART0_TX_DMA, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,

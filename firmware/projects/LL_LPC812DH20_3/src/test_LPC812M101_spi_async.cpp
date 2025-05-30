@@ -49,9 +49,9 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncInits, LPC812M101CppSetupSpiAsync, LPC812M101Te
 
 MINUNIT_ADD(LPC812M101CppSpiAsyncClaimUnclaim, LPC812M101CppSetupSpiAsync, LPC812M101Teardown) {
   spiAsyncPeripheral16.InitMaster(100000);
-  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::CLAIMED);
-  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::IN_USE);
-  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::UNCLAIMED);
+  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kClaimed);
+  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kInUse);
+  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::kUnclaimed);
   minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::ERROR);
 }
 
@@ -62,7 +62,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812
   std::array<uint16_t, 5> testDataReceive;
   testDataReceive.fill(0x0000u);
   spiAsyncPeripheral16.InitMaster(1000000);
-  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::CLAIMED);
+  minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(spiAsyncPeripheral16.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::STARTED);
   minUnitCheck(spiAsyncPeripheral16.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
@@ -93,7 +93,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812
   minUnitCheck(testDataSend[0] == testDataReceive[0]);
   minUnitCheck((testDataSend[1] & 0xFF) == testDataReceive[1]);
 
-  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::UNCLAIMED);
+  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::kUnclaimed);
 }
 
 MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M101Teardown) {
@@ -103,7 +103,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M
   std::array<uint8_t, 10> testDataReceive;
   testDataReceive.fill(0x00);
   spiAsyncPeripheral8.InitMaster(1000000);
-  minUnitCheck(spiAsyncPeripheral8.Claim() == libmcu::Results::CLAIMED);
+  minUnitCheck(spiAsyncPeripheral8.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(spiAsyncPeripheral8.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
                libmcu::Results::STARTED);
   minUnitCheck(spiAsyncPeripheral8.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
@@ -137,5 +137,5 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M
   minUnitCheck(testDataReceive[3] == (testDataSend[3] & 0x0F));
   minUnitCheck(testDataReceive[4] == 0x00);
 
-  minUnitCheck(spiAsyncPeripheral8.Unclaim() == libmcu::Results::UNCLAIMED);
+  minUnitCheck(spiAsyncPeripheral8.Unclaim() == libmcu::Results::kUnclaimed);
 }

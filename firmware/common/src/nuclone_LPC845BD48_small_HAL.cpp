@@ -15,8 +15,8 @@ libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
 libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
 libmcull::gpio::gpio<libmcuhw::gpioAddress> gpioPeripheral;
 libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
-libmcull::usart::SyncUart<libmcuhw::kUsart0Address, std::uint8_t> usart_peripheral;
-libmcuhal::usart::SyncUart<usart_peripheral> hal_usart_peripheral;
+libmcull::usart::SyncUart<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
+libmcuhal::usart::SyncUart<usart_peripheral, UartTransferType> hal_usart_peripheral;
 
 void boardInit(void) {
   // clock enables and resets

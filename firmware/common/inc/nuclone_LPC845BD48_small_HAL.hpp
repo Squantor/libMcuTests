@@ -86,6 +86,8 @@ constexpr mainI2cSdaFunctionType i2cMainSdaFunction;
 constexpr mainUartTxFunctionType uartMainTxFunction;
 constexpr mainUartRxFunctionType uartMainRxFunction;
 
+using UartTransferType = std::uint8_t;
+
 // peripheral externs
 extern libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
 extern libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
@@ -96,8 +98,8 @@ constexpr inline libmcuhw::clock::mcuClockConfig<libmcuhw::clock::clockInputSour
 constexpr inline libmcuhw::clock::periClockConfig<nucloneClockConfig, libmcuhw::clock::periSelect::UART0,
                                                   libmcuhw::clock::periSource::MAIN>
   uart0ClockConfig;
-extern libmcull::usart::SyncUart<libmcuhw::kUsart0Address, std::uint8_t> usart_peripheral;
-extern libmcuhal::usart::SyncUart<usart_peripheral> hal_usart_peripheral;
+extern libmcull::usart::SyncUart<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
+extern libmcuhal::usart::SyncUart<usart_peripheral, UartTransferType> hal_usart_peripheral;
 
 void boardInit(void);
 
