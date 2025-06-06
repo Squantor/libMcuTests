@@ -98,6 +98,10 @@ constexpr inline libmcuhw::clock::periClockConfig<nucloneClockConfig, libmcuhw::
   uart0ClockConfig;
 extern libmcull::dma::Dma<libmcuhw::dmaAddress> dmaPeripheral;
 extern libmcull::inmux::InMux<libmcuhw::inmuxAddress> inmux_peripheral;
+constexpr inline libmcuhw::clock::periClockConfig<nucloneClockConfig, libmcuhw::clock::periSelect::SPI0,
+                                                  libmcuhw::clock::periSource::MAIN>
+  kSpi0ClockConfig;
+extern libmcull::spi::SpiPolled<libmcuhw::spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> g_spi_polled_peripheral;
 
 void boardInit(void);
 

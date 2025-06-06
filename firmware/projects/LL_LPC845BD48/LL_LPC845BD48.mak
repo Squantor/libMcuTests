@@ -19,6 +19,7 @@ $(PROJ_DIR)/src/test_LPC845M301_gpio.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_iocon.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_uart.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_dma.cpp \
+$(PROJ_DIR)/src/test_LPC845M301_spi_pol.cpp \
 common/src/$(BOARD).cpp \
 common/src/LPC845M301_teardown.cpp
 $(NAME)_INCLUDES := -I$(PROJ_DIR)/inc -Icommon/inc

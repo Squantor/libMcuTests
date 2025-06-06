@@ -18,6 +18,7 @@ libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
 libmcull::usart::SyncUart<libmcuhw::kUsart0Address, std::uint8_t> usartPeripheral;
 libmcull::dma::Dma<libmcuhw::dmaAddress> dmaPeripheral;
 libmcull::inmux::InMux<libmcuhw::inmuxAddress> inmux_peripheral;
+libmcull::spi::SpiPolled<libmcuhw::spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> g_spi_polled_peripheral;
 
 void boardInit(void) {
   // clock enables and resets
