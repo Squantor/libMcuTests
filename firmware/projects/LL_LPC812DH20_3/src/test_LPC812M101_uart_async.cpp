@@ -35,12 +35,12 @@ MINUNIT_ADD(LPC812M101CppUsartAsyncInit, LPC812M101CppSetupUsartAsync, LPC812M10
   realBaudRate = usartSyncPeripheral.init(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
-               (CFG::kENABLE | uartLength::SIZE_8 | uartParity::NONE | uartStop::STOP_1));
+               (CFG::kENABLE | UartLengths::kSize8 | UartParities::kParityNone | UartStops::kStop1));
   dutRegisters->CFG = 0x00000000;
-  realBaudRate = usartSyncPeripheral.init(9600, uartLength::SIZE_7, uartParity::EVEN, uartStop::STOP_2);
+  realBaudRate = usartSyncPeripheral.init(9600, UartLengths::kSize7, UartParities::kParityEven, UartStops::kStop2);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
-               (CFG::kENABLE | uartLength::SIZE_7 | uartParity::EVEN | uartStop::STOP_2));
+               (CFG::kENABLE | UartLengths::kSize7 | UartParities::kParityEven | UartStops::kStop2));
 }
 
 MINUNIT_ADD(LPC812M101CppUsartAsyncComms, LPC812M101CppSetupUsartAsync, LPC812M101Teardown) {
@@ -50,24 +50,24 @@ MINUNIT_ADD(LPC812M101CppUsartAsyncComms, LPC812M101CppSetupUsartAsync, LPC812M1
   usartSyncPeripheral.init(115200);
   sysconPeripheral.SetUsartClockDivider(1);
   minUnitCheck((dutRegisters->STAT & STAT::kRESERVED_MASK) == 0x0000000E);
-  minUnitCheck(usartSyncPeripheral.status() & uartStatus::TXRDY);
+  minUnitCheck(usartSyncPeripheral.status() & UartStatusMasks::kTxReady);
   usartSyncPeripheral.write(0xA5);
   timeout = 0xFFFF;
-  while (timeout > 0 && !(usartSyncPeripheral.status() & uartStatus::RXRDY)) {
+  while (timeout > 0 && !(usartSyncPeripheral.status() & UartStatusMasks::kRxReady)) {
     timeout--;
   }
   minUnitCheck(timeout > 0);
-  minUnitCheck(usartSyncPeripheral.status() & uartStatus::RXRDY);
+  minUnitCheck(usartSyncPeripheral.status() & UartStatusMasks::kRxReady);
   usartSyncPeripheral.read(data);
   minUnitCheck(data == 0xA5);
   for (std::uint32_t i = 0; i < 256; i++) {
     usartSyncPeripheral.write(i);
     timeout = 0xFFFF;
-    while (timeout > 0 && !(usartSyncPeripheral.status() & uartStatus::RXRDY)) {
+    while (timeout > 0 && !(usartSyncPeripheral.status() & UartStatusMasks::kRxReady)) {
       timeout--;
     }
     minUnitCheck(timeout > 0);
-    minUnitCheck(usartSyncPeripheral.status() & uartStatus::RXRDY);
+    minUnitCheck(usartSyncPeripheral.status() & UartStatusMasks::kRxReady);
     usartSyncPeripheral.read(data, status);
     minUnitCheck(data == i);
     minUnitCheck(status == 0x00000000);

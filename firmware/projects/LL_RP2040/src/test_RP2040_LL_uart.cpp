@@ -62,17 +62,17 @@ MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, RP2040Teardown) {
   minUnitCheck(uartPeripheral.setup(9600) == 9600);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
-  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::TIMEOUT);
+  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::kTimeout);
   uartPeripheral.write(singleData);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   libmcu::Delay(1000000);                                                 // wait until data has been received
   minUnitCheck(!(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG));  // we looped TX and RX so RX FIFO should also not be empty
-  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::NO_ERROR);
+  minUnitCheck(uartPeripheral.read(receiveDataSingle, 100) == libmcu::Results::kNoError);
   minUnitCheck(receiveDataSingle[0] == 0x5A);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   uartPeripheral.write(multiData);
-  minUnitCheck(uartPeripheral.read(receiveDataMulti, 10000) == libmcu::Results::NO_ERROR);
+  minUnitCheck(uartPeripheral.read(receiveDataMulti, 10000) == libmcu::Results::kNoError);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   minUnitCheck(receiveDataMulti[0] == 0x01);

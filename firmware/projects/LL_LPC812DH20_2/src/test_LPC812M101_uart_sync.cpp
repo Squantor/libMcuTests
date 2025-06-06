@@ -19,7 +19,7 @@ static constexpr libmcu::HwAddressType usart0Address = libmcuhw::usart0Address;
 libmcuhw::usart::Usart *const dutRegisters{reinterpret_cast<libmcuhw::usart::Usart *>(usart0Address)};
 
 /**
- * @brief USART setup and initialisation
+ * @brief USART setup and Initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupUsartSync) {
   minUnitCheck(LPC812M101TeardownCorrect() == true);
@@ -32,23 +32,23 @@ MINUNIT_SETUP(LPC812M101CppSetupUsartSync) {
 
 MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
   uint32_t realBaudRate;
-  realBaudRate = usartAsyncPeripheral.init(115200);
+  realBaudRate = usartAsyncPeripheral.Init(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
-               (CFG::kENABLE | uartLength::SIZE_8 | uartParity::NONE | uartStop::STOP_1));
+               (CFG::kENABLE | UartLengths::kSize8 | UartParities::kParityNone | UartStops::kStop1));
   dutRegisters->CFG = 0x00000000;
-  realBaudRate = usartAsyncPeripheral.init(9600, uartLength::SIZE_7, uartParity::EVEN, uartStop::STOP_2);
+  realBaudRate = usartAsyncPeripheral.Init(9600, UartLengths::kSize7, UartParities::kParityEven, UartStops::kStop2);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
-               (CFG::kENABLE | uartLength::SIZE_7 | uartParity::EVEN | uartStop::STOP_2));
+               (CFG::kENABLE | UartLengths::kSize7 | UartParities::kParityEven | UartStops::kStop2));
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncClaiming, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
-  usartAsyncPeripheral.init(115200);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kClaimed);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kInUse);
-  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::kUnclaimed);
-  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::ERROR);
+  usartAsyncPeripheral.Init(115200);
+  minUnitCheck(usartAsyncPeripheral.Claim() == libmcu::Results::kClaimed);
+  minUnitCheck(usartAsyncPeripheral.Claim() == libmcu::Results::kInUse);
+  minUnitCheck(usartAsyncPeripheral.Unclaim() == libmcu::Results::kUnclaimed);
+  minUnitCheck(usartAsyncPeripheral.Unclaim() == libmcu::Results::kError);
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
@@ -58,29 +58,29 @@ MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101
   swmPeriperhal.setup(test1Pin, uartMainRxFunction);
   swmPeriperhal.setup(test0Pin, uartMainTxFunction);
   sysconPeripheral.SetUsartClockDivider(1);
-  usartAsyncPeripheral.init(115200);
-  minUnitCheck(usartAsyncPeripheral.claim() == libmcu::Results::kClaimed);
-  minUnitCheck(usartAsyncPeripheral.startRead(testDataReceive) == libmcu::Results::STARTED);
-  minUnitCheck(usartAsyncPeripheral.startRead(testDataReceive) == libmcu::Results::ERROR);
-  minUnitCheck(usartAsyncPeripheral.startWrite(testDataSend) == libmcu::Results::STARTED);
-  minUnitCheck(usartAsyncPeripheral.startWrite(testDataSend) == libmcu::Results::ERROR);
-  libmcu::Results readResult = libmcu::Results::BUSY;
-  libmcu::Results writeResult = libmcu::Results::BUSY;
+  usartAsyncPeripheral.Init(115200);
+  minUnitCheck(usartAsyncPeripheral.Claim() == libmcu::Results::kClaimed);
+  minUnitCheck(usartAsyncPeripheral.Receive(testDataReceive) == libmcu::Results::kStarted);
+  minUnitCheck(usartAsyncPeripheral.Receive(testDataReceive) == libmcu::Results::kError);
+  minUnitCheck(usartAsyncPeripheral.Transmit(testDataSend) == libmcu::Results::kStarted);
+  minUnitCheck(usartAsyncPeripheral.Transmit(testDataSend) == libmcu::Results::kError);
+  libmcu::Results readResult = libmcu::Results::kBusy;
+  libmcu::Results writeResult = libmcu::Results::kBusy;
   int timeout = 0;
   do {
-    if (readResult == libmcu::Results::BUSY)
-      readResult = usartAsyncPeripheral.progressRead();
-    if (writeResult == libmcu::Results::BUSY)
-      writeResult = usartAsyncPeripheral.progressWrite();
+    if (readResult == libmcu::Results::kBusy)
+      readResult = usartAsyncPeripheral.ProgressReceive();
+    if (writeResult == libmcu::Results::kBusy)
+      writeResult = usartAsyncPeripheral.ProgressTransmit();
     timeout++;
-  } while (timeout < 100000 && (writeResult == libmcu::Results::BUSY || readResult == libmcu::Results::BUSY));
+  } while (timeout < 100000 && (writeResult == libmcu::Results::kBusy || readResult == libmcu::Results::kBusy));
   minUnitCheck(timeout < 100000);
-  minUnitCheck(writeResult == libmcu::Results::DONE);
-  minUnitCheck(readResult == libmcu::Results::DONE);
+  minUnitCheck(writeResult == libmcu::Results::kDone);
+  minUnitCheck(readResult == libmcu::Results::kDone);
   minUnitCheck(testDataReceive[0] == 0x12);
   minUnitCheck(testDataReceive[1] == 0xFE);
   minUnitCheck(testDataReceive[2] == 0x34);
   minUnitCheck(testDataReceive[3] == 0xDC);
   minUnitCheck(testDataReceive[4] == 0x5A);
-  minUnitCheck(usartAsyncPeripheral.unclaim() == libmcu::Results::kUnclaimed);
+  minUnitCheck(usartAsyncPeripheral.Unclaim() == libmcu::Results::kUnclaimed);
 }

@@ -86,7 +86,7 @@ MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   minUnitCheck(hal_usart_peripheral.Claim(handle) == libmcu::Results::kClaimed);
   minUnitCheck(handle != 42);
   minUnitCheck(hal_usart_peripheral.Transmit(42, single_transfer) == libmcu::Results::kInvalidHandle);
-  minUnitCheck(hal_usart_peripheral.Transmit(handle, single_transfer) == libmcu::Results::NO_ERROR);
+  minUnitCheck(hal_usart_peripheral.Transmit(handle, single_transfer) == libmcu::Results::kNoError);
   // check for reception
   timeout = 0xFFFF;
   while (timeout > 0 && !(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::kReceiverDataMask)) {
@@ -95,9 +95,9 @@ MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   minUnitCheck(timeout > 0);
   minUnitCheck(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::kReceiverDataMask);
   // receive and check for timeout
-  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::NO_ERROR);
+  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::kNoError);
   minUnitCheck(single_reception == single_transfer);
-  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::TIMEOUT);
+  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::kTimeout);
 
   minUnitCheck(hal_usart_peripheral.Release(handle) == libmcu::Results::kUnclaimed);
   minUnitPass();

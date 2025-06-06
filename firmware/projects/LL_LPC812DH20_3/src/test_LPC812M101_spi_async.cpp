@@ -52,7 +52,7 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncClaimUnclaim, LPC812M101CppSetupSpiAsync, LPC81
   minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kInUse);
   minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::kUnclaimed);
-  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::ERROR);
+  minUnitCheck(spiAsyncPeripheral16.Unclaim() == libmcu::Results::kError);
 }
 
 MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812M101Teardown) {
@@ -64,31 +64,31 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite16, LPC812M101CppSetupSpiAsync, LPC812
   spiAsyncPeripheral16.InitMaster(1000000);
   minUnitCheck(spiAsyncPeripheral16.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(spiAsyncPeripheral16.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
-               libmcu::Results::STARTED);
+               libmcu::Results::kStarted);
   minUnitCheck(spiAsyncPeripheral16.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
-               libmcu::Results::ERROR);
-  minUnitCheck(spiAsyncPeripheral16.Progress() == libmcu::Results::BUSY);
+               libmcu::Results::kError);
+  minUnitCheck(spiAsyncPeripheral16.Progress() == libmcu::Results::kBusy);
 
   iterationCount = 0;
   do {
     status = spiAsyncPeripheral16.Progress();
     iterationCount++;
-  } while (status == libmcu::Results::BUSY && iterationCount < maxIterations);
+  } while (status == libmcu::Results::kBusy && iterationCount < maxIterations);
 
-  minUnitCheck(status == libmcu::Results::DONE);
+  minUnitCheck(status == libmcu::Results::kDone);
   minUnitCheck(iterationCount < maxIterations);
   minUnitCheck((testDataSend[0] & 0xFF) == testDataReceive[0]);
   // TODO check register statuses?
   testDataReceive.fill(0x0000u);
   minUnitCheck(spiAsyncPeripheral16.Transceive(ChipEnables::kNone, testDataSend, testDataReceive, 24, true) ==
-               libmcu::Results::STARTED);
+               libmcu::Results::kStarted);
   iterationCount = 0;
   do {
     status = spiAsyncPeripheral16.Progress();
     iterationCount++;
-  } while (status == libmcu::Results::BUSY && iterationCount < maxIterations);
+  } while (status == libmcu::Results::kBusy && iterationCount < maxIterations);
 
-  minUnitCheck(status == libmcu::Results::DONE);
+  minUnitCheck(status == libmcu::Results::kDone);
   minUnitCheck(iterationCount < maxIterations);
   minUnitCheck(testDataSend[0] == testDataReceive[0]);
   minUnitCheck((testDataSend[1] & 0xFF) == testDataReceive[1]);
@@ -105,31 +105,31 @@ MINUNIT_ADD(LPC812M101CppSpiAsyncReadWrite8, LPC812M101CppSetupSpiAsync, LPC812M
   spiAsyncPeripheral8.InitMaster(1000000);
   minUnitCheck(spiAsyncPeripheral8.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(spiAsyncPeripheral8.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
-               libmcu::Results::STARTED);
+               libmcu::Results::kStarted);
   minUnitCheck(spiAsyncPeripheral8.Transceive(ChipEnables::kSsel0, testDataSend, testDataReceive, 8, true) ==
-               libmcu::Results::ERROR);
-  minUnitCheck(spiAsyncPeripheral8.Progress() == libmcu::Results::BUSY);
+               libmcu::Results::kError);
+  minUnitCheck(spiAsyncPeripheral8.Progress() == libmcu::Results::kBusy);
 
   iterationCount = 0;
   do {
     status = spiAsyncPeripheral8.Progress();
     iterationCount++;
-  } while (status == libmcu::Results::BUSY && iterationCount < maxIterations);
+  } while (status == libmcu::Results::kBusy && iterationCount < maxIterations);
 
-  minUnitCheck(status == libmcu::Results::DONE);
+  minUnitCheck(status == libmcu::Results::kDone);
   minUnitCheck(iterationCount < maxIterations);
   minUnitCheck((testDataSend[0]) == testDataReceive[0]);
   // TODO check register statuses?
   testDataReceive.fill(0x00);
   minUnitCheck(spiAsyncPeripheral8.Transceive(ChipEnables::kNone, testDataSend, testDataReceive, 28, true) ==
-               libmcu::Results::STARTED);
+               libmcu::Results::kStarted);
   iterationCount = 0;
   do {
     status = spiAsyncPeripheral8.Progress();
     iterationCount++;
-  } while (status == libmcu::Results::BUSY && iterationCount < maxIterations);
+  } while (status == libmcu::Results::kBusy && iterationCount < maxIterations);
 
-  minUnitCheck(status == libmcu::Results::DONE);
+  minUnitCheck(status == libmcu::Results::kDone);
   minUnitCheck(iterationCount < maxIterations);
   minUnitCheck(testDataReceive[0] == testDataSend[0]);
   minUnitCheck(testDataReceive[1] == testDataSend[1]);
