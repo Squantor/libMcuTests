@@ -20,26 +20,26 @@ For conditions of distribution and use, see LICENSE file
 #define TICKS_PER_S 10
 
 // main gpio port
-using gpioPort = libmcuhw::port<libmcuhw::IOports::PORT0>;
+using gpioPort = libmcuhw::Port<libmcuhw::IoPorts::PORT0>;
 
 // Crystal osillator pins
-using xtalInPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN08>;
-using xtalOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN09>;
+using xtalInPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin08>;
+using xtalOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin09>;
 // test pin pair 0, connected to eachother via 3.3KOhm resistor, testboard PIN1
-using test0PinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN00>;
-using test1PinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN14>;
+using test0PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin00>;
+using test1PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin14>;
 // auxillary test pin, connected to nothing, testboard PIN2
-using test2PinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN07>;
+using test2PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin07>;
 // auxillary test pin, connected to nothing, testboard PIN3
-using test3PinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN06>;
+using test3PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin06>;
 // PWM test pin pair, connected to 1K 10uF RC, testboard RC_out1
-using testPwmInPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN01>;
+using testPwmInPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin01>;
 // PWM test pin pair, connected to 1K 10uF RC, testboard RC_in1
-using testPwmOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN15>;
+using testPwmOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin15>;
 // I2C Clock pin pair, pulled up to 2.2K to 3.3V
-using i2cSclOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN10>;
+using i2cSclOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin10>;
 // I2C Data pin pair, pulled up to 2.2K to 3.3V
-using i2cSdaOutPinType = libmcuhw::pin<libmcuhw::IOports::PORT0, libmcuhw::IOpins::PIN11>;
+using i2cSdaOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin11>;
 
 // Peripheral functions
 using mainI2cSdaFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2cSdaInOut>;
@@ -92,18 +92,18 @@ constexpr sctInput1FunctionType sctInput1Function;
 constexpr sctInput2FunctionType sctInput2Function;
 constexpr sctInput3FunctionType sctInput3Function;
 
-extern libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
-extern libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
-extern libmcull::gpio::Gpio<libmcuhw::gpioAddress> gpioPeripheral;
+extern libmcull::iocon::Iocon<libmcuhw::kIoconAddress> ioconPeripheral;
+extern libmcull::swm::Swm<libmcuhw::kSwmAddress> swmPeriperhal;
+extern libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpioPeripheral;
 extern libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
 extern libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
 extern libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
-extern libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
-extern libmcull::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
-extern libmcull::usart::UsartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-extern libmcull::i2c::I2c<libmcuhw::i2c0Address> i2cPeripheral;
-extern libmcull::sct::Sct<libmcuhw::sctAddress> sctPeripheral;
-extern libmcull::acmp::Acmp<libmcuhw::acmpAddress> acmpPeripheral;
+extern libmcull::syscon::Syscon<libmcuhw::kSysconAddress> sysconPeripheral;
+extern libmcull::usart::usartSync<libmcuhw::kUsart0Address, std::uint8_t> usartSyncPeripheral;
+extern libmcull::usart::UsartAsync<libmcuhw::kUsart0Address, std::uint8_t> usartAsyncPeripheral;
+extern libmcull::i2c::I2c<libmcuhw::kI2c0Address> i2cPeripheral;
+extern libmcull::sct::Sct<libmcuhw::kSctAddress> sctPeripheral;
+extern libmcull::acmp::Acmp<libmcuhw::kAcmpAddress> acmpPeripheral;
 
 void boardInit(void);
 void crudeDelay(uint32_t iterations);

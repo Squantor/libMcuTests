@@ -16,7 +16,7 @@ namespace hardware = libmcuhw::spi;
 namespace lowlevel = libmcull::spi;
 
 // peripheral registers
-static constexpr libmcu::HwAddressType spi_address = libmcuhw::spi0Address; /**< peripheral address */
+static constexpr libmcu::HwAddressType spi_address = libmcuhw::kSpi0Address; /**< peripheral address */
 libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(spi_address)};
 
 /**
@@ -24,8 +24,9 @@ libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(s
  */
 MINUNIT_SETUP(LPC845M301SetupSpiPol) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::SPI0 | libmcull::syscon::peripheralClocks0::SWM |
-                                            libmcull::syscon::peripheralClocks0::IOCON,
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kSpi0 |
+                                            libmcull::syscon::peripheral_clocks_0::kSwm |
+                                            libmcull::syscon::peripheral_clocks_0::kIocon,
                                           0);
 }
 

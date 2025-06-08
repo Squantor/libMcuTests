@@ -26,11 +26,12 @@ hardware::Usart *const dut_registers{reinterpret_cast<hardware::Usart *>(usart0_
  */
 MINUNIT_SETUP(LPC845M301SetupUart) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::UART0 | libmcull::syscon::peripheralClocks0::SWM |
-                                            libmcull::syscon::peripheralClocks0::IOCON,
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kUart0 |
+                                            libmcull::syscon::peripheral_clocks_0::kSwm |
+                                            libmcull::syscon::peripheral_clocks_0::kIocon,
                                           0);
-  swmPeriperhal.setup(testPin1, uartMainRxFunction);
-  swmPeriperhal.setup(testPin2, uartMainTxFunction);
+  swmPeriperhal.Setup(testPin1, uartMainRxFunction);
+  swmPeriperhal.Setup(testPin2, uartMainTxFunction);
 }
 
 /**
@@ -38,7 +39,7 @@ MINUNIT_SETUP(LPC845M301SetupUart) {
  */
 MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
-  sysconPeripheral.peripheralClockSource(libmcull::syscon::ClockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
+  sysconPeripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
   realBaudRate = hal_usart_peripheral.Init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dut_registers->CFG & hardware::CFG::kRESERVED_MASK) ==
@@ -72,7 +73,7 @@ MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teard
  * @brief Tests UART HAL single character communication
  */
 MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
-  sysconPeripheral.peripheralClockSource(libmcull::syscon::ClockSourceSelects::UART0, libmcull::syscon::clockSources::MAIN);
+  sysconPeripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
   hal_usart_peripheral.Init<uart0ClockConfig>(115200);
 
   std::size_t timeout;

@@ -24,7 +24,7 @@ libmcuhw::usart::Usart *const dut_registers{reinterpret_cast<libmcuhw::usart::Us
  */
 MINUNIT_SETUP(LPC845M301SetupUart) {
   minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.enablePeripheralClocks(libmcull::syscon::peripheralClocks0::UART0 | libmcull::syscon::peripheralClocks0::SWM |
+  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::peripheralClocks0::UART0 | libmcull::syscon::peripheralClocks0::SWM |
                                             libmcull::syscon::peripheralClocks0::IOCON,
                                           0);
   swmPeriperhal.setup(testPin1, uartMainRxFunction);

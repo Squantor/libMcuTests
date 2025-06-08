@@ -6,19 +6,19 @@
  */
 #include <nuclone_LPC812M101DH20_tests.hpp>
 
-libmcull::iocon::Iocon<libmcuhw::ioconAddress> ioconPeripheral;
-libmcull::swm::Swm<libmcuhw::swmAddress> swmPeriperhal;
-libmcull::gpio::Gpio<libmcuhw::gpioAddress> gpioPeripheral;
+libmcull::iocon::Iocon<libmcuhw::kIoconAddress> ioconPeripheral;
+libmcull::swm::Swm<libmcuhw::kSwmAddress> swmPeriperhal;
+libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpioPeripheral;
 libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiSyncPeripheral;
 libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint16_t> spiAsyncPeripheral16;
 libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std::uint8_t> spiAsyncPeripheral8;
-libmcull::syscon::Syscon<libmcuhw::sysconAddress> sysconPeripheral;
-libmcull::usart::usartSync<libmcuhw::usart0Address, std::uint8_t> usartSyncPeripheral;
-libmcull::usart::UsartAsync<libmcuhw::usart0Address, std::uint8_t> usartAsyncPeripheral;
-libmcull::i2c::I2c<libmcuhw::i2c0Address> i2cPeripheral;
-libmcull::sct::Sct<libmcuhw::sctAddress> sctPeripheral;
-libmcull::acmp::Acmp<libmcuhw::acmpAddress> acmpPeripheral;
-libmcull::fmc::Fmc<libmcuhw::fmcAddress> fcmPeripheral;
+libmcull::syscon::Syscon<libmcuhw::kSysconAddress> sysconPeripheral;
+libmcull::usart::usartSync<libmcuhw::kUsart0Address, std::uint8_t> usartSyncPeripheral;
+libmcull::usart::UsartAsync<libmcuhw::kUsart0Address, std::uint8_t> usartAsyncPeripheral;
+libmcull::i2c::I2c<libmcuhw::kI2c0Address> i2cPeripheral;
+libmcull::sct::Sct<libmcuhw::kSctAddress> sctPeripheral;
+libmcull::acmp::Acmp<libmcuhw::kAcmpAddress> acmpPeripheral;
+libmcull::fmc::Fmc<libmcuhw::kFmcAddress> fcmPeripheral;
 
 void boardInit(void) {
   // clock enables and resets

@@ -13,7 +13,7 @@
 #define CLOCK_AHB (12000000u)
 #define CLOCK_MAIN (12000000u)
 
-#include <mcu_ll.hpp>
+#include <templates/libmcu_template_ll.hpp>
 
 #define TICKS_PER_S 10
 

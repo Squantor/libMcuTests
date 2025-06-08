@@ -19,7 +19,7 @@ static constexpr std::uint32_t maxPwm = 1000;
 static constexpr std::uint32_t settlingDelay = 8000;  // determined empirically ((RC delay + comparator delay) * 2)
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType acmpAddress = libmcuhw::acmpAddress;
+static constexpr libmcu::HwAddressType acmpAddress = libmcuhw::kAcmpAddress;
 libmcuhw::acmp::Acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::Acmp *>(acmpAddress)};
 
 /**

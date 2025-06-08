@@ -16,7 +16,7 @@ using namespace libmcuhw::sct;
 using namespace libmcull::sct;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType sctAddress = libmcuhw::sctAddress;
+static constexpr libmcu::HwAddressType sctAddress = libmcuhw::kSctAddress;
 libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sctAddress)};
 
 /**
