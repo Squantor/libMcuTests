@@ -36,7 +36,7 @@ MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
 MINUNIT_ADD(LPC812M101DH20I2cSyncInits, LPC812M101CppSetupI2cSync, LPC812M101Teardown) {
   uint32_t actualRate = i2cPeripheral.InitMaster(133630, 100);
   minUnitCheck(actualRate == 136363);
-  minUnitCheck((dutRegisters->CFG & CFG::kkRESERVED_MASK) == CFG::kMSTEN);
+  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == CFG::kMSTEN);
   minUnitCheck((dutRegisters->TIMEOUT == 1615));
 }
 

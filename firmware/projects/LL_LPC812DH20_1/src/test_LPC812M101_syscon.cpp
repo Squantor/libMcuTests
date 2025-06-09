@@ -33,11 +33,11 @@ MINUNIT_ADD(LPC812M101CppSysconChipID, LPC812M101CppSetupSyscon, LPC812M101Teard
 MINUNIT_ADD(LPC812M101CppSysconResets, LPC812M101CppSetupSyscon, LPC812M101Teardown) {
   minUnitCheck(SysconRegisters->PRESETCTRL == 0x00001FFF);
   // preset the reset register to a value that will be reset by the test
-  uint32_t resetRegister = SysconRegisters->PRESETCTRL & libmcuhw::syscon::PRESETCTRL::kRESERVED_MASK;
+  uint32_t resetRegister = SysconRegisters->PRESETCTRL & libmcuhw::syscon::PRESETCTRL::RESERVED_MASK;
   resetRegister = resetRegister & ~(PRESETCTRL::kSPI0_RST_N | PRESETCTRL::kI2C_RST_N | PRESETCTRL::kACMP_RST_N);
   minUnitCheck(resetRegister == 0x00000FBE);
   SysconRegisters->PRESETCTRL =
-    (SysconRegisters->PRESETCTRL & ~PRESETCTRL::kRESERVED_MASK) | (PRESETCTRL::kRESERVED_MASK & resetRegister);
+    (SysconRegisters->PRESETCTRL & ~PRESETCTRL::RESERVED_MASK) | (PRESETCTRL::RESERVED_MASK & resetRegister);
   sysconPeripheral.ResetPeripherals(PeripheralResets::kResetSpi0);
   // the reset function will restore all bits to operational
   minUnitCheck(SysconRegisters->PRESETCTRL == 0x00000FBF);

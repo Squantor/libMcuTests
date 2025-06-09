@@ -34,12 +34,12 @@ MINUNIT_ADD(LPC812M101CppUsartAsyncInit, LPC812M101CppSetupUsartAsync, LPC812M10
   std::uint32_t realBaudRate;
   realBaudRate = usartSyncPeripheral.Init(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | UartLengths::kSize8 | UartParities::kParityNone | UartStops::kStop1));
   dutRegisters->CFG = 0x00000000;
   realBaudRate = usartSyncPeripheral.Init(9600, UartLengths::kSize7, UartParities::kParityEven, UartStops::kStop2);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | UartLengths::kSize7 | UartParities::kParityEven | UartStops::kStop2));
 }
 
@@ -49,7 +49,7 @@ MINUNIT_ADD(LPC812M101CppUsartAsyncComms, LPC812M101CppSetupUsartAsync, LPC812M1
   int timeout;
   usartSyncPeripheral.Init(115200);
   sysconPeripheral.SetUsartClockDivider(1);
-  minUnitCheck((dutRegisters->STAT & STAT::kRESERVED_MASK) == 0x0000000E);
+  minUnitCheck((dutRegisters->STAT & STAT::RESERVED_MASK) == 0x0000000E);
   minUnitCheck(usartSyncPeripheral.Status() & UartStatusMasks::kTxReady);
   usartSyncPeripheral.Transmit(0xA5);
   timeout = 0xFFFF;

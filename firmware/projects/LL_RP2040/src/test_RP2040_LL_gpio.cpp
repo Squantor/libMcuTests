@@ -13,22 +13,22 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType dutAddress = libmcuhw::ioBank0Address;
-libmcuhw::gpioBank0::gpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::gpioBank0::gpioBank0 *>(dutAddress)};
+static constexpr libmcu::HwAddressType dutAddress = libmcuhw::kIoBank0Address;
+libmcuhw::gpio_bank0::GpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::gpio_bank0::GpioBank0 *>(dutAddress)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupGpio) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0, 100000);
+  resetsPeripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0, 100000);
   // connect all GPIO's
-  gpioBank0Peripheral.setup(gpio0Pin);
-  gpioBank0Peripheral.setup(gpio1Pin);
-  gpioBank0Peripheral.setup(gpio2Pin);
-  gpioBank0Peripheral.setup(gpio3Pin);
-  gpioBank0Peripheral.setup(gpio4Pin);
-  gpioBank0Peripheral.setup(gpio5Pin);
+  gpioBank0Peripheral.Setup(gpio0Pin);
+  gpioBank0Peripheral.Setup(gpio1Pin);
+  gpioBank0Peripheral.Setup(gpio2Pin);
+  gpioBank0Peripheral.Setup(gpio3Pin);
+  gpioBank0Peripheral.Setup(gpio4Pin);
+  gpioBank0Peripheral.Setup(gpio5Pin);
 }
 
 MINUNIT_ADD(RP2040gpio, RP2040SetupGpio, RP2040Teardown) {

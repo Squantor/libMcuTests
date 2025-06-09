@@ -35,12 +35,12 @@ MINUNIT_ADD(LPC845M301UsartInit, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   realBaudRate = usartPeripheral.Init<uart0ClockConfig>(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | CFG::kDATALEN8BIT | CFG::kPARITY_NONE | CFG::kSTOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = usartPeripheral.Init<uart0ClockConfig>(9600, UartParities::kEven, UartStops::kStop2, UartLengths::kSize7);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dut_registers->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | CFG::kDATALEN7BIT | CFG::kPARITY_EVEN | CFG::kSTOPBIT2));
 }
 
@@ -50,7 +50,7 @@ MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
   int timeout;
   usartPeripheral.Init<uart0ClockConfig>(115200);
   sysconPeripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
-  minUnitCheck((dut_registers->STAT & STAT::kRESERVED_MASK) == 0x0000001E);
+  minUnitCheck((dut_registers->STAT & STAT::RESERVED_MASK) == 0x0000001E);
   minUnitCheck(usartPeripheral.Status() & UartStatuses::kTxReady);
   usartPeripheral.Write(0xA5);
   timeout = 0xFFFF;

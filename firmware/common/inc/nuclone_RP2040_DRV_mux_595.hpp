@@ -21,16 +21,16 @@
 #define TICKS_PER_S (8u)
 
 // LED connected pin 25 via a resistor to ground
-using ledPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin25, libmcuhw::IOfuncts::SIO>;
+using ledPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin25, libmcuhw::IoFunctions::kSio>;
 // multiplexer pins
-using muxNotEnablePinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin00, libmcuhw::IOfuncts::SIO>;
-using muxA0PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin01, libmcuhw::IOfuncts::SIO>;
-using muxA1PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin02, libmcuhw::IOfuncts::SIO>;
-using muxA2PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin03, libmcuhw::IOfuncts::SIO>;
-using muxY0PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin04, libmcuhw::IOfuncts::SIO>;
-using muxY1PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin05, libmcuhw::IOfuncts::SIO>;
-using muxY2PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin06, libmcuhw::IOfuncts::SIO>;
-using muxY7PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin07, libmcuhw::IOfuncts::SIO>;
+using muxNotEnablePinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00, libmcuhw::IoFunctions::kSio>;
+using muxA0PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01, libmcuhw::IoFunctions::kSio>;
+using muxA1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin02, libmcuhw::IoFunctions::kSio>;
+using muxA2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin03, libmcuhw::IoFunctions::kSio>;
+using muxY0PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04, libmcuhw::IoFunctions::kSio>;
+using muxY1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin05, libmcuhw::IoFunctions::kSio>;
+using muxY2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin06, libmcuhw::IoFunctions::kSio>;
+using muxY7PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin07, libmcuhw::IoFunctions::kSio>;
 
 constexpr ledPinType ledPin;
 constexpr muxNotEnablePinType muxNotEnablePin;
@@ -44,10 +44,10 @@ constexpr muxY7PinType muxY7Pin;
 
 extern libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
 extern libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-extern libmcull::resets::resets<libmcuhw::resetsAddress> resetsPeripheral;
+extern libmcull::resets::Resets<libmcuhw::kResetsAddress> resetsPeripheral;
 
-extern libmcuhal::pins::pins<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address> pinsHal;
-extern libmcuhal::gpio::gpio<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address, libmcuhw::sioAddress> gpioHal;
+extern libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pinsHal;
+extern libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpioHal;
 extern libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
 /**

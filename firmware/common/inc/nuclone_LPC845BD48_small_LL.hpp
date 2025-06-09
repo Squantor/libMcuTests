@@ -16,33 +16,33 @@
 
 // pin types
 // Crystal osillator pins
-using xtalInPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin08>;
-using xtalOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin09>;
+using xtalInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin08>;
+using xtalOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin09>;
 using testPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT1, libmcuhw::IoPins::kPin05>;
 // connected pin 1 and 2 via 3.3K resistors, links UART RX/TX, PIN1 on board
 using pin1Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT1, libmcuhw::IoPins::kPin08>;
-using pin1PortType = libmcuhw::port<libmcuhw::IoPorts::PORT1>;
-using pin2Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin17>;
-using pin2PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
+using pin1PortType = libmcuhw::Port<libmcuhw::IoPorts::PORT1>;
+using pin2Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin17>;
+using pin2PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
 // connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO, PIN3 on board
-using pin3Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin13>;
-using pin3PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
-using pin4Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin18>;
-using pin4PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
+using pin3Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin13>;
+using pin3PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
+using pin4Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin18>;
+using pin4PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
 // connected pin 5 and 6 via 3.3K resistors, links SPI CS/SCK, PIN2 on board
 using pin5Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT1, libmcuhw::IoPins::kPin09>;
-using pin5PortType = libmcuhw::port<libmcuhw::IoPorts::PORT1>;
-using pin6Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin19>;
-using pin6PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
+using pin5PortType = libmcuhw::Port<libmcuhw::IoPorts::PORT1>;
+using pin6Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin19>;
+using pin6PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
 // connected pin 7 and 8 via 3.3K resistors
-using pin7Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin04>;
-using pin7PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
-using pin8Type = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin20>;
-using pin8PortType = libmcuhw::port<libmcuhw::IoPorts::PORT0>;
+using pin7Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04>;
+using pin7PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
+using pin8Type = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin20>;
+using pin8PortType = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
 // SDA pin with 2.2K pull up resistor
-using i2cSdaPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin11>;
+using i2cSdaPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin11>;
 // SCL pin with 2.2K pull up resistor
-using i2cSclPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin10>;
+using i2cSclPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin10>;
 
 // function types
 using xtalInFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kXtalIn>;
@@ -91,15 +91,15 @@ extern libmcull::swm::Swm<libmcuhw::kSwmAddress> swmPeriperhal;
 extern libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpioPeripheral;
 extern libmcull::syscon::Syscon<libmcuhw::kSysconAddress> sysconPeripheral;
 extern libmcull::usart::UartPolled<libmcuhw::kUsart0Address, std::uint8_t> usartPeripheral;
-constexpr inline libmcuhw::clock::mcuClockConfig<libmcuhw::clock::clockInputSources::XTAL, 12'000'000u, 30'000'000u>
+constexpr inline libmcuhw::clock::McuClockConfig<libmcuhw::clock::ClockInputSources::XTAL, 12'000'000u, 30'000'000u>
   nucloneClockConfig;
-constexpr inline libmcuhw::clock::periClockConfig<nucloneClockConfig, libmcuhw::clock::periSelect::UART0,
-                                                  libmcuhw::clock::periSource::MAIN>
+constexpr inline libmcuhw::clock::PeriClockConfig<nucloneClockConfig, libmcuhw::clock::PeriSelect::UART0,
+                                                  libmcuhw::clock::PeriSource::MAIN>
   uart0ClockConfig;
 extern libmcull::dma::Dma<libmcuhw::kDmaAddress> dmaPeripheral;
 extern libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
-constexpr inline libmcuhw::clock::periClockConfig<nucloneClockConfig, libmcuhw::clock::periSelect::SPI0,
-                                                  libmcuhw::clock::periSource::MAIN>
+constexpr inline libmcuhw::clock::PeriClockConfig<nucloneClockConfig, libmcuhw::clock::PeriSelect::SPI0,
+                                                  libmcuhw::clock::PeriSource::MAIN>
   kSpi0ClockConfig;
 extern libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> g_spi_polled_peripheral;
 

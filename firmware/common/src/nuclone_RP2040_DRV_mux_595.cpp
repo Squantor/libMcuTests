@@ -8,10 +8,10 @@
 
 libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
 libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-libmcull::resets::resets<libmcuhw::resetsAddress> resetsPeripheral;
+libmcull::resets::Resets<libmcuhw::kResetsAddress> resetsPeripheral;
 
-libmcuhal::pins::pins<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address> pinsHal;
-libmcuhal::gpio::gpio<libmcuhw::padsBank0Address, libmcuhw::ioBank0Address, libmcuhw::sioAddress> gpioHal;
+libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pinsHal;
+libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpioHal;
 
 libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
 
@@ -24,8 +24,8 @@ void SysTick_Handler(void) {
 void boardInit(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
-  timeout = resetsPeripheral.reset(
-    libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0 | libmcull::resets::PLL_SYS | libmcull::resets::PLL_USB, 100000);
+  timeout = resetsPeripheral.Reset(
+    libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kPllSys | libmcull::resets::kPllUsb, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
   // 47 ticks is around 1 ms @ 12 MHz
@@ -71,7 +71,7 @@ void boardInit(void) {
   systickPeripheral.init(12000000 / TICKS_PER_S);
   // reset all relevant peripherals
   (void)timeout;
-  pinsHal.initialize();
-  pinsHal.setup(ledPin, libmcuhal::pins::driveModes::DRIVE_12MA, libmcuhal::pins::pullModes::NONE,
-                libmcuhal::pins::speedModes::SLEW_SLOW, false);
+  pinsHal.Init();
+  pinsHal.Setup(ledPin, libmcuhal::pins::DriveModes::k12Ma, libmcuhal::pins::PullModes::kNone, libmcuhal::pins::speedModes::KSlow,
+                false);
 }

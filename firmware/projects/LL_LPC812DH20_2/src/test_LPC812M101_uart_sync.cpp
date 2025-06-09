@@ -34,12 +34,12 @@ MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101T
   uint32_t realBaudRate;
   realBaudRate = usartAsyncPeripheral.Init(115200);
   minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | UartLengths::kSize8 | UartParities::kParityNone | UartStops::kStop1));
   dutRegisters->CFG = 0x00000000;
   realBaudRate = usartAsyncPeripheral.Init(9600, UartLengths::kSize7, UartParities::kParityEven, UartStops::kStop2);
   minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dutRegisters->CFG & CFG::kRESERVED_MASK) ==
+  minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
                (CFG::kENABLE | UartLengths::kSize7 | UartParities::kParityEven | UartStops::kStop2));
 }
 

@@ -16,24 +16,24 @@ constexpr inline libmcull::I2cDeviceAddress expanderAddress{0x21}; /**< PCF8574 
 constexpr inline libmcull::I2cDeviceAddress dummyAddress{0x53};    /**< I2C address that has no device*/
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType i2c0Address = libmcuhw::i2c0Address;
-libmcuhw::i2c::i2c *const i2c0Registers{reinterpret_cast<libmcuhw::i2c::i2c *>(i2c0Address)};
+static constexpr libmcu::HwAddressType i2c0Address = libmcuhw::kI2c0Address;
+libmcuhw::i2c::I2c *const i2c0Registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c0Address)};
 
 /**
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040LLSetupI2C) {
   minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.reset(libmcull::resets::IO_BANK0 | libmcull::resets::PADS_BANK0 | libmcull::resets::I2C0, 100000);
+  resetsPeripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kI2c0, 100000);
   // connect all GPIO's
-  gpioBank0Peripheral.setup(i2cSclPin);
-  padsBank0Peripheral.setup(i2cSclPin, libmcull::pads::driveModes::DRIVE_8MA, true, false, true, true);
-  gpioBank0Peripheral.setup(i2cSdaPin);
-  padsBank0Peripheral.setup(i2cSdaPin, libmcull::pads::driveModes::DRIVE_8MA, true, false, true, false);
+  gpioBank0Peripheral.Setup(i2cSclPin);
+  padsBank0Peripheral.Setup(i2cSclPin, libmcull::pads::DriveModes::k8mA, true, false, true, true);
+  gpioBank0Peripheral.Setup(i2cSdaPin);
+  padsBank0Peripheral.Setup(i2cSdaPin, libmcull::pads::DriveModes::k8mA, true, false, true, false);
 }
 
 MINUNIT_ADD(RP2040LLI2cSetup, RP2040LLSetupI2C, RP2040Teardown) {
-  minUnitCheck(400000 == i2cPeripheral.setup(libmcull::i2c::i2cModes::FAST, 400000));
+  minUnitCheck(400000 == i2cPeripheral.setup(libmcull::i2c::I2cModes::kFast, 400000));
   // 120MHz divided by 400KHz is 300, so our low/high times need to be 300 together
   minUnitCheck(i2c0Registers->IC_FS_SCL_HCNT + i2c0Registers->IC_FS_SCL_LCNT == 300);
   minUnitCheck(i2c0Registers->IC_SDA_HOLD == 37);
@@ -41,7 +41,7 @@ MINUNIT_ADD(RP2040LLI2cSetup, RP2040LLSetupI2C, RP2040Teardown) {
 
 MINUNIT_ADD(RP2040LLI2cWrite, RP2040LLSetupI2C, RP2040Teardown) {
   std::array<std::uint8_t, 3> transmitData{0x55, 0xAA, 0x12};
-  minUnitCheck(400000 == i2cPeripheral.setup(libmcull::i2c::i2cModes::FAST, 400000));
+  minUnitCheck(400000 == i2cPeripheral.setup(libmcull::i2c::I2cModes::kFast, 400000));
   minUnitCheck(i2cPeripheral.write(dummyAddress, transmitData, 0x10000u) == libmcu::Results::kInvalidAddress);
   minUnitCheck(i2c0Registers->IC_STATUS == 0x06);
   minUnitCheck(i2cPeripheral.write(expanderAddress, transmitData, 0x10000u) == libmcu::Results::kDone);
@@ -51,7 +51,7 @@ MINUNIT_ADD(RP2040LLI2cWrite, RP2040LLSetupI2C, RP2040Teardown) {
 MINUNIT_ADD(RP2040LLI2cRead, RP2040LLSetupI2C, RP2040Teardown) {
   std::array<std::uint8_t, 1> transmitData;
   std::array<std::uint8_t, 3> receiveData;
-  minUnitCheck(100000 == i2cPeripheral.setup(libmcull::i2c::i2cModes::FAST, 100000));
+  minUnitCheck(100000 == i2cPeripheral.setup(libmcull::i2c::I2cModes::kFast, 100000));
   minUnitCheck(i2cPeripheral.read(dummyAddress, receiveData, 0x10000u) == libmcu::Results::kInvalidAddress);
   transmitData[0] = 0x55;
   minUnitCheck(i2cPeripheral.write(expanderAddress, transmitData, 0x10000u) == libmcu::Results::kDone);

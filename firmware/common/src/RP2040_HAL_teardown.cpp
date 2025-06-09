@@ -14,14 +14,14 @@
 #include <MinUnit.h>
 
 // local peripheral register sets
-static constexpr libmcu::HwAddressType sioAddressLocal = libmcuhw::sioAddress;
-libmcuhw::sio::sio *const sioRegisters{reinterpret_cast<libmcuhw::sio::sio *>(sioAddressLocal)};
-static constexpr libmcu::HwAddressType padsBank0AddressLocal = libmcuhw::padsBank0Address;
-libmcuhw::padsBank0::padsBank0 *const padsBank0Registers{reinterpret_cast<libmcuhw::padsBank0::padsBank0 *>(padsBank0AddressLocal)};
-static constexpr libmcu::HwAddressType ioBankAddressLocal = libmcuhw::ioBank0Address;
-libmcuhw::gpioBank0::gpioBank0 *const ioBankRegisters{reinterpret_cast<libmcuhw::gpioBank0::gpioBank0 *>(ioBankAddressLocal)};
-static constexpr libmcu::HwAddressType resetsAddressLocal = libmcuhw::resetsAddress;
-libmcuhw::resets::resets *const resetsRegisters{reinterpret_cast<libmcuhw::resets::resets *>(resetsAddressLocal)};
+static constexpr libmcu::HwAddressType sioAddressLocal = libmcuhw::kSioAddress;
+libmcuhw::sio::Sio *const sioRegisters{reinterpret_cast<libmcuhw::sio::Sio *>(sioAddressLocal)};
+static constexpr libmcu::HwAddressType padsBank0AddressLocal = libmcuhw::kPadsBank0Address;
+libmcuhw::padsBank0::PadsBank0 *const padsBank0Registers{reinterpret_cast<libmcuhw::padsBank0::PadsBank0 *>(padsBank0AddressLocal)};
+static constexpr libmcu::HwAddressType ioBankAddressLocal = libmcuhw::kIoBank0Address;
+libmcuhw::gpio_bank0::GpioBank0 *const ioBankRegisters{reinterpret_cast<libmcuhw::gpio_bank0::GpioBank0 *>(ioBankAddressLocal)};
+static constexpr libmcu::HwAddressType resetsAddressLocal = libmcuhw::kResetsAddress;
+libmcuhw::resets::Resets *const resetsRegisters{reinterpret_cast<libmcuhw::resets::Resets *>(resetsAddressLocal)};
 
 /** @brief resets all the registers to their default states
  */

@@ -20,26 +20,26 @@ For conditions of distribution and use, see LICENSE file
 #define TICKS_PER_S 10
 
 // main gpio port
-using gpioPort = libmcuhw::Port<libmcuhw::IoPorts::PORT0>;
+using gpioPort = libmcuhw::Port<libmcuhw::IoPorts::kPort0>;
 
 // Crystal osillator pins
-using xtalInPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin08>;
-using xtalOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin09>;
+using xtalInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin08>;
+using xtalOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin09>;
 // test pin pair 0, connected to eachother via 3.3KOhm resistor, testboard PIN1
-using test0PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin00>;
-using test1PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin14>;
+using test0PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00>;
+using test1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin14>;
 // auxillary test pin, connected to nothing, testboard PIN2
-using test2PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin07>;
+using test2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin07>;
 // auxillary test pin, connected to nothing, testboard PIN3
-using test3PinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin06>;
+using test3PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin06>;
 // PWM test pin pair, connected to 1K 10uF RC, testboard RC_out1
-using testPwmInPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin01>;
+using testPwmInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01>;
 // PWM test pin pair, connected to 1K 10uF RC, testboard RC_in1
-using testPwmOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin15>;
+using testPwmOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin15>;
 // I2C Clock pin pair, pulled up to 2.2K to 3.3V
-using i2cSclOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin10>;
+using i2cSclOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin10>;
 // I2C Data pin pair, pulled up to 2.2K to 3.3V
-using i2cSdaOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::PORT0, libmcuhw::IoPins::kPin11>;
+using i2cSdaOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin11>;
 
 // Peripheral functions
 using mainI2cSdaFunctionType = libmcuhw::swm::PinFunction<libmcuhw::swm::PinFunctions::kI2cSdaInOut>;
