@@ -9,9 +9,9 @@
  */
 #include <nuclone_RP2040.hpp>
 #include <MinUnit.h>
-#include <RP2040_teardown.hpp>
+#include <Rp2040Teardown.hpp>
 
-MINUNIT_ADD(MicrocontrollerTeardown, NULL, NULL) {
-  MicrocontrollerTeardown(testResults);  // passing test state directly
-  minUnitCheck(MicrocontrollerTeardownCorrect() == true);
+MINUNIT_ADD(microcontroller_teardown, NULL, NULL) {
+  microcontroller_teardown(testResults);  // passing test state directly
+  minUnitCheck(microcontroller_teardown_correct() == true);
 }

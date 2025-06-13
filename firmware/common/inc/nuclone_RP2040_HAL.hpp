@@ -20,55 +20,55 @@
 
 // Summarized HSI
 // connected pin 0 and 1 via 3.3K resistors, links UART RX/TX, PIN1 on board
-using gpio0PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00, libmcuhw::IoFunctions::kSio>;
-using gpio1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01, libmcuhw::IoFunctions::kSio>;
-using uartOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00, libmcuhw::IoFunctions::kUart0Tx>;
-using uartInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01, libmcuhw::IoFunctions::kUArt0Rx>;
+using Gpio0PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00, libmcuhw::IoFunctions::kSio>;
+using Gpio1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01, libmcuhw::IoFunctions::kSio>;
+using UartOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin00, libmcuhw::IoFunctions::kUart0Tx>;
+using UartInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin01, libmcuhw::IoFunctions::kUArt0Rx>;
 // connected pin 3 and 4 via 3.3K resistors, links SPI MOSI/MISO, PIN3 on board
-using gpio2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin03, libmcuhw::IoFunctions::kSio>;
-using gpio3PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04, libmcuhw::IoFunctions::kSio>;
-using spiOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin03, libmcuhw::IoFunctions::kSpi0Tx>;
-using spiInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04, libmcuhw::IoFunctions::kSpi0Rx>;
+using Gpio2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin03, libmcuhw::IoFunctions::kSio>;
+using Gpio3PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04, libmcuhw::IoFunctions::kSio>;
+using SpiOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin03, libmcuhw::IoFunctions::kSpi0Tx>;
+using SpiInPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin04, libmcuhw::IoFunctions::kSpi0Rx>;
 // connected pin 2 and 5 via 3.3K resistors, links SPI CS/SCK, PIN2 on board
-using gpio4PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin02, libmcuhw::IoFunctions::kSio>;
-using gpio5PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin05, libmcuhw::IoFunctions::kSio>;
-using spiSckPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin02, libmcuhw::IoFunctions::kSpi0Sck>;
-using spiCsPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin05, libmcuhw::IoFunctions::kSpi0Cs>;
+using Gpio4PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin02, libmcuhw::IoFunctions::kSio>;
+using Gpio5PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin05, libmcuhw::IoFunctions::kSio>;
+using SpiSckPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin02, libmcuhw::IoFunctions::kSpi0Sck>;
+using SpiCsPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin05, libmcuhw::IoFunctions::kSpi0Cs>;
 // connected pin 16 to 2.2K pull up resistor, SDA
-using i2cSdaPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin16, libmcuhw::IoFunctions::kI2c0Sda>;
+using I2cSdaPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin16, libmcuhw::IoFunctions::kI2c0Sda>;
 // connected pin 17 to 2.2K pull up resistor, SCL
-using i2cSclPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin17, libmcuhw::IoFunctions::kI2c0Scl>;
+using I2cSclPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin17, libmcuhw::IoFunctions::kI2c0Scl>;
 
 // LED connected pin 25 via a resistor to ground
-using ledPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin25, libmcuhw::IoFunctions::kSio>;
+using LedPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin25, libmcuhw::IoFunctions::kSio>;
 // clock sense connected to pin 21
-using clockOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin21, libmcuhw::IoFunctions::kClkGpout0>;
+using ClockOutPinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin21, libmcuhw::IoFunctions::kClkGpout0>;
 
-constexpr ledPinType ledPin;
-constexpr clockOutPinType clockOutPin;
-constexpr gpio0PinType gpio0Pin;
-constexpr gpio1PinType gpio1Pin;
-constexpr gpio2PinType gpio2Pin;
-constexpr gpio3PinType gpio3Pin;
-constexpr gpio4PinType gpio4Pin;
-constexpr gpio5PinType gpio5Pin;
-constexpr spiSckPinType spiSckPin;
+constexpr LedPinType led_pin;
+constexpr ClockOutPinType clock_out_pin;
+constexpr Gpio0PinType gpio0_pin;
+constexpr Gpio1PinType gpio1_pin;
+constexpr Gpio2PinType gpio2_pin;
+constexpr Gpio3PinType gpio3_pin;
+constexpr Gpio4PinType gpio4_pin;
+constexpr Gpio5PinType gpio5_pin;
+constexpr SpiSckPinType spi_sck_pin;
 
-extern libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
-extern libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-extern libmcull::resets::Resets<libmcuhw::kResetsAddress> resetsPeripheral;
+extern libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+extern libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
+extern libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
+extern libmcull::pads::PadsBank0<libmcuhw::kPadsBank0Address> pads_bank0_peripheral;
+extern libmcull::gpioBank0::GpioBank0<libmcuhw::kIoBank0Address> gpio_bank0_peripheral;
+extern libmcull::sio_gpio::SioGpio<libmcuhw::kSioAddress> sio_gpio_peripheral;
 
-extern libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pinsHal;
-extern libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpioHal;
+extern libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
 
 /**
  * @brief Initialize the development board
- *
  */
-void boardInit(void);
+void board_init(void);
 /**
  * @brief Simple delay function that burns time with 10 NOP instructions
- *
  * @param iterations amount of iterations to execute
  */
 void crudeDelay(uint32_t iterations);

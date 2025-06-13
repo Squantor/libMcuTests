@@ -22,57 +22,57 @@ libmcuhw::uart::Uart *const uart0Registers{reinterpret_cast<libmcuhw::uart::Uart
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040LLSetupUart) {
-  minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kUart0, 100000);
+  minUnitCheck(Rp2040Teardown_correct() == true);
+  resets_peripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kUart0, 100000);
   // connect all GPIO's
-  gpioBank0Peripheral.Setup(uartRxPin);
-  padsBank0Peripheral.Setup(uartRxPin, libmcull::pads::DriveModes::k8mA, true, false, true, true);
-  gpioBank0Peripheral.Setup(uartTxPin);
-  padsBank0Peripheral.Setup(uartTxPin, libmcull::pads::DriveModes::k8mA, false, false, false, false);
+  gpio_bank0_peripheral.Setup(uartRxPin);
+  pads_bank0_peripheral.Setup(uartRxPin, libmcull::pads::DriveModes::k8mA, libmcull::pads::PullModes::kPullUp, true, true);
+  gpio_bank0_peripheral.Setup(uartTxPin);
+  pads_bank0_peripheral.Setup(uartTxPin, libmcull::pads::DriveModes::k8mA, libmcull::pads::PullModes::kNone, false, false);
 }
 
-MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, RP2040Teardown) {
+MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, Rp2040Teardown) {
   // test baud rate edge conditions
-  minUnitCheck(uartPeripheral.Setup(7800000) == 7500000);
+  minUnitCheck(uart_polled_peripheral.Setup(7800000) == 7500000);
   minUnitCheck(uart0Registers->UARTIBRD == 1);
-  minUnitCheck(uartPeripheral.Setup(100) == 114);
+  minUnitCheck(uart_polled_peripheral.Setup(100) == 114);
   minUnitCheck(uart0Registers->UARTIBRD == 65535);
   // test all common baud rates and their divisors
-  minUnitCheck(uartPeripheral.Setup(300) == 300);
+  minUnitCheck(uart_polled_peripheral.Setup(300) == 300);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(1200) == 1200);
+  minUnitCheck(uart_polled_peripheral.Setup(1200) == 1200);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(4800) == 4800);
+  minUnitCheck(uart_polled_peripheral.Setup(4800) == 4800);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(9600) == 9600);
+  minUnitCheck(uart_polled_peripheral.Setup(9600) == 9600);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(38400) == 38400);
+  minUnitCheck(uart_polled_peripheral.Setup(38400) == 38400);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(115200) == 115190);
+  minUnitCheck(uart_polled_peripheral.Setup(115200) == 115190);
   // check control registers and divisors and such
-  minUnitCheck(uartPeripheral.Setup(1000000) == 1000000);
+  minUnitCheck(uart_polled_peripheral.Setup(1000000) == 1000000);
   // check control registers and divisors and such
 }
 
-MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, RP2040Teardown) {
+MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, Rp2040Teardown) {
   std::array<std::uint8_t, 1> singleData{0x5A};
   std::array<std::uint8_t, 5> multiData{0x01, 0x23, 0x45, 0x67, 0xA5};
   std::array<std::uint8_t, 5> receiveDataMulti;
   std::array<std::uint8_t, 1> receiveDataSingle;
-  minUnitCheck(uartPeripheral.Setup(9600) == 9600);
+  minUnitCheck(uart_polled_peripheral.Setup(9600) == 9600);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
-  minUnitCheck(uartPeripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kTimeout);
-  uartPeripheral.Transmit(singleData);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kTimeout);
+  uart_polled_peripheral.Transmit(singleData);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   libmcu::Delay(1000000);                                                 // wait until data has been received
   minUnitCheck(!(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG));  // we looped TX and RX so RX FIFO should also not be empty
-  minUnitCheck(uartPeripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kNoError);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kNoError);
   minUnitCheck(receiveDataSingle[0] == 0x5A);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
-  uartPeripheral.Transmit(multiData);
-  minUnitCheck(uartPeripheral.Receive(receiveDataMulti, 10000) == libmcu::Results::kNoError);
+  uart_polled_peripheral.Transmit(multiData);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataMulti, 10000) == libmcu::Results::kNoError);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   minUnitCheck(receiveDataMulti[0] == 0x01);

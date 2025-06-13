@@ -25,13 +25,13 @@ libmcuhw::resets::Resets *const resetsRegisters{reinterpret_cast<libmcuhw::reset
 
 /** @brief resets all the registers to their default states
  */
-MINUNIT_TEARDOWN(RP2040Teardown) {
-  minUnitCheck(RP2040TeardownCorrect() == true);
+MINUNIT_TEARDOWN(Rp2040Teardown) {
+  minUnitCheck(Rp2040Teardown_correct() == true);
 }
 
 /** @brief checks if all the registers to their default states
  *  @return if all registers are correctly torndown
  */
-bool RP2040TeardownCorrect(void) {
+bool Rp2040Teardown_correct(void) {
   return true;
 }

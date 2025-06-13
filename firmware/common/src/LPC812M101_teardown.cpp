@@ -32,7 +32,7 @@ MINUNIT_TEARDOWN(LPC812M101Teardown) {
   for (int i = 0; i < 9; i++) {
     swmRegisters->PINASSIGN[i] = 0xFFFFFFFF;  // clear all pin assignments
   }
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
   sysconRegisters->SYSAHBCLKCTRL = 0x000000DF;  // disable all peripherals we dont need
 }
 
@@ -43,7 +43,7 @@ MINUNIT_TEARDOWN(LPC812M101Teardown) {
  * We assume that all peripherals are enabled, this is not tested
  *
  */
-bool LPC812M101TeardownCorrect(void) {
+bool Lpc812M101TeardownCorrect(void) {
   TESTANDRETURN((fmcRegisters->FLASHCFG & libmcuhw::fmc::FLASHCFG::RESERVED_MASK) == 0x00000001);
   TESTANDRETURN(sysconRegisters->PRESETCTRL == 0x00001FFF);
   TESTANDRETURN(sysconRegisters->PDRUNCFG == 0x0000ED50);

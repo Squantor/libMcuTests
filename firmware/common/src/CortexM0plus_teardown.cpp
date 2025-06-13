@@ -14,12 +14,12 @@
 #include <MinUnit.h>
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType systickAddress = libmcuhw::systickAddress;
+static constexpr libmcu::HwAddressType systickAddress = libmcuhw::kSystickAddress;
 libmcuhw::systick::systick *const systickRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
-static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::nvicAddress;
+static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::kNvicAddress;
 libmcuhw::nvic::nvic *const nvicRegisters{reinterpret_cast<libmcuhw::nvic::nvic *>(nvicAddress)};
 
-MINUNIT_TEARDOWN(CortexM0plusTeardown) {
+MINUNIT_TEARDOWN(cortexm0plus_teardown) {
   systickRegisters->CSR = 0UL;
   systickRegisters->RVR = 0UL;
   systickRegisters->CVR = 0UL;
@@ -28,7 +28,7 @@ MINUNIT_TEARDOWN(CortexM0plusTeardown) {
   minUnitPass();
 }
 
-bool CortexM0plusTeardownCorrect(void) {
+bool cortexm0plus_teardown_correct(void) {
   TESTANDRETURN(systickRegisters->CSR == 0UL);
   TESTANDRETURN(systickRegisters->RVR == 0UL);
   TESTANDRETURN(systickRegisters->CVR == 0UL);

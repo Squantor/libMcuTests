@@ -17,6 +17,6 @@ MINUNIT_TEARDOWN(LPC845M301Teardown);
 /** @brief checks if all registers are in their default states
  *  @return false if a register is not properly set
  */
-bool LPC845M301TeardownCorrect(void);
+bool Lpc845M301TeardownCorrect(void);
 
 #endif

@@ -17,6 +17,6 @@ MINUNIT_TEARDOWN(LPC812M101Teardown);
 /** @brief checks if all registers are in their default states
  *  @return false if a register is not properly set
  */
-bool LPC812M101TeardownCorrect(void);
+bool Lpc812M101TeardownCorrect(void);
 
 #endif

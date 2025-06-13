@@ -19,4 +19,4 @@ void crudeDelay(uint32_t iterations) {
   }
 }
 
-void boardInit(void) {}
+void board_init(void) {}

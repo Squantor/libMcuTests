@@ -12,12 +12,12 @@ For conditions of distribution and use, see LICENSE file
 
 #include <arm/libmcu_CortexM0plus_ll.hpp>
 
-extern libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
-extern libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-extern libmcull::scb::scb<libmcuhw::scbAddress> scbPeripheral;
-extern volatile std::uint32_t systickIsrCount;
+extern libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+extern libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
+extern libmcull::scb::Scb<libmcuhw::kScbAddress> scb_peripheral;
+extern volatile std::uint32_t systick_count;
 
-void boardInit(void);
-void crudeDelay(uint32_t iterations);
+void board_init(void);
+void CrudeDelay(uint32_t iterations);
 
 #endif

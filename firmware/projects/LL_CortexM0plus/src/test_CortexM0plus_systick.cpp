@@ -13,14 +13,14 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType systickAddress = libmcuhw::systickAddress;
+static constexpr libmcu::HwAddressType systickAddress = libmcuhw::kSystickAddress;
 libmcuhw::systick::systick *const systickDutRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
 
 volatile std::uint32_t systickIsrCount;
 
 extern "C" {
 void SysTick_Handler(void) {
-  systickPeripheral.isr();
+  systick_peripheral.isr();
 }
 }
 
@@ -33,37 +33,37 @@ auto systickIsrLambda = []() {
  */
 MINUNIT_SETUP(CortexM0plusSetupSystick) {
   systickIsrCount = 0;
-  minUnitCheck(CortexM0plusTeardownCorrect() == true);
+  minUnitCheck(cortexm0plus_teardown_correct() == true);
 }
 
-MINUNIT_ADD(CortexM0plusSystickInit, CortexM0plusSetupSystick, CortexM0plusTeardown) {
-  systickPeripheral.init(0x123456);
+MINUNIT_ADD(CortexM0plusSystickInit, CortexM0plusSetupSystick, cortexm0plus_teardown) {
+  systick_peripheral.init(0x123456);
   minUnitCheck(systickDutRegisters->RVR == 0x123456);
-  systickPeripheral.setReload(0x654321);
+  systick_peripheral.setReload(0x654321);
   minUnitCheck(systickDutRegisters->RVR == 0x654321);
 }
 
-MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, CortexM0plusTeardown) {
-  systickPeripheral.init(0x1000);  // short reload value so we can check value
-  systickPeripheral.start();
-  std::uint32_t firstCount = systickPeripheral.getCount();
+MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, cortexm0plus_teardown) {
+  systick_peripheral.init(0x1000);  // short reload value so we can check value
+  systick_peripheral.start();
+  std::uint32_t firstCount = systick_peripheral.getCount();
   libmcu::Delay(101);
-  std::uint32_t secondCount = systickPeripheral.getCount();
+  std::uint32_t secondCount = systick_peripheral.getCount();
   minUnitCheck(firstCount != secondCount);
   // we need longer intervals for this test
-  systickPeripheral.setReload(0xFFFF);
-  systickPeripheral.getZeroPass();
-  while (systickPeripheral.getZeroPass() == 0) {
+  systick_peripheral.setReload(0xFFFF);
+  systick_peripheral.getZeroPass();
+  while (systick_peripheral.getZeroPass() == 0) {
     libmcull::nop();
   }
-  minUnitCheck(systickPeripheral.getZeroPass() == 0);
+  minUnitCheck(systick_peripheral.getZeroPass() == 0);
   libmcu::Delay(0xFFF);
-  minUnitCheck(systickPeripheral.getZeroPass() != 0);
-  systickPeripheral.stop();
+  minUnitCheck(systick_peripheral.getZeroPass() != 0);
+  systick_peripheral.stop();
   // interrupt based tests
-  systickPeripheral.setReload(0xFFF);
-  systickPeripheral.start(systickIsrLambda);
+  systick_peripheral.setReload(0xFFF);
+  systick_peripheral.start(systickIsrLambda);
   libmcu::Delay(0xFFF);
-  systickPeripheral.stop();
+  systick_peripheral.stop();
   minUnitCheck(systickIsrCount != 0);
 }

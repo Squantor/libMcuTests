@@ -1,0 +1,11 @@
+set architecture armv6-m
+set print pretty on
+file bin/test_HAL_RP2040/debug/test_HAL_RP2040.elf
+target extended-remote /dev/ttyACM0
+shell sleep 1
+monitor swdp_scan
+attach 1
+set mem inaccessible-by-default off
+load bin/test_HAL_RP2040/debug/test_HAL_RP2040.elf
+compare-sections
+b main

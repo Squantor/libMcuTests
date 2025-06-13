@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType scbAddress = libmcuhw::scbAddress;
+static constexpr libmcu::HwAddressType scbAddress = libmcuhw::kScbAddress;
 libmcuhw::scb::Scb *const scbDutRegisters{reinterpret_cast<libmcuhw::scb::Scb *>(scbAddress)};
 
 alignas(256) static std::array<std::uint32_t, 48> vectorTable;
@@ -22,23 +22,23 @@ alignas(256) static std::array<std::uint32_t, 48> vectorTable;
  * @brief systick setup and initialisation
  */
 MINUNIT_SETUP(CortexM0plusSetupScb) {
-  minUnitCheck(CortexM0plusTeardownCorrect() == true);
+  minUnitCheck(cortexm0plus_teardown_correct() == true);
 }
 
-MINUNIT_ADD(CortexM0plusScbVtor, CortexM0plusSetupScb, CortexM0plusTeardown) {
-  minUnitCheck(scbPeripheral.getVtorMask() == libmcuhw::vtor::kAddressMask);
+MINUNIT_ADD(CortexM0plusScbVtor, CortexM0plusSetupScb, cortexm0plus_teardown) {
+  minUnitCheck(scb_peripheral.getVtorMask() == libmcuhw::vtor::kAddressMask);
   minUnitCheck((reinterpret_cast<std::uint32_t>(vectorTable.data()) & 0xFF) == 0);
   minUnitCheck(scbDutRegisters->VTOR == 0x00000000);
-  scbPeripheral.setVtor(vectorTable.data());
+  scb_peripheral.setVtor(vectorTable.data());
   minUnitCheck(scbDutRegisters->VTOR == reinterpret_cast<std::uint32_t>(vectorTable.data()));
   scbDutRegisters->VTOR = 0;
   minUnitCheck(scbDutRegisters->VTOR == 0x00000000);
 }
 
-MINUNIT_ADD(CortexM0plusScbSleep, CortexM0plusSetupScb, CortexM0plusTeardown) {
+MINUNIT_ADD(CortexM0plusScbSleep, CortexM0plusSetupScb, cortexm0plus_teardown) {
   minUnitCheck(scbDutRegisters->SCR == 0x00000000UL);
-  scbPeripheral.setSleepBehaviour(true, false, true);
+  scb_peripheral.setSleepBehaviour(true, false, true);
   minUnitCheck(scbDutRegisters->SCR == 0x12);
-  scbPeripheral.setSleepBehaviour(false, false, false);
+  scb_peripheral.setSleepBehaviour(false, false, false);
   minUnitCheck(scbDutRegisters->SCR == 0x00);
 }

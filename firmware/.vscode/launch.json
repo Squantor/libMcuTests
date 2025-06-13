@@ -197,7 +197,7 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcu RP2040 tests, debug mode",
+      "preLaunchTask": "build LL RP2040 tests, debug mode",
       "svdFile": "${workspaceFolder}/libraries/libMcu/svd/raspberrypi/rp2040.svd",
       "debuggerArgs": [],
     },
@@ -218,7 +218,7 @@
         "compare-sections"
       ],
       "preRestartCommands": [],
-      "preLaunchTask": "build libMcuHAL RP2040 tests, debug mode",
+      "preLaunchTask": "build HAL RP2040 tests, debug mode",
       "svdFile": "${workspaceFolder}/libraries/libMcu/svd/raspberrypi/rp2040.svd",
       "debuggerArgs": [],
     },

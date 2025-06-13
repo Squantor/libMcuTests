@@ -23,8 +23,8 @@ libmcuhw::iocon::Iocon *const iocon_registers{reinterpret_cast<libmcuhw::iocon::
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupIocon) {
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockIocon);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockIocon);
 }
 
 /**
@@ -32,54 +32,54 @@ MINUNIT_SETUP(LPC812M101CppSetupIocon) {
  *
  */
 MINUNIT_ADD(LPC812M101DH20IoconPull, LPC812M101CppSetupIocon, LPC812M101Teardown) {
-  gpioPeripheral.SetInput(test1Pin);
-  gpioPeripheral.SetInput(test0Pin);
-  ioconPeripheral.Setup(test0Pin, PullModes::PULLUP);
-  ioconPeripheral.Setup(test1Pin, PullModes::INACTIVE);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) != 0);
-  ioconPeripheral.Setup(test0Pin, PullModes::PULLDOWN);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) == 0);
-  ioconPeripheral.Setup(test0Pin, PullModes::PULLUP);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) != 0);
+  gpio_peripheral.SetInput(test_1_pin);
+  gpio_peripheral.SetInput(test_0_pin);
+  iocon_peripheral.Setup(test_0_pin, PullModes::PULLUP);
+  iocon_peripheral.Setup(test_1_pin, PullModes::INACTIVE);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) != 0);
+  iocon_peripheral.Setup(test_0_pin, PullModes::PULLDOWN);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) == 0);
+  iocon_peripheral.Setup(test_0_pin, PullModes::PULLUP);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) != 0);
 }
 
 /**
  * @brief tests for the IOCON repeater function
  */
 MINUNIT_ADD(LPC812M101DH20IoconRepeater, LPC812M101CppSetupIocon, LPC812M101Teardown) {
-  gpioPeripheral.SetInput(test1Pin);
-  gpioPeripheral.SetInput(test0Pin);
+  gpio_peripheral.SetInput(test_1_pin);
+  gpio_peripheral.SetInput(test_0_pin);
   // check pulled up buskeeper
-  ioconPeripheral.Setup(test0Pin, PullModes::INACTIVE);
-  ioconPeripheral.Setup(test1Pin, PullModes::INACTIVE);
-  ioconPeripheral.Setup(test0Pin, PullModes::PULLUP);
-  ioconPeripheral.Setup(test1Pin, PullModes::REPEATER);
-  ioconPeripheral.Setup(test0Pin, PullModes::INACTIVE);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) != 0);
+  iocon_peripheral.Setup(test_0_pin, PullModes::INACTIVE);
+  iocon_peripheral.Setup(test_1_pin, PullModes::INACTIVE);
+  iocon_peripheral.Setup(test_0_pin, PullModes::PULLUP);
+  iocon_peripheral.Setup(test_1_pin, PullModes::REPEATER);
+  iocon_peripheral.Setup(test_0_pin, PullModes::INACTIVE);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) != 0);
   // check pulled down buskeeper and also flipping the pins
-  ioconPeripheral.Setup(test1Pin, PullModes::INACTIVE);
-  ioconPeripheral.Setup(test0Pin, PullModes::INACTIVE);
-  ioconPeripheral.Setup(test1Pin, PullModes::PULLDOWN);
-  ioconPeripheral.Setup(test0Pin, PullModes::REPEATER);
-  ioconPeripheral.Setup(test1Pin, PullModes::INACTIVE);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) == 0);
+  iocon_peripheral.Setup(test_1_pin, PullModes::INACTIVE);
+  iocon_peripheral.Setup(test_0_pin, PullModes::INACTIVE);
+  iocon_peripheral.Setup(test_1_pin, PullModes::PULLDOWN);
+  iocon_peripheral.Setup(test_0_pin, PullModes::REPEATER);
+  iocon_peripheral.Setup(test_1_pin, PullModes::INACTIVE);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) == 0);
 }
 
 /**
  * @brief tests for the IOCON open drain function
  */
 MINUNIT_ADD(LPC812M101DH20IoconOpenDrain, LPC812M101CppSetupIocon, LPC812M101Teardown) {
-  gpioPeripheral.SetInput(test1Pin);
-  gpioPeripheral.SetInput(test0Pin);
-  ioconPeripheral.Setup(test0Pin, PullModes::INACTIVE, PIO::OD);
-  ioconPeripheral.Setup(test1Pin, PullModes::PULLUP);
-  gpioPeripheral.SetOutput(test0Pin);
-  gpioPeripheral.SetLow(test0Pin);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) == 0);
-  gpioPeripheral.SetHigh(test0Pin);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) != 0);
-  ioconPeripheral.Setup(test1Pin, PullModes::PULLDOWN);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) == 0);
+  gpio_peripheral.SetInput(test_1_pin);
+  gpio_peripheral.SetInput(test_0_pin);
+  iocon_peripheral.Setup(test_0_pin, PullModes::INACTIVE, PIO::OD);
+  iocon_peripheral.Setup(test_1_pin, PullModes::PULLUP);
+  gpio_peripheral.SetOutput(test_0_pin);
+  gpio_peripheral.SetLow(test_0_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) == 0);
+  gpio_peripheral.SetHigh(test_0_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) != 0);
+  iocon_peripheral.Setup(test_1_pin, PullModes::PULLDOWN);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) == 0);
 }
 
 /* TODO:

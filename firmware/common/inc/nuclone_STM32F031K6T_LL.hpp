@@ -9,6 +9,6 @@
 
 #include <st/libmcu_STM32F031K6T_ll.hpp>
 
-void boardInit(void);
+void board_init(void);
 
 #endif

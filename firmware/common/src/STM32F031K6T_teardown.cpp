@@ -15,14 +15,14 @@
 
 /** @brief resets all the registers to their default states
  */
-MINUNIT_TEARDOWN(MicrocontrollerTeardown) {
-  minUnitCheck(MicrocontrollerTeardownCorrect() == true);
+MINUNIT_TEARDOWN(microcontroller_teardown) {
+  minUnitCheck(microcontroller_teardown_correct() == true);
 }
 
 /** @brief checks if all the registers to their default states
  *  @return if all registers are correctly torndown
  */
-bool MicrocontrollerTeardownCorrect(void) {
+bool microcontroller_teardown_correct(void) {
   TESTANDRETURN(1 == 1);
   return true;
 }

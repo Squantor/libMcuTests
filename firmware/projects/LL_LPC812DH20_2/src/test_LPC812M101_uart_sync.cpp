@@ -22,12 +22,12 @@ libmcuhw::usart::Usart *const dutRegisters{reinterpret_cast<libmcuhw::usart::Usa
  * @brief USART setup and Initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupUsartSync) {
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
-  swmPeriperhal.setup(test0Pin, uartMainRxFunction);
-  swmPeriperhal.setup(test1Pin, uartMainTxFunction);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockUart0 |
-                                          libmcull::syscon::PeripheralClocks::kClockSwm |
-                                          libmcull::syscon::PeripheralClocks::kClockIocon);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  swm_peripheral.setup(test_0_pin, uart_main_rx_function);
+  swm_peripheral.setup(test_1_pin, uart_main_tx_function);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockUart0 |
+                                           libmcull::syscon::PeripheralClocks::kClockSwm |
+                                           libmcull::syscon::PeripheralClocks::kClockIocon);
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
@@ -55,9 +55,9 @@ MINUNIT_ADD(LPC812M101CppUsartSyncComms, LPC812M101CppSetupUsartSync, LPC812M101
   std::array<std::uint8_t, 5> testDataSend{0x12, 0xFE, 0x34, 0xDC, 0x5A};
   std::array<std::uint8_t, 5> testDataReceive;
   testDataReceive.fill(0x0000u);
-  swmPeriperhal.setup(test1Pin, uartMainRxFunction);
-  swmPeriperhal.setup(test0Pin, uartMainTxFunction);
-  sysconPeripheral.SetUsartClockDivider(1);
+  swm_peripheral.setup(test_1_pin, uart_main_rx_function);
+  swm_peripheral.setup(test_0_pin, uart_main_tx_function);
+  syscon_peripheral.SetUsartClockDivider(1);
   usartAsyncPeripheral.Init(115200);
   minUnitCheck(usartAsyncPeripheral.Claim() == libmcu::Results::kClaimed);
   minUnitCheck(usartAsyncPeripheral.Receive(testDataReceive) == libmcu::Results::kStarted);

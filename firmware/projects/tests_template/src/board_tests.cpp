@@ -11,7 +11,7 @@ void crudeDelay(uint32_t iterations) {
   }
 }
 
-void boardInit(void) {
+void board_init(void) {
   crudeDelay(1000);
   // setup systick
   // SysTick_Config(CLOCK_AHB / TICKS_PER_S);

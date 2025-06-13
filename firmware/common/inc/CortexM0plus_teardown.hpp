@@ -12,11 +12,11 @@
 /** @brief resets all the registers to their default states
  *
  */
-MINUNIT_TEARDOWN(CortexM0plusTeardown);
+MINUNIT_TEARDOWN(cortexm0plus_teardown);
 
 /** @brief checks if all registers are in their default states
  *  @return false if a register is not properly set
  */
-bool CortexM0plusTeardownCorrect(void);
+bool cortexm0plus_teardown_correct(void);
 
 #endif

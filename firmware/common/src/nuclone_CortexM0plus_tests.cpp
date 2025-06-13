@@ -6,14 +6,14 @@
  */
 #include <nuclone_CortexM0plus_tests.hpp>
 
-libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
-libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-libmcull::scb::scb<libmcuhw::scbAddress> scbPeripheral;
+libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
+libmcull::scb::Scb<libmcuhw::kScbAddress> scb_peripheral;
 
-void boardInit(void) {
-  systickPeripheral.systickPeripheral()->CSR = 0UL;
-  systickPeripheral.systickPeripheral()->RVR = 0UL;
-  systickPeripheral.systickPeripheral()->CVR = 0UL;
-  nvicPeripheral.nvicPeripheral()->ICER[0] = 0xFFFFFFFFUL;
-  nvicPeripheral.nvicPeripheral()->ICPR[0] = 0xFFFFFFFFUL;
+void board_init(void) {
+  systick_peripheral.GetPeripheral()->CSR = 0UL;
+  systick_peripheral.GetPeripheral()->RVR = 0UL;
+  systick_peripheral.GetPeripheral()->CVR = 0UL;
+  nvic_peripheral.GetPeripheral()->ICER[0] = 0xFFFFFFFFUL;
+  nvic_peripheral.GetPeripheral()->ICPR[0] = 0xFFFFFFFFUL;
 }

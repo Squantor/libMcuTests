@@ -6,25 +6,25 @@
  */
 #include <nuclone_RP2040_DRV_mux_595.hpp>
 
-libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
-libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-libmcull::resets::Resets<libmcuhw::kResetsAddress> resetsPeripheral;
+libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
+libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
 
-libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pinsHal;
-libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpioHal;
+libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pins_hal;
+libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpio_hal;
 
-libMcuDriver::mux::mux3to8<gpioHal, muxNotEnablePinType, muxA0PinType, muxA1PinType, muxA2PinType> testMux;
+libMcuDriver::mux::mux3to8<gpio_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
 
 extern "C" {
 void SysTick_Handler(void) {
-  systickPeripheral.isr();
+  systick_peripheral.isr();
 }
 }
 
-void boardInit(void) {
+void board_init(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
-  timeout = resetsPeripheral.Reset(
+  timeout = resets_peripheral.Reset(
     libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kPllSys | libmcull::resets::kPllUsb, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
@@ -68,10 +68,10 @@ void boardInit(void) {
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
-  systickPeripheral.init(12000000 / TICKS_PER_S);
+  systick_peripheral.init(12000000 / TICKS_PER_S);
   // reset all relevant peripherals
   (void)timeout;
-  pinsHal.Init();
-  pinsHal.Setup(ledPin, libmcuhal::pins::DriveModes::k12Ma, libmcuhal::pins::PullModes::kNone, libmcuhal::pins::speedModes::KSlow,
-                false);
+  pins_hal.Init();
+  pins_hal.Setup(ledPin, libmcuhal::pins::DriveModes::k12Ma, libmcuhal::pins::PullModes::kNone, libmcuhal::pins::speedModes::KSlow,
+                 false);
 }

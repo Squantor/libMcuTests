@@ -12,29 +12,29 @@
 namespace clocks = libmcuhw::clock;
 
 libmcull::iocon::Iocon<libmcuhw::kIoconAddress> iocon_peripheral;
-libmcull::swm::Swm<libmcuhw::kSwmAddress> swmPeriperhal;
-libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpioPeripheral;
-libmcull::syscon::Syscon<libmcuhw::kSysconAddress> sysconPeripheral;
-libmcull::usart::UartPolled<libmcuhw::kUsart0Address, std::uint8_t> usartPeripheral;
-libmcull::dma::Dma<libmcuhw::kDmaAddress> dmaPeripheral;
+libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
+libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
+libmcull::syscon::Syscon<libmcuhw::kSysconAddress> syscon_peripheral;
+libmcull::usart::UartPolled<libmcuhw::kUsart0Address, std::uint8_t> usart_polled_peripheral;
+libmcull::dma::Dma<libmcuhw::kDmaAddress> dma_peripheral;
 libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
-libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> g_spi_polled_peripheral;
+libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
 
-void boardInit(void) {
+void board_init(void) {
   // clock enables and resets
-  sysconPeripheral.EnablePeripheralClocks(
+  syscon_peripheral.EnablePeripheralClocks(
     libmcull::syscon::peripheral_clocks_0::kSwm | libmcull::syscon::peripheral_clocks_0::kIocon |
       libmcull::syscon::peripheral_clocks_0::kGpio0 | libmcull::syscon::peripheral_clocks_0::kGpio1,
     0);
   // setup IOCON pins
-  iocon_peripheral.Setup(xtalInPin, libmcull::iocon::PullModes::INACTIVE);
-  iocon_peripheral.Setup(xtalOutPin, libmcull::iocon::PullModes::INACTIVE);
-  swmPeriperhal.Setup(xtalInPin, xtalInFunction);
-  swmPeriperhal.Setup(xtalOutPin, xtalOutFunction);
+  iocon_peripheral.Setup(xtal_in_pin, libmcull::iocon::PullModes::INACTIVE);
+  iocon_peripheral.Setup(xtal_out_pin, libmcull::iocon::PullModes::INACTIVE);
+  swm_peripheral.Setup(xtal_in_pin, xtal_in_function);
+  swm_peripheral.Setup(xtal_out_pin, xtal_out_function);
   // setup clock out test pin
-  // swmPeriperhal.setup(testPin, clockOutFunction);
+  // swmPeriperhal.setup(test_pin, clock_out_function);
   // sysconPeripheral.SetClockOutput(libmcull::syscon::clockOutSources::MAIN, 10u);
-  sysconPeripheral.ConfigureMcuClocks<nucloneClockConfig>();
+  syscon_peripheral.ConfigureMcuClocks<nuclone_clock_config>();
   // switch mainclock
   // sysconPeripheral.SelectMainClock(libmcull::syscon::mainClockSources::EXT); // for selecting crystal oscillator
 }

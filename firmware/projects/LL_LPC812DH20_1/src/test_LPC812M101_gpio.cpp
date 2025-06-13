@@ -23,53 +23,53 @@ libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio
  * @brief Gpio setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupGpio) {
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockGpio);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockGpio);
 }
 
 // testing all single pin methods
 MINUNIT_ADD(LPC812M101DH20GpioPin, LPC812M101CppSetupGpio, LPC812M101Teardown) {
-  gpioPeripheral.SetInput(test1Pin);
-  gpioPeripheral.SetOutput(test0Pin);
-  gpioPeripheral.SetHigh(test0Pin);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) != 0u);
-  gpioPeripheral.SetLow(test0Pin);
-  minUnitCheck(gpioPeripheral.GetState(test1Pin) == 0u);
+  gpio_peripheral.SetInput(test_1_pin);
+  gpio_peripheral.SetOutput(test_0_pin);
+  gpio_peripheral.SetHigh(test_0_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) != 0u);
+  gpio_peripheral.SetLow(test_0_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_1_pin) == 0u);
   // switch around pins
-  gpioPeripheral.SetInput(test0Pin);
-  gpioPeripheral.SetOutput(test1Pin);
-  gpioPeripheral.SetHigh(test1Pin);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) != 0u);
-  gpioPeripheral.SetLow(test1Pin);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) == 0u);
+  gpio_peripheral.SetInput(test_0_pin);
+  gpio_peripheral.SetOutput(test_1_pin);
+  gpio_peripheral.SetHigh(test_1_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) != 0u);
+  gpio_peripheral.SetLow(test_1_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) == 0u);
   // testing the remainder methods
-  gpioPeripheral.Toggle(test1Pin);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) != 0u);
-  gpioPeripheral.Toggle(test1Pin);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) == 0u);
-  gpioPeripheral.SetState(test1Pin, 1);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) != 0u);
-  gpioPeripheral.SetState(test1Pin, 0);
-  minUnitCheck(gpioPeripheral.GetState(test0Pin) == 0u);
+  gpio_peripheral.Toggle(test_1_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) != 0u);
+  gpio_peripheral.Toggle(test_1_pin);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) == 0u);
+  gpio_peripheral.SetState(test_1_pin, 1);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) != 0u);
+  gpio_peripheral.SetState(test_1_pin, 0);
+  minUnitCheck(gpio_peripheral.GetState(test_0_pin) == 0u);
 }
 
 // testing all port functions
 MINUNIT_ADD(LPC812M101DH20GpioPort, LPC812M101CppSetupGpio, LPC812M101Teardown) {
-  gpioPeripheral.SetPortDirection(test0Pin, test0Pin.gpio_pin_mask);
-  gpioPeripheral.SetPortLow(test0Pin, test0Pin.gpio_pin_mask);
+  gpio_peripheral.SetPortDirection(test_0_pin, test_0_pin.gpio_pin_mask);
+  gpio_peripheral.SetPortLow(test_0_pin, test_0_pin.gpio_pin_mask);
   libmcu::Delay(10);
-  minUnitCheck(gpioPeripheral.GetPort(test1Pin, test1Pin.gpio_pin_mask) == 0x00000000);
-  gpioPeripheral.SetPortHigh(test0Pin, test0Pin.gpio_pin_mask);
-  minUnitCheck(gpioPeripheral.GetPort(test1Pin, test1Pin.gpio_pin_mask) == test1Pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_1_pin, test_1_pin.gpio_pin_mask) == 0x00000000);
+  gpio_peripheral.SetPortHigh(test_0_pin, test_0_pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_1_pin, test_1_pin.gpio_pin_mask) == test_1_pin.gpio_pin_mask);
   // switch around pins
-  gpioPeripheral.SetPortDirection(test1Pin, test1Pin.gpio_pin_mask);
-  gpioPeripheral.SetPortHigh(test1Pin, test1Pin.gpio_pin_mask);
-  minUnitCheck(gpioPeripheral.GetPort(test0Pin, test0Pin.gpio_pin_mask) == test0Pin.gpio_pin_mask);
-  gpioPeripheral.SetPortLow(test1Pin, test1Pin.gpio_pin_mask);
-  minUnitCheck(gpioPeripheral.GetPort(test0Pin, test0Pin.gpio_pin_mask) == 0x00000000);
+  gpio_peripheral.SetPortDirection(test_1_pin, test_1_pin.gpio_pin_mask);
+  gpio_peripheral.SetPortHigh(test_1_pin, test_1_pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_0_pin, test_0_pin.gpio_pin_mask) == test_0_pin.gpio_pin_mask);
+  gpio_peripheral.SetPortLow(test_1_pin, test_1_pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_0_pin, test_0_pin.gpio_pin_mask) == 0x00000000);
   // testing the remainder methods
-  gpioPeripheral.TogglePort(test1Pin, test1Pin.gpio_pin_mask);
-  minUnitCheck(gpioPeripheral.GetPort(test0Pin, test0Pin.gpio_pin_mask) == test0Pin.gpio_pin_mask);
-  gpioPeripheral.TogglePort(test1Pin, test1Pin.gpio_pin_mask);
-  minUnitCheck(gpioPeripheral.GetPort(test0Pin, test0Pin.gpio_pin_mask) == 0x00000000);
+  gpio_peripheral.TogglePort(test_1_pin, test_1_pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_0_pin, test_0_pin.gpio_pin_mask) == test_0_pin.gpio_pin_mask);
+  gpio_peripheral.TogglePort(test_1_pin, test_1_pin.gpio_pin_mask);
+  minUnitCheck(gpio_peripheral.GetPort(test_0_pin, test_0_pin.gpio_pin_mask) == 0x00000000);
 }

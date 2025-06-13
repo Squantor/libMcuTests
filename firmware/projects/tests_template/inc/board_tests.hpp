@@ -52,6 +52,6 @@
 #define PIN_TESTPIN_2 (14u)
 #define SWM_TESTPIN_2 (SWM_PORTPIN_P1_14)
 
-void boardInit(void);
+void board_init(void);
 
 #endif

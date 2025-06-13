@@ -6,4 +6,4 @@
  */
 #include <nuclone_STM32F031K6T_LL.hpp>
 
-void boardInit(void) {}
+void board_init(void) {}

@@ -11,8 +11,7 @@
 #include <MinUnit.h>
 #include <microcontroller_teardown.hpp>
 
-MINUNIT_ADD(MicrocontrollerTeardown, NULL, NULL)
-{
-    MicrocontrollerTeardown(testResults); // passing test state directly
-    minUnitCheck(MicrocontrollerTeardownCorrect() == true);
+MINUNIT_ADD(microcontroller_teardown, NULL, NULL) {
+  microcontroller_teardown(testResults);  // passing test state directly
+  minUnitCheck(microcontroller_teardown_correct() == true);
 }

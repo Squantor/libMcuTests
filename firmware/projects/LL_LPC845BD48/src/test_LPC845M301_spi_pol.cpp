@@ -23,11 +23,11 @@ libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(s
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupSpiPol) {
-  minUnitCheck(LPC845M301TeardownCorrect() == true);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kSpi0 |
-                                            libmcull::syscon::peripheral_clocks_0::kSwm |
-                                            libmcull::syscon::peripheral_clocks_0::kIocon,
-                                          0);
+  minUnitCheck(Lpc845M301TeardownCorrect() == true);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kSpi0 |
+                                             libmcull::syscon::peripheral_clocks_0::kSwm |
+                                             libmcull::syscon::peripheral_clocks_0::kIocon,
+                                           0);
 }
 
 /**
@@ -35,7 +35,7 @@ MINUNIT_SETUP(LPC845M301SetupSpiPol) {
  *
  */
 MINUNIT_ADD(LPC845M301DH20SpiPolInit, LPC845M301SetupSpiPol, LPC845M301Teardown) {
-  minUnitCheck(g_spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000000) == 1000000);
-  minUnitCheck(g_spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000001) == 1016949);
+  minUnitCheck(spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000000) == 1000000);
+  minUnitCheck(spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000001) == 1016949);
   minUnitPass();
 }

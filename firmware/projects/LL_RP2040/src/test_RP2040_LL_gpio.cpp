@@ -20,18 +20,18 @@ libmcuhw::gpio_bank0::GpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::g
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupGpio) {
-  minUnitCheck(RP2040TeardownCorrect() == true);
-  resetsPeripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0, 100000);
+  minUnitCheck(Rp2040Teardown_correct() == true);
+  resets_peripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0, 100000);
   // connect all GPIO's
-  gpioBank0Peripheral.Setup(gpio0Pin);
-  gpioBank0Peripheral.Setup(gpio1Pin);
-  gpioBank0Peripheral.Setup(gpio2Pin);
-  gpioBank0Peripheral.Setup(gpio3Pin);
-  gpioBank0Peripheral.Setup(gpio4Pin);
-  gpioBank0Peripheral.Setup(gpio5Pin);
+  gpio_bank0_peripheral.Setup(gpio0Pin);
+  gpio_bank0_peripheral.Setup(gpio1Pin);
+  gpio_bank0_peripheral.Setup(gpio2Pin);
+  gpio_bank0_peripheral.Setup(gpio3Pin);
+  gpio_bank0_peripheral.Setup(gpio4Pin);
+  gpio_bank0_peripheral.Setup(gpio5Pin);
 }
 
-MINUNIT_ADD(RP2040gpio, RP2040SetupGpio, RP2040Teardown) {
+MINUNIT_ADD(RP2040gpio, RP2040SetupGpio, Rp2040Teardown) {
   minUnitCheck(dutRegisters->GPIO[0].CTRL == 0x0000'0005u);
   minUnitCheck(dutRegisters->GPIO[1].CTRL == 0x0000'0005u);
   minUnitCheck(dutRegisters->GPIO[2].CTRL == 0x0000'0005u);

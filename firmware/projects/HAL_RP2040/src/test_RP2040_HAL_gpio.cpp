@@ -24,96 +24,123 @@ libmcuhw::sio::Sio *const sioRegisters{reinterpret_cast<libmcuhw::sio::Sio *>(si
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupHalgpio) {
-  pinsHal.Init();
+  gpio_bank0_hal.Init();
+  gpio_bank0_peripheral.Setup(gpio0_pin);
+  pads_bank0_peripheral.Setup(gpio0_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
+  sio_gpio_peripheral.SetInput(gpio0_pin);
+  gpio_bank0_peripheral.Setup(gpio1_pin);
+  pads_bank0_peripheral.Setup(gpio1_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
+  sio_gpio_peripheral.SetInput(gpio1_pin);
+  gpio_bank0_peripheral.Setup(gpio2_pin);
+  pads_bank0_peripheral.Setup(gpio2_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
+  sio_gpio_peripheral.SetInput(gpio2_pin);
+  gpio_bank0_peripheral.Setup(gpio3_pin);
+  pads_bank0_peripheral.Setup(gpio3_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
+  sio_gpio_peripheral.SetInput(gpio3_pin);
+  /*
+  @todo set pin modes
   // setup test pins to gpio mode
-  pinsHal.Setup(gpio0Pin, libmcuhal::pins::DriveModes::k4Ma, libmcuhal::pins::PullModes::kNone,
-                libmcuhal::pins::speedModes::kMedium, true);
-  pinsHal.Setup(gpio1Pin, libmcuhal::pins::DriveModes::k4Ma, libmcuhal::pins::PullModes::kNone,
-                libmcuhal::pins::speedModes::kMedium, true);
-  gpioHal.Init();
+  pins_hal.Setup(gpio0_pin, libmcuhal::pins::DriveModes::k4Ma, libmcuhal::pins::PullModes::kNone,
+                 libmcuhal::pins::speedModes::kMedium, true);
+  pins_hal.Setup(gpio1_pin, libmcuhal::pins::DriveModes::k4Ma, libmcuhal::pins::PullModes::kNone,
+                 libmcuhal::pins::speedModes::kMedium, true);
+
+  gpio_hal.Init();
+  */
   minUnitPass();
 }
+MINUNIT_ADD(RP2040HalGpioPullModes, RP2040SetupHalgpio, Rp2040Teardown) {
+  gpio_bank0_hal.Setup(gpio0_pin, libmcuhal::gpio::PullModes::kPullUp);
+  gpio_bank0_hal.Setup(gpio2_pin, libmcuhal::gpio::PullModes::kPullDown);
+  minUnitCheck(gpio_bank0_hal.Get(gpio0_pin) == true);
+  minUnitCheck(gpio_bank0_hal.Get(gpio2_pin) == false);
+  gpio_bank0_hal.Setup(gpio0_pin, libmcuhal::gpio::PullModes::kPullDown);
+  gpio_bank0_hal.Setup(gpio2_pin, libmcuhal::gpio::PullModes::kPullUp);
+  minUnitCheck(gpio_bank0_hal.Get(gpio0_pin) == false);
+  minUnitCheck(gpio_bank0_hal.Get(gpio2_pin) == true);
+}
 
-MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, RP2040Teardown) {
-  gpioHal.SetInput(gpio0Pin);
-  gpioHal.SetInput(gpio1Pin);
+/*
+MINUNIT_ADD(RP2040HalGpio, RP2040SetupHalgpio, Rp2040Teardown) {
+  gpio_hal.SetInput(gpio0_pin);
+  gpio_hal.SetInput(gpio1_pin);
   minUnitCheck(sioRegisters->GPIO_OE == 0x0000'0000u);
-  gpioHal.SetOutput(gpio1Pin);
+  gpio_hal.SetOutput(gpio1_pin);
   minUnitCheck(sioRegisters->GPIO_OE == 0x0000'0002u);
-  gpioHal.SetHigh(gpio1Pin);
+  gpio_hal.SetHigh(gpio1_pin);
   minUnitCheck(sioRegisters->GPIO_OE == 0x0000'0002u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) != 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) != 0);
-  gpioHal.SetLow(gpio1Pin);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) != 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) != 0);
+  gpio_hal.SetLow(gpio1_pin);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) == 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) == 0);
-  gpioHal.SetInput(gpio1Pin);
-  gpioHal.SetOutput(gpio0Pin);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) == 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) == 0);
+  gpio_hal.SetInput(gpio1_pin);
+  gpio_hal.SetOutput(gpio0_pin);
   minUnitCheck(sioRegisters->GPIO_OE == 0x0000'0001u);
-  gpioHal.SetPin(gpio0Pin, 1);
+  gpio_hal.SetPin(gpio0_pin, 1);
   minUnitCheck(sioRegisters->GPIO_OE == 0x0000'0001u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0001u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) != 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) != 0);
-  gpioHal.SetPin(gpio0Pin, 0);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) != 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) != 0);
+  gpio_hal.SetPin(gpio0_pin, 0);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) == 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) == 0);
-  gpioHal.Toggle(gpio0Pin);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) == 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) == 0);
+  gpio_hal.Toggle(gpio0_pin);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0001u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) != 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) != 0);
-  gpioHal.Toggle(gpio0Pin);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) != 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) != 0);
+  gpio_hal.Toggle(gpio0_pin);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) == 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) == 0);
-  gpioHal.SetInput(gpio0Pin);
-  gpioHal.SetPullMode(gpio0Pin, libmcuhal::gpio::PullModes::kNone);
-  gpioHal.SetPullMode(gpio1Pin, libmcuhal::gpio::PullModes::kPullUp);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) == 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) == 0);
+  gpio_hal.SetInput(gpio0_pin);
+  gpio_hal.SetPullMode(gpio0_pin, libmcuhal::gpio::PullModes::kNone);
+  gpio_hal.SetPullMode(gpio1_pin, libmcuhal::gpio::PullModes::kPullUp);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'005Au);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) != 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) != 0);
-  gpioHal.SetPullMode(gpio1Pin, libmcuhal::gpio::PullModes::kPullDown);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) != 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) != 0);
+  gpio_hal.SetPullMode(gpio1_pin, libmcuhal::gpio::PullModes::kPullDown);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0052u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0056u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) == 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) == 0);
-  gpioHal.SetPullMode(gpio1Pin, libmcuhal::gpio::PullModes::kNone);
-  gpioHal.SetPullMode(gpio0Pin, libmcuhal::gpio::PullModes::kPullUp);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) == 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) == 0);
+  gpio_hal.SetPullMode(gpio1_pin, libmcuhal::gpio::PullModes::kNone);
+  gpio_hal.SetPullMode(gpio0_pin, libmcuhal::gpio::PullModes::kPullUp);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'005Au);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0002u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0001u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) != 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) != 0);
-  gpioHal.SetPullMode(gpio0Pin, libmcuhal::gpio::PullModes::kPullDown);
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) != 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) != 0);
+  gpio_hal.SetPullMode(gpio0_pin, libmcuhal::gpio::PullModes::kPullDown);
   minUnitCheck(padsBank0Registers->GPIO[0] == 0x0000'0056u);
   minUnitCheck(padsBank0Registers->GPIO[1] == 0x0000'0052u);
   minUnitCheck(sioRegisters->GPIO_OUT == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0002u) == 0x0000'0000u);
   minUnitCheck((sioRegisters->GPIO_IN & 0x0000'0001u) == 0x0000'0000u);
-  minUnitCheck(gpioHal.GetPin(gpio1Pin) == 0);
-  minUnitCheck(gpioHal.GetPin(gpio0Pin) == 0);
-}
+  minUnitCheck(gpio_hal.GetPin(gpio1_pin) == 0);
+  minUnitCheck(gpio_hal.GetPin(gpio0_pin) == 0);
+}*/

@@ -24,14 +24,14 @@ libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(sp
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupSpiAsync) {
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockSpi0 |
-                                          libmcull::syscon::PeripheralClocks::kClockSwm |
-                                          libmcull::syscon::PeripheralClocks::kClockIocon);
-  swmPeriperhal.setup(test3Pin, spiMainSselFunction);
-  swmPeriperhal.setup(test2Pin, spiMainSckFunction);
-  swmPeriperhal.setup(test1Pin, spiMainMosiFunction);
-  swmPeriperhal.setup(test0Pin, spiMainMisoFunction);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockSpi0 |
+                                           libmcull::syscon::PeripheralClocks::kClockSwm |
+                                           libmcull::syscon::PeripheralClocks::kClockIocon);
+  swm_peripheral.setup(test_3_pin, spi_main_ssel_function);
+  swm_peripheral.setup(test_2_pin, spi_main_sck_function);
+  swm_peripheral.setup(test_1_pin, spi_main_mosi_function);
+  swm_peripheral.setup(test_0_pin, spi_main_miso_function);
 }
 
 MINUNIT_ADD(LPC812M101CppSpiAsyncInits, LPC812M101CppSetupSpiAsync, LPC812M101Teardown) {

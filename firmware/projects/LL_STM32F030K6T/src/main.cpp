@@ -15,7 +15,7 @@
 void minunitReport(const char* string) {}
 
 int main() {
-  boardInit();
+  board_init();
   minunitRun();
   if (minunitTestState.failures != 0) {
     minunitReport("Test failures detected\n");

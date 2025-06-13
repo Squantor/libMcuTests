@@ -6,4 +6,4 @@
  */
 #include <board_tests.hpp>
 
-void boardInit(void) {}
+void board_init(void) {}

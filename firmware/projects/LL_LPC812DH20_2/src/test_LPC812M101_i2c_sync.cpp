@@ -25,16 +25,16 @@ libmcuhw::i2c::I2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::I2c *>(i2
  * @brief Gpio setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupI2cSync) {
-  minUnitCheck(LPC812M101TeardownCorrect() == true);
-  sysconPeripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockI2c |
-                                          libmcull::syscon::PeripheralClocks::kClockSwm);
-  swmPeriperhal.setup(i2cSclOutPin, i2cMainSclFunction);
-  swmPeriperhal.setup(i2cSdaOutPin, i2cMainSdaFunction);
+  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockI2c |
+                                           libmcull::syscon::PeripheralClocks::kClockSwm);
+  swm_peripheral.setup(i2c_scl_out_pin, i2c_main_scl_function);
+  swm_peripheral.setup(i2c_sda_out_pin, i2c_main_sda_function);
 }
 
 // testing inits
 MINUNIT_ADD(LPC812M101DH20I2cSyncInits, LPC812M101CppSetupI2cSync, LPC812M101Teardown) {
-  uint32_t actualRate = i2cPeripheral.InitMaster(133630, 100);
+  uint32_t actualRate = i2c_peripheral.InitMaster(133630, 100);
   minUnitCheck(actualRate == 136363);
   minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == CFG::kMSTEN);
   minUnitCheck((dutRegisters->TIMEOUT == 1615));
@@ -46,14 +46,14 @@ MINUNIT_ADD(LPC812M101DH20I2cSyncWriteRead, LPC812M101CppSetupI2cSync, LPC812M10
   std::array<std::uint8_t, 3> testReadData{};
   std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
   std::array<std::uint8_t, 1> testI2cExpanderInput{};
-  uint32_t actualRate = i2cPeripheral.InitMaster(100000, 100);
+  uint32_t actualRate = i2c_peripheral.InitMaster(100000, 100);
   minUnitCheck(actualRate == 100000);
-  i2cPeripheral.Write(testExpander, testWriteData);
-  i2cPeripheral.Read(testExpander, testReadData);
+  i2c_peripheral.Write(testExpander, testWriteData);
+  i2c_peripheral.Read(testExpander, testReadData);
   minUnitCheck(testReadData[0] == 0xC5);
   minUnitCheck(testReadData[1] == 0xC5);
   minUnitCheck(testReadData[2] == 0xC5);
-  i2cPeripheral.Write(testExpander, testI2cExpanderOutput);
-  i2cPeripheral.Read(testExpander, testI2cExpanderInput);
+  i2c_peripheral.Write(testExpander, testI2cExpanderOutput);
+  i2c_peripheral.Read(testExpander, testI2cExpanderInput);
   minUnitCheck(testI2cExpanderInput[0] == 0x30);
 }

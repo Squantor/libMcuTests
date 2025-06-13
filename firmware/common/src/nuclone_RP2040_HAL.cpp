@@ -6,23 +6,25 @@
  */
 #include <nuclone_RP2040_HAL.hpp>
 
-libmcull::systick::systick<libmcuhw::systickAddress> systickPeripheral;
-libmcull::nvic::nvic<libmcuhw::nvicAddress, libmcuhw::scbAddress> nvicPeripheral;
-libmcull::resets::Resets<libmcuhw::kResetsAddress> resetsPeripheral;
+libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
+libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
+libmcull::pads::PadsBank0<libmcuhw::kPadsBank0Address> pads_bank0_peripheral;
+libmcull::sio_gpio::SioGpio<libmcuhw::kSioAddress> sio_gpio_peripheral;
+libmcull::gpioBank0::GpioBank0<libmcuhw::kIoBank0Address> gpio_bank0_peripheral;
 
-libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pinsHal;
-libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpioHal;
+libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
 
 extern "C" {
 void SysTick_Handler(void) {
-  systickPeripheral.isr();
+  systick_peripheral.isr();
 }
 }
 
-void boardInit(void) {
+void board_init(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
-  timeout = resetsPeripheral.Reset(
+  timeout = resets_peripheral.Reset(
     libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kPllSys | libmcull::resets::kPllUsb, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
@@ -60,16 +62,14 @@ void boardInit(void) {
   */
 
   // setup LED pin
-  // padsBank0Peripheral.setup(ledPin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
-  // gpioBank0Peripheral.setup(ledPin);
-  // sioGpioPeripheral.output(ledPin);
+  // padsBank0Peripheral.setup(led_pin, sw::pads::driveModes::DRIVE_4MA, false, false, false, false);
+  // gpioBank0Peripheral.setup(led_pin);
+  // sioGpioPeripheral.output(led_pin);
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
-  systickPeripheral.init(12000000 / TICKS_PER_S);
+  systick_peripheral.init(12000000 / TICKS_PER_S);
   // reset all relevant peripherals
   (void)timeout;
-  pinsHal.Init();
-  pinsHal.Setup(ledPin, libmcuhal::pins::DriveModes::k12Ma, libmcuhal::pins::PullModes::kNone, libmcuhal::pins::speedModes::KSlow,
-                false);
+  pads_bank0_peripheral.Setup(led_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
 }
