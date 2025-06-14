@@ -32,23 +32,25 @@ using MuxY1PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::
 using MuxY2PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin06, libmcuhw::IoFunctions::kSio>;
 using MuxY7PinType = libmcuhw::Pin<libmcuhw::IoPorts::kPort0, libmcuhw::IoPins::kPin07, libmcuhw::IoFunctions::kSio>;
 
-constexpr LedPinType ledPin;
-constexpr MuxNotEnablePinType muxNotEnablePin;
-constexpr MuxA0PinType muxA0Pin;
-constexpr MuxA1PinType muxA1Pin;
-constexpr MuxA2PinType muxA2Pin;
-constexpr MuxY0PinType muxY0Pin;
-constexpr MuxY1PinType muxY1Pin;
-constexpr MuxY2PinType muxY2Pin;
-constexpr MuxY7PinType muxY7Pin;
+constexpr LedPinType led_pin;
+constexpr MuxNotEnablePinType mux_not_enable_pin;
+constexpr MuxA0PinType mux_A0_pin;
+constexpr MuxA1PinType mux_A1_pin;
+constexpr MuxA2PinType mux_A2_pin;
+constexpr MuxY0PinType mux_Y0_pin;
+constexpr MuxY1PinType mux_Y1_pin;
+constexpr MuxY2PinType mux_Y2_pin;
+constexpr MuxY7PinType mux_Y7_pin;
 
 extern libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
 extern libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
 extern libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
+extern libmcull::pads::PadsBank0<libmcuhw::kPadsBank0Address> pads_bank0_peripheral;
+extern libmcull::gpioBank0::GpioBank0<libmcuhw::kIoBank0Address> gpio_bank0_peripheral;
+extern libmcull::sio_gpio::SioGpio<libmcuhw::kSioAddress> sio_gpio_peripheral;
 
-extern libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pins_hal;
-extern libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpio_hal;
-extern libMcuDriver::mux::mux3to8<gpio_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
+extern libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
+extern libMcuDriver::mux::mux3to8<gpio_bank0_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
 
 /**
  * @brief Initialize the development board

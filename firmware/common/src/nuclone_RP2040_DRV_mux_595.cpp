@@ -9,11 +9,13 @@
 libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
 libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
 libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
+libmcull::pads::PadsBank0<libmcuhw::kPadsBank0Address> pads_bank0_peripheral;
+libmcull::gpioBank0::GpioBank0<libmcuhw::kIoBank0Address> gpio_bank0_peripheral;
+libmcull::sio_gpio::SioGpio<libmcuhw::kSioAddress> sio_gpio_peripheral;
 
-libmcuhal::pins::Pins<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address> pins_hal;
-libmcuhal::gpio::Gpio<libmcuhw::kPadsBank0Address, libmcuhw::kIoBank0Address, libmcuhw::kSioAddress> gpio_hal;
+libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
 
-libMcuDriver::mux::mux3to8<gpio_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
+libMcuDriver::mux::mux3to8<gpio_bank0_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
 
 extern "C" {
 void SysTick_Handler(void) {
@@ -71,7 +73,5 @@ void board_init(void) {
   systick_peripheral.init(12000000 / TICKS_PER_S);
   // reset all relevant peripherals
   (void)timeout;
-  pins_hal.Init();
-  pins_hal.Setup(ledPin, libmcuhal::pins::DriveModes::k12Ma, libmcuhal::pins::PullModes::kNone, libmcuhal::pins::speedModes::KSlow,
-                 false);
+  pads_bank0_peripheral.Setup(led_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
 }
