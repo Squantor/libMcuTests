@@ -15,7 +15,7 @@ libmcull::spi::SpiAsync<libmcuhw::kSpi0Address, libmcull::spi::ChipEnables, std:
 libmcull::syscon::Syscon<libmcuhw::kSysconAddress> syscon_peripheral;
 libmcull::usart::UsartPolled<libmcuhw::kUsart0Address, std::uint8_t> usart_polled_peripheral;
 libmcull::usart::UsartAsync<libmcuhw::kUsart0Address, std::uint8_t> usartAsyncPeripheral;
-libmcull::i2c::I2c<libmcuhw::kI2c0Address> i2c_peripheral;
+libmcull::i2c::I2cPolled<libmcuhw::kI2c0Address> i2c_peripheral;
 libmcull::sct::Sct<libmcuhw::kSctAddress> sct_peripheral;
 libmcull::acmp::Acmp<libmcuhw::kAcmpAddress> acmp_peripheral;
 libmcull::fmc::Fmc<libmcuhw::kFmcAddress> fcmPeripheral;

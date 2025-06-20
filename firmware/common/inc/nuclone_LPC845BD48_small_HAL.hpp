@@ -99,7 +99,7 @@ constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw
                                                   libmcuhw::clock::PeriSource::MAIN>
   uart_0_clock_config;
 extern libmcull::usart::UartPolled<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
-extern libmcuhal::usart::SyncUart<usart_peripheral, UartTransferType> hal_usart_peripheral;
+extern libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
 
 void board_init(void);
 

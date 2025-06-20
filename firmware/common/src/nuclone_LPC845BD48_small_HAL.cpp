@@ -16,7 +16,7 @@ libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
 libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
 libmcull::syscon::Syscon<libmcuhw::kSysconAddress> syscon_peripheral;
 libmcull::usart::UartPolled<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
-libmcuhal::usart::SyncUart<usart_peripheral, UartTransferType> hal_usart_peripheral;
+libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
 
 void board_init(void) {
   // clock enables and resets
