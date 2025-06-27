@@ -23,12 +23,13 @@ libmcuhw::usart::Usart *const dut_registers{reinterpret_cast<libmcuhw::usart::Us
  */
 MINUNIT_SETUP(LPC845M301SetupUsart) {
   minUnitCheck(Lpc845M301TeardownCorrect() == true);
-  swm_peripheral.Setup(test_pin_1, uart_main_rx_function);
-  swm_peripheral.Setup(test_pin_2, uart_main_tx_function);
   syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kUart0 |
                                              libmcull::syscon::peripheral_clocks_0::kSwm |
                                              libmcull::syscon::peripheral_clocks_0::kIocon,
                                            0);
+  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
+  swm_peripheral.Setup(test_pin_1, uart_main_rx_function);
+  swm_peripheral.Setup(test_pin_2, uart_main_tx_function);
 }
 
 MINUNIT_ADD(LPC845M301UsartInit, LPC845M301SetupUsart, LPC845M301Teardown) {
@@ -50,7 +51,6 @@ MINUNIT_ADD(LPC845M301UsartComms, LPC845M301SetupUsart, LPC845M301Teardown) {
   std::uint8_t data;
   int timeout;
   usart_polled_peripheral.Init<uart_0_clock_config>(115200);
-  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
   minUnitCheck((dut_registers->STAT & STAT::RESERVED_MASK) == 0x0000001E);
   minUnitCheck(usart_polled_peripheral.Status() & UartStatuses::kTxReady);
   usart_polled_peripheral.Write(0xA5);
