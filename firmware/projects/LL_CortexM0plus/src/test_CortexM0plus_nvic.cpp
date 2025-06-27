@@ -14,7 +14,7 @@
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::kNvicAddress;
-libmcuhw::nvic::nvic *const nvicDutRegisters{reinterpret_cast<libmcuhw::nvic::nvic *>(nvicAddress)};
+libmcuhw::nvic::Nvic *const nvicDutRegisters{reinterpret_cast<libmcuhw::nvic::Nvic *>(nvicAddress)};
 static constexpr libmcu::HwAddressType scbAddress = libmcuhw::kScbAddress;
 libmcuhw::scb::Scb *const scbDutRegisters{reinterpret_cast<libmcuhw::scb::Scb *>(scbAddress)};
 

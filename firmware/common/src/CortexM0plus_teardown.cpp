@@ -17,7 +17,7 @@
 static constexpr libmcu::HwAddressType systickAddress = libmcuhw::kSystickAddress;
 libmcuhw::systick::systick *const systickRegisters{reinterpret_cast<libmcuhw::systick::systick *>(systickAddress)};
 static constexpr libmcu::HwAddressType nvicAddress = libmcuhw::kNvicAddress;
-libmcuhw::nvic::nvic *const nvicRegisters{reinterpret_cast<libmcuhw::nvic::nvic *>(nvicAddress)};
+libmcuhw::nvic::Nvic *const nvicRegisters{reinterpret_cast<libmcuhw::nvic::Nvic *>(nvicAddress)};
 
 MINUNIT_TEARDOWN(cortexm0plus_teardown) {
   systickRegisters->CSR = 0UL;
