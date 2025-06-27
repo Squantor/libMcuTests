@@ -19,6 +19,8 @@ libmcull::usart::UartPolled<libmcuhw::kUsart0Address, std::uint8_t> usart_polled
 libmcull::dma::Dma<libmcuhw::kDmaAddress> dma_peripheral;
 libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
 libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
+libmcull::i2c::I2cPolled<libmcuhw::kI2c0Address> i2c_polled_peripheral;
+libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
 
 void board_init(void) {
   // clock enables and resets

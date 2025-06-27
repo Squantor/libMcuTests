@@ -101,7 +101,12 @@ extern libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::SPI0,
                                                   libmcuhw::clock::PeriSource::MAIN>
   kSpi0ClockConfig;
+constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::I2C0,
+                                                  libmcuhw::clock::PeriSource::MAIN>
+  kI2c0ClockConfig;
 extern libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
+extern libmcull::i2c::I2cPolled<libmcuhw::kI2c0Address> i2c_polled_peripheral;
+extern libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
 
 void board_init(void);
 
