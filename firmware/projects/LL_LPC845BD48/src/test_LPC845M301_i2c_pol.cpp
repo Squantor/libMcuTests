@@ -19,7 +19,7 @@ constexpr inline std::uint32_t kI2cTimeout{1000};
 constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
 
 // peripheral registers
-static constexpr libmcu::HwAddressType i2c_address = libmcuhw::kSpi0Address; /**< peripheral address */
+static constexpr libmcu::HwAddressType i2c_address = libmcuhw::kI2c0Address; /**< peripheral address */
 libmcuhw::i2c::I2c *const i2c_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c_address)};
 
 /**
@@ -45,6 +45,9 @@ MINUNIT_ADD(LPC845M301DH20I2cPollInit, LPC845M301SetupI2cPoll, LPC845M301Teardow
   // minUnitCheck(i2c_polled_peripheral.InitMaster<kI2c0ClockConfig>(400001) == 400000);
 }
 
+/**
+ * @brief Tests I2C transfers that are separate
+ */
 MINUNIT_ADD(LPC845M301DH20I2cTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
   std::array<std::uint8_t, 5> testWriteData{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 3> testReadData{};
@@ -59,4 +62,11 @@ MINUNIT_ADD(LPC845M301DH20I2cTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
   i2c_polled_peripheral.Transmit(testExpander, testI2cExpanderOutput);
   i2c_polled_peripheral.Receive(testExpander, testI2cExpanderInput);
   minUnitCheck(testI2cExpanderInput[0] == 0x30);
+}
+/**
+ * @brief Tests I2C transfers that are split into multiple transactions
+ * @todo
+ */
+MINUNIT_ADD(LPC845M301DH20I2cMultiTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
+  minUnitPass();
 }

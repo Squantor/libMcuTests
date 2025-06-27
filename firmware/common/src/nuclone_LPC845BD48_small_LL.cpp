@@ -11,6 +11,8 @@
 
 namespace clocks = libmcuhw::clock;
 
+libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
 libmcull::iocon::Iocon<libmcuhw::kIoconAddress> iocon_peripheral;
 libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
 libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
@@ -21,6 +23,13 @@ libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
 libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
 libmcull::i2c::I2cPolled<libmcuhw::kI2c0Address> i2c_polled_peripheral;
 libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
+
+extern "C" {
+
+void I2C0_IRQHandler(void) {
+  i2c_interrupt_peripheral.InterruptHandler();
+}
+}
 
 void board_init(void) {
   // clock enables and resets
