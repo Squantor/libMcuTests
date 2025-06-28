@@ -76,8 +76,8 @@ MINUNIT_ADD(LPC845M301DH20I2cIntrTxRx, LPC845M301SetupI2cIntr, LPC845M301Teardow
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kClaimed);
 
-  i2c_interrupt_peripheral.Receive(testExpander, testReadData);
-  for (timeout = 0; (i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kBusyTransmit) && (timeout < kI2cTimeout); timeout++)
+  minUnitCheck(i2c_interrupt_peripheral.Receive(testExpander, testReadData) == libmcu::Results::kBusyReceive);
+  for (timeout = 0; (i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kBusyReceive) && (timeout < kI2cTimeout); timeout++)
     ;
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kClaimed);
@@ -85,13 +85,13 @@ MINUNIT_ADD(LPC845M301DH20I2cIntrTxRx, LPC845M301SetupI2cIntr, LPC845M301Teardow
   minUnitCheck(testReadData[0] == 0xC5);
   minUnitCheck(testReadData[1] == 0xC5);
   minUnitCheck(testReadData[2] == 0xC5);
-  i2c_interrupt_peripheral.Transmit(testExpander, testI2cExpanderOutput);
+  minUnitCheck(i2c_interrupt_peripheral.Transmit(testExpander, testI2cExpanderOutput) == libmcu::Results::kBusyTransmit);
   for (timeout = 0; (i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kBusyTransmit) && (timeout < kI2cTimeout); timeout++)
     ;
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kClaimed);
-  i2c_interrupt_peripheral.Receive(testExpander, testI2cExpanderInput);
-  for (timeout = 0; (i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kBusyTransmit) && (timeout < kI2cTimeout); timeout++)
+  minUnitCheck(i2c_interrupt_peripheral.Receive(testExpander, testI2cExpanderInput) == libmcu::Results::kBusyReceive);
+  for (timeout = 0; (i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kBusyReceive) && (timeout < kI2cTimeout); timeout++)
     ;
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(i2c_interrupt_peripheral.GetStatus() == libmcu::Results::kClaimed);
