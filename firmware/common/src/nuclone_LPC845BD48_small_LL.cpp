@@ -34,12 +34,12 @@ void I2C0_IRQHandler(void) {
 void board_init(void) {
   // clock enables and resets
   syscon_peripheral.EnablePeripheralClocks(
-    libmcull::syscon::peripheral_clocks_0::kSwm | libmcull::syscon::peripheral_clocks_0::kIocon |
-      libmcull::syscon::peripheral_clocks_0::kGpio0 | libmcull::syscon::peripheral_clocks_0::kGpio1,
+    libmcull::syscon::peripheral_clocks_0::Swm | libmcull::syscon::peripheral_clocks_0::Iocon |
+      libmcull::syscon::peripheral_clocks_0::Gpio0 | libmcull::syscon::peripheral_clocks_0::Gpio1,
     0);
   // setup IOCON pins
-  iocon_peripheral.Setup(xtal_in_pin, libmcull::iocon::PullModes::INACTIVE);
-  iocon_peripheral.Setup(xtal_out_pin, libmcull::iocon::PullModes::INACTIVE);
+  iocon_peripheral.Setup(xtal_in_pin, libmcull::iocon::PullModes::Inactive);
+  iocon_peripheral.Setup(xtal_out_pin, libmcull::iocon::PullModes::Inactive);
   swm_peripheral.Setup(xtal_in_pin, xtal_in_function);
   swm_peripheral.Setup(xtal_out_pin, xtal_out_function);
   // setup clock out test pin

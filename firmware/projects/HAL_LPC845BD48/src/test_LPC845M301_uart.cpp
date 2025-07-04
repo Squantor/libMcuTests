@@ -26,9 +26,9 @@ hardware::Usart *const dut_registers{reinterpret_cast<hardware::Usart *>(usart0_
  */
 MINUNIT_SETUP(LPC845M301SetupUart) {
   minUnitCheck(Lpc845M301TeardownCorrect() == true);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kUart0 |
-                                             libmcull::syscon::peripheral_clocks_0::kSwm |
-                                             libmcull::syscon::peripheral_clocks_0::kIocon,
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::Uart0 |
+                                             libmcull::syscon::peripheral_clocks_0::Swm |
+                                             libmcull::syscon::peripheral_clocks_0::Iocon,
                                            0);
   swm_peripheral.Setup(test_pin_1, uart_main_rx_function);
   swm_peripheral.Setup(test_pin_2, uart_main_tx_function);
@@ -39,17 +39,17 @@ MINUNIT_SETUP(LPC845M301SetupUart) {
  */
 MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
-  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
+  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
   realBaudRate = hal_usart_peripheral.Init<uart_0_clock_config>(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
-               (hardware::CFG::kENABLE | hardware::CFG::kDATALEN8BIT | hardware::CFG::kPARITY_NONE | hardware::CFG::kSTOPBIT1));
+               (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = hal_usart_peripheral.Init<uart_0_clock_config>(9600, hal::UartParities::kEven, hal::UartStops::kStop2,
                                                                 hal::UartLengths::kSize7);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
-               (hardware::CFG::kENABLE | hardware::CFG::kDATALEN7BIT | hardware::CFG::kPARITY_EVEN | hardware::CFG::kSTOPBIT2));
+               (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
 }
 
 /**
@@ -73,7 +73,7 @@ MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teard
  * @brief Tests UART HAL single character communication
  */
 MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
-  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kUart0, libmcull::syscon::ClockSources::kMain);
+  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
   hal_usart_peripheral.Init<uart_0_clock_config>(115200);
 
   std::size_t timeout;

@@ -24,9 +24,9 @@ libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(s
  */
 MINUNIT_SETUP(LPC845M301SetupSpiPol) {
   minUnitCheck(Lpc845M301TeardownCorrect() == true);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kSpi0 |
-                                             libmcull::syscon::peripheral_clocks_0::kSwm |
-                                             libmcull::syscon::peripheral_clocks_0::kIocon,
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::Spi0 |
+                                             libmcull::syscon::peripheral_clocks_0::Swm |
+                                             libmcull::syscon::peripheral_clocks_0::Iocon,
                                            0);
 }
 

@@ -27,11 +27,11 @@ libmcuhw::i2c::I2c *const i2c_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i
  */
 MINUNIT_SETUP(LPC845M301SetupI2cIntr) {
   minUnitCheck(Lpc845M301TeardownCorrect() == true);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::kI2c0 |
-                                             libmcull::syscon::peripheral_clocks_0::kSwm |
-                                             libmcull::syscon::peripheral_clocks_0::kIocon,
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::I2c0 |
+                                             libmcull::syscon::peripheral_clocks_0::Swm |
+                                             libmcull::syscon::peripheral_clocks_0::Iocon,
                                            0);
-  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::kI2c0, libmcull::syscon::ClockSources::kMain);
+  syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::I2c0, libmcull::syscon::ClockSources::Main);
   swm_peripheral.Setup(i2c_scl_pin, i2c_main_scl_function);
   swm_peripheral.Setup(i2c_sda_pin, i2c_main_sda_function);
   nvic_peripheral.enable(libmcuhw::Interrupts::kI2c0);

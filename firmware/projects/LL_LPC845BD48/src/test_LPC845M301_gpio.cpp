@@ -25,7 +25,7 @@ libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio
 MINUNIT_SETUP(LPC845M301SetupGpio) {
   minUnitCheck(Lpc845M301TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(
-    libmcull::syscon::peripheral_clocks_0::kGpio0 | libmcull::syscon::peripheral_clocks_0::kGpio1, 0);
+    libmcull::syscon::peripheral_clocks_0::Gpio0 | libmcull::syscon::peripheral_clocks_0::Gpio1, 0);
 }
 
 // testing all single pin methods
