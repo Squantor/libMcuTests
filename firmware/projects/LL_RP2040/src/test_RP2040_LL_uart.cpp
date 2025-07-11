@@ -62,17 +62,17 @@ MINUNIT_ADD(RP2040LLUartComms, RP2040LLSetupUart, Rp2040Teardown) {
   minUnitCheck(uart_polled_peripheral.Setup(9600) == 9600);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
-  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kTimeout);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::Timeout);
   uart_polled_peripheral.Transmit(singleData);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   libmcu::Delay(1000000);                                                 // wait until data has been received
   minUnitCheck(!(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG));  // we looped TX and RX so RX FIFO should also not be empty
-  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::kNoError);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataSingle, 100) == libmcu::Results::NoError);
   minUnitCheck(receiveDataSingle[0] == 0x5A);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   uart_polled_peripheral.Transmit(multiData);
-  minUnitCheck(uart_polled_peripheral.Receive(receiveDataMulti, 10000) == libmcu::Results::kNoError);
+  minUnitCheck(uart_polled_peripheral.Receive(receiveDataMulti, 10000) == libmcu::Results::NoError);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::TXFE_FLAG);
   minUnitCheck(uart0Registers->UARTFR & hardware::UARTFR::RXFE_FLAG);
   minUnitCheck(receiveDataMulti[0] == 0x01);
