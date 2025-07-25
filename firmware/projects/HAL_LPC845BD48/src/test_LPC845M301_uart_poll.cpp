@@ -40,13 +40,13 @@ MINUNIT_SETUP(LPC845M301SetupUart) {
 MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
-  realBaudRate = hal_usart_peripheral.Init<uart_0_clock_config>(115200);
+  realBaudRate = hal_usart_peripheral.Init<uart0_clock_config>(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
-  realBaudRate = hal_usart_peripheral.Init<uart_0_clock_config>(9600, hal::UartParities::kEven, hal::UartStops::kStop2,
-                                                                hal::UartLengths::kSize7);
+  realBaudRate =
+    hal_usart_peripheral.Init<uart0_clock_config>(9600, hal::UartParities::kEven, hal::UartStops::kStop2, hal::UartLengths::kSize7);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
@@ -56,8 +56,8 @@ MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
  * @brief Tests UART HAL claim and unclaim functionality
  */
 MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teardown) {
-  libmcuhal::AsyncHandle handle_first = 42;
-  libmcuhal::AsyncHandle handle_second = 44;
+  libmcu::AsyncHandle handle_first = 42;
+  libmcu::AsyncHandle handle_second = 44;
 
   minUnitCheck(hal_usart_peripheral.Claim(handle_first) == libmcu::Results::Claimed);
   minUnitCheck(handle_first == 0);
@@ -74,7 +74,7 @@ MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teard
  */
 MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
-  hal_usart_peripheral.Init<uart_0_clock_config>(115200);
+  hal_usart_peripheral.Init<uart0_clock_config>(115200);
 
   std::size_t timeout;
   UartTransferType single_transfer = 0xA5;
@@ -82,7 +82,7 @@ MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   hal::UartStateMasks status = hal_usart_peripheral.GetStatus();
   minUnitCheck((status & hal::UartStateMasks::kReceiverIdleMask) && (status & hal::UartStateMasks::kTransmitIdleMask) &&
                (status & hal::UartStateMasks::kTransmitDataMask));
-  libmcuhal::AsyncHandle handle = 42;
+  libmcu::AsyncHandle handle = 42;
   minUnitCheck(hal_usart_peripheral.Transmit(42, single_transfer) == libmcu::Results::NotClaimed);
   minUnitCheck(hal_usart_peripheral.Claim(handle) == libmcu::Results::Claimed);
   minUnitCheck(handle != 42);

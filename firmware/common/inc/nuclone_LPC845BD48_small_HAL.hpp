@@ -89,6 +89,8 @@ constexpr MainUartRxFunctionType uart_main_rx_function;
 using UartTransferType = std::uint8_t;
 
 // peripheral externs
+extern libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
+extern libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
 extern libmcull::iocon::Iocon<libmcuhw::kIoconAddress> iocon_peripheral;
 extern libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
 extern libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
@@ -97,9 +99,14 @@ constexpr inline libmcuhw::clock::McuClockConfig<libmcuhw::clock::ClockInputSour
   nuclone_clock_config;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::UART0,
                                                   libmcuhw::clock::PeriSource::MAIN>
-  uart_0_clock_config;
+  uart0_clock_config;
+constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::I2C0,
+                                                  libmcuhw::clock::PeriSource::MAIN>
+  i2c0_clock_config;
 extern libmcull::usart::UartPolled<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
+extern libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
 extern libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
+extern libmcuhal::i2c::I2cInterrupt<i2c_interrupt_peripheral> hal_i2c_interrupt_peripheral;
 
 void board_init(void);
 
