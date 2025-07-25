@@ -19,7 +19,7 @@ constexpr inline std::uint32_t kI2cTimeout{1000};
 constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
 
 // peripheral registers
-static constexpr libmcu::HwAddressType i2c_address = libmcuhw::kI2c0Address; /**< peripheral address */
+static constexpr libmcu::HwAddressType i2c_address = libmcuhw::I2c0Address; /**< peripheral address */
 libmcuhw::i2c::I2c *const i2c_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c_address)};
 
 /**
@@ -34,22 +34,22 @@ MINUNIT_SETUP(LPC845M301SetupI2cIntr) {
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::I2c0, libmcull::syscon::ClockSources::Main);
   swm_peripheral.Setup(i2c_scl_pin, i2c_main_scl_function);
   swm_peripheral.Setup(i2c_sda_pin, i2c_main_sda_function);
-  nvic_peripheral.enable(libmcuhw::Interrupts::kI2c0);
+  nvic_peripheral.Enable(libmcuhw::Interrupts::I2c0);
 }
 
 /**
  * @brief Tests I2C init methods
  */
 MINUNIT_ADD(LPC845M301DH20I2cIntrInit, LPC845M301SetupI2cIntr, LPC845M301Teardown) {
-  minUnitCheck(i2c_interrupt_peripheral.InitMaster<kI2c0ClockConfig>(100000, kI2cTimeout) == 100000);
-  minUnitCheck(i2c_interrupt_peripheral.InitMaster<kI2c0ClockConfig>(400000, kI2cTimeout) == 428571);
+  minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
+  minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(400000, kI2cTimeout) == 428571);
 }
 
 /**
  * @brief Tests I2C asynchronous accessor methods
  */
 MINUNIT_ADD(LPC845M301DH20I2cIntrAsyncAccessors, LPC845M301SetupI2cIntr, LPC845M301Teardown) {
-  minUnitCheck(i2c_interrupt_peripheral.InitMaster<kI2c0ClockConfig>(100000, kI2cTimeout) == 100000);
+  minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
   minUnitCheck(i2c_interrupt_peripheral.GetStatus() == libmcu::Results::Idle);
   minUnitCheck(i2c_interrupt_peripheral.Claim() == libmcu::Results::Claimed);
   minUnitCheck(i2c_interrupt_peripheral.Claim() == libmcu::Results::InUse);
@@ -67,7 +67,7 @@ MINUNIT_ADD(LPC845M301DH20I2cIntrTxRx, LPC845M301SetupI2cIntr, LPC845M301Teardow
   std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
   std::array<std::uint8_t, 1> testI2cExpanderInput{};
   std::uint32_t timeout;
-  minUnitCheck(i2c_interrupt_peripheral.InitMaster<kI2c0ClockConfig>(100000, kI2cTimeout) == 100000);
+  minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
   minUnitCheck(i2c_interrupt_peripheral.Claim() == libmcu::Results::Claimed);
   minUnitCheck(i2c_interrupt_peripheral.Transmit(testExpander, testWriteData) == libmcu::Results::BusyTransmit);
   timeout = 0;

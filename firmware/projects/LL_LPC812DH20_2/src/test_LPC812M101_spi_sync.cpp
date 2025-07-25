@@ -16,7 +16,7 @@
 using namespace libmcull::spi;
 using namespace libmcuhw::spi;
 
-static constexpr libmcu::HwAddressType spi0Address = libmcuhw::kSpi0Address;
+static constexpr libmcu::HwAddressType spi0Address = libmcuhw::Spi0Address;
 libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(spi0Address)};
 
 /**
@@ -24,9 +24,9 @@ libmcuhw::spi::Spi *const dutRegisters{reinterpret_cast<libmcuhw::spi::Spi *>(sp
  */
 MINUNIT_SETUP(LPC812M101CppSetupSpiSync) {
   minUnitCheck(Lpc812M101TeardownCorrect() == true);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockSpi0 |
-                                           libmcull::syscon::PeripheralClocks::kClockSwm |
-                                           libmcull::syscon::PeripheralClocks::kClockIocon);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::ClockSpi0 |
+                                           libmcull::syscon::PeripheralClocks::ClockSwm |
+                                           libmcull::syscon::PeripheralClocks::ClockIocon);
 }
 
 MINUNIT_ADD(LPC812M101CppSpiSyncInits, LPC812M101CppSetupSpiSync, LPC812M101Teardown) {
@@ -36,7 +36,7 @@ MINUNIT_ADD(LPC812M101CppSpiSyncInits, LPC812M101CppSetupSpiSync, LPC812M101Tear
   minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == 0x00000005);
   minUnitCheck(dutRegisters->DIV == 299);
   dutRegisters->CFG = 0x00000000;
-  actualClock = spi_polled_peripheral.InitMaster(65399, Waveforms::kCpha1Cpol1Lsb, SlavePolaritySelects::kHigh);
+  actualClock = spi_polled_peripheral.InitMaster(65399, Waveforms::Cpha1Cpol1Lsb, SlavePolaritySelects::High);
   minUnitCheck(actualClock == 65502);
   minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) == 0x0000013D);
   minUnitCheck(dutRegisters->DIV == 457);
@@ -54,11 +54,11 @@ MINUNIT_ADD(LPC812M101CppSpiSyncRxTx, LPC812M101CppSetupSpiSync, LPC812M101Teard
   std::array<uint16_t, 5> testDataReceive;
   testDataReceive.fill(0x0000u);
   // test "simple"(below 17 bits) transaction
-  spi_polled_peripheral.Transceive(ChipEnables::kNone, testDataSend, testDataReceive, 8, true);
+  spi_polled_peripheral.Transceive(ChipEnables::None, testDataSend, testDataReceive, 8, true);
   minUnitCheck((testDataSend[0] & 0xFF) == testDataReceive[0]);
   // test "multi"(above 17 bits) transaction to test multi transfers
   testDataReceive.fill(0x0000u);
-  spi_polled_peripheral.Transceive(ChipEnables::kNone, testDataSend, testDataReceive, 24, true);
+  spi_polled_peripheral.Transceive(ChipEnables::None, testDataSend, testDataReceive, 24, true);
   minUnitCheck(testDataSend[0] == testDataReceive[0]);
   minUnitCheck((testDataSend[1] & 0xFF) == testDataReceive[1]);
   // test receive
@@ -67,11 +67,11 @@ MINUNIT_ADD(LPC812M101CppSpiSyncRxTx, LPC812M101CppSetupSpiSync, LPC812M101Teard
   gpio_peripheral.SetOutput(test_1_pin);
   gpio_peripheral.SetHigh(test_1_pin);
   // enable pullup, read all ones
-  spi_polled_peripheral.Receive(ChipEnables::kNone, testDataReceive, 12, true);
+  spi_polled_peripheral.Receive(ChipEnables::None, testDataReceive, 12, true);
   minUnitCheck(0xFFFu == testDataReceive[0]);
   // enable pulldown, read all zeroes
   gpio_peripheral.SetLow(test_1_pin);
   testDataReceive[0] = 0xFFFF;
-  spi_polled_peripheral.Receive(ChipEnables::kNone, testDataReceive, 12, true);
+  spi_polled_peripheral.Receive(ChipEnables::None, testDataReceive, 12, true);
   minUnitCheck(0x0u == testDataReceive[0]);
 }

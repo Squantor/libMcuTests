@@ -19,7 +19,7 @@ using namespace libmcull::dma;
 using namespace libmcull::usart;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType dma_address = libmcuhw::kDmaAddress; /**< peripheral address */
+static constexpr libmcu::HwAddressType dma_address = libmcuhw::DmaAddress; /**< peripheral address */
 libmcuhw::dma::Dma *const dma_registers{reinterpret_cast<libmcuhw::dma::Dma *>(dma_address)};
 
 // Buffers
@@ -73,10 +73,10 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToMemTransfer, LPC845M301SetupDma, LPC845M301Tea
   minUnitCheck(table[12].destination_end_address == reinterpret_cast<std::uint32_t>(outputBuffer.data() + inputBuffer.size() - 1));
   minUnitCheck(table[12].next_descriptor == nullptr);
   // setup channel hardware
-  dma_peripheral.ConfigureChannel(SoftwareDescriptors::Channel12, TriggerConfigs::kNone, BurstSizes::Burst1, false, false,
-                                  ChannelPrios::kLowest);
-  dma_peripheral.ConfigureTransfer(SoftwareDescriptors::Channel12, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
-                                   SrcIncrements::k1, DstIncrements::k1, inputBuffer.size());
+  dma_peripheral.ConfigureChannel(SoftwareDescriptors::Channel12, TriggerConfigs::None, BurstSizes::Burst1, false, false,
+                                  ChannelPrios::PrioLowest);
+  dma_peripheral.ConfigureTransfer(SoftwareDescriptors::Channel12, false, true, InterruptFlags::None, TransferSizes::Size8Bit,
+                                   SrcIncrements::Inc1, DstIncrements::Inc1, inputBuffer.size());
   dma_peripheral.ValidateChannel(SoftwareDescriptors::Channel12);
   dma_peripheral.EnableChannel(SoftwareDescriptors::Channel12);
   dma_peripheral.SetChannelTrigger(SoftwareDescriptors::Channel12);
@@ -112,10 +112,10 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriTransfer, LPC845M301SetupDma, LPC845M301Te
   // setup single memory to peripheral transfer
   dma_peripheral.ConfigureChanDescr(HardwareDescriptors::Usart0TxDma, inputBuffer.data() + inputBuffer.size() - 1,
                                     usart_polled_peripheral.GetTxDataAddress(), nullptr);
-  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0TxDma, TriggerConfigs::kRisingEdge, BurstSizes::Burst1, false, false,
-                                  ChannelPrios::kLowest);
-  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0TxDma, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
-                                   SrcIncrements::k1, DstIncrements::k0, inputBuffer.size());
+  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0TxDma, TriggerConfigs::RisingEdge, BurstSizes::Burst1, false, false,
+                                  ChannelPrios::PrioLowest);
+  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0TxDma, false, true, InterruptFlags::None, TransferSizes::Size8Bit,
+                                   SrcIncrements::Inc1, DstIncrements::Inc0, inputBuffer.size());
   dma_peripheral.ValidateChannel(HardwareDescriptors::Usart0TxDma);
   dma_peripheral.EnableChannel(HardwareDescriptors::Usart0TxDma);
   dma_peripheral.SetChannelTrigger(HardwareDescriptors::Usart0TxDma);
@@ -153,20 +153,20 @@ MINUNIT_ADD(LPC845M301DH20DmaMemToPeriAndPeriToMemTransfer, LPC845M301SetupDma, 
   // setup DMA for single peripheral to memory transfer for uart RX
   dma_peripheral.ConfigureChanDescr(HardwareDescriptors::Usart0RxDma, usart_polled_peripheral.GetRxDataAddress(),
                                     outputBuffer.data() + outputBuffer.size() - 1, nullptr);
-  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0RxDma, TriggerConfigs::kRisingEdge, BurstSizes::Burst1, false, false,
-                                  ChannelPrios::kLowest);
-  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0RxDma, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
-                                   SrcIncrements::k0, DstIncrements::k1, outputBuffer.size());
+  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0RxDma, TriggerConfigs::RisingEdge, BurstSizes::Burst1, false, false,
+                                  ChannelPrios::PrioLowest);
+  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0RxDma, false, true, InterruptFlags::None, TransferSizes::Size8Bit,
+                                   SrcIncrements::Inc0, DstIncrements::Inc1, outputBuffer.size());
   dma_peripheral.ValidateChannel(HardwareDescriptors::Usart0RxDma);
   dma_peripheral.EnableChannel(HardwareDescriptors::Usart0RxDma);
   dma_peripheral.SetChannelTrigger(HardwareDescriptors::Usart0RxDma);
   // setup DMA for single memory to peripheral transfer for uart TX
   dma_peripheral.ConfigureChanDescr(HardwareDescriptors::Usart0TxDma, inputBuffer.data() + inputBuffer.size() - 1,
                                     usart_polled_peripheral.GetTxDataAddress(), nullptr);
-  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0TxDma, TriggerConfigs::kRisingEdge, BurstSizes::Burst1, false, false,
-                                  ChannelPrios::kLowest);
-  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0TxDma, false, true, InterruptFlags::kNone, TransferSizes::k8Bit,
-                                   SrcIncrements::k1, DstIncrements::k0, inputBuffer.size());
+  dma_peripheral.ConfigureChannel(HardwareDescriptors::Usart0TxDma, TriggerConfigs::RisingEdge, BurstSizes::Burst1, false, false,
+                                  ChannelPrios::PrioLowest);
+  dma_peripheral.ConfigureTransfer(HardwareDescriptors::Usart0TxDma, false, true, InterruptFlags::None, TransferSizes::Size8Bit,
+                                   SrcIncrements::Inc1, DstIncrements::Inc0, inputBuffer.size());
   dma_peripheral.ValidateChannel(HardwareDescriptors::Usart0TxDma);
   dma_peripheral.EnableChannel(HardwareDescriptors::Usart0TxDma);
   dma_peripheral.SetChannelTrigger(HardwareDescriptors::Usart0TxDma);

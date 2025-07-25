@@ -15,7 +15,7 @@
 namespace hardware = libmcuhw::uart;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType uart0Address = libmcuhw::kUart0Address;
+static constexpr libmcu::HwAddressType uart0Address = libmcuhw::Uart0Address;
 libmcuhw::uart::Uart *const uart0Registers{reinterpret_cast<libmcuhw::uart::Uart *>(uart0Address)};
 
 /**
@@ -23,12 +23,12 @@ libmcuhw::uart::Uart *const uart0Registers{reinterpret_cast<libmcuhw::uart::Uart
  */
 MINUNIT_SETUP(RP2040LLSetupUart) {
   minUnitCheck(Rp2040Teardown_correct() == true);
-  resets_peripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kUart0, 100000);
+  resets_peripheral.Reset(libmcull::resets::IoBank0 | libmcull::resets::PadsBank0 | libmcull::resets::Uart0, 100000);
   // connect all GPIO's
   gpio_bank0_peripheral.Setup(uartRxPin);
-  pads_bank0_peripheral.Setup(uartRxPin, libmcull::pads::DriveModes::k8mA, libmcull::pads::PullModes::kPullUp, true, true);
+  pads_bank0_peripheral.Setup(uartRxPin, libmcull::pads::DriveModes::Current8mA, libmcull::pads::PullModes::PullUp, true, true);
   gpio_bank0_peripheral.Setup(uartTxPin);
-  pads_bank0_peripheral.Setup(uartTxPin, libmcull::pads::DriveModes::k8mA, libmcull::pads::PullModes::kNone, false, false);
+  pads_bank0_peripheral.Setup(uartTxPin, libmcull::pads::DriveModes::Current8mA, libmcull::pads::PullModes::None, false, false);
 }
 
 MINUNIT_ADD(RP2040LLUartSetup, RP2040LLSetupUart, Rp2040Teardown) {

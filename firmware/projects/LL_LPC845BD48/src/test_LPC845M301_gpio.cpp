@@ -16,7 +16,7 @@ using namespace libmcuhw::gpio;
 using namespace libmcull::gpio;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType gpio_address = libmcuhw::kGpioAddress;
+static constexpr libmcu::HwAddressType gpio_address = libmcuhw::GpioAddress;
 libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio *>(gpio_address)};
 
 /**

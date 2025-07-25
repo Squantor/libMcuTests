@@ -16,7 +16,7 @@ namespace hardware = libmcuhw::spi;
 namespace lowlevel = libmcull::spi;
 
 // peripheral registers
-static constexpr libmcu::HwAddressType spi_address = libmcuhw::kSpi0Address; /**< peripheral address */
+static constexpr libmcu::HwAddressType spi_address = libmcuhw::Spi0Address; /**< peripheral address */
 libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(spi_address)};
 
 /**
@@ -35,7 +35,7 @@ MINUNIT_SETUP(LPC845M301SetupSpiPol) {
  *
  */
 MINUNIT_ADD(LPC845M301DH20SpiPolInit, LPC845M301SetupSpiPol, LPC845M301Teardown) {
-  minUnitCheck(spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000000) == 1000000);
-  minUnitCheck(spi_polled_peripheral.InitMaster<kSpi0ClockConfig>(1000001) == 1016949);
+  minUnitCheck(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000000) == 1000000);
+  minUnitCheck(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000001) == 1016949);
   minUnitPass();
 }

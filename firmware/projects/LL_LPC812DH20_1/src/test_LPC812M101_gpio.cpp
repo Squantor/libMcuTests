@@ -16,7 +16,7 @@ using namespace libmcuhw::gpio;
 using namespace libmcull::gpio;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType gpio_address = libmcuhw::kGpioAddress;
+static constexpr libmcu::HwAddressType gpio_address = libmcuhw::GpioAddress;
 libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio *>(gpio_address)};
 
 /**
@@ -24,7 +24,7 @@ libmcuhw::gpio::Gpio *const gpio_registers{reinterpret_cast<libmcuhw::gpio::Gpio
  */
 MINUNIT_SETUP(LPC812M101CppSetupGpio) {
   minUnitCheck(Lpc812M101TeardownCorrect() == true);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockGpio);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::ClockGpio);
 }
 
 // testing all single pin methods

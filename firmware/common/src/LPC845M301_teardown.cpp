@@ -14,7 +14,7 @@
 #include <MinUnit.h>
 
 // peripheral registers
-static constexpr libmcu::HwAddressType nvic_address = libmcuhw::kNvicAddress; /**< peripheral address */
+static constexpr libmcu::HwAddressType nvic_address = libmcuhw::NvicAddress; /**< peripheral address */
 libmcuhw::nvic::Nvic *nvic_registers{reinterpret_cast<libmcuhw::nvic::Nvic *>(nvic_address)};
 
 /** @brief resets all the registers to their default states

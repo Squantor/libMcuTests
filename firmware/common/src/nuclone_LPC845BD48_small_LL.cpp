@@ -11,18 +11,18 @@
 
 namespace clocks = libmcuhw::clock;
 
-libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
-libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
-libmcull::iocon::Iocon<libmcuhw::kIoconAddress> iocon_peripheral;
-libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
-libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
-libmcull::syscon::Syscon<libmcuhw::kSysconAddress> syscon_peripheral;
-libmcull::usart::UartPolled<libmcuhw::kUsart0Address, std::uint8_t> usart_polled_peripheral;
-libmcull::dma::Dma<libmcuhw::kDmaAddress> dma_peripheral;
-libmcull::inmux::InMux<libmcuhw::kInmuxAddress> inmux_peripheral;
-libmcull::spi::SpiPolled<libmcuhw::kSpi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
-libmcull::i2c::I2cPolled<libmcuhw::kI2c0Address> i2c_polled_peripheral;
-libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
+libmcull::systick::Systick<libmcuhw::SystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::NvicAddress, libmcuhw::ScbAddress> nvic_peripheral;
+libmcull::iocon::Iocon<libmcuhw::IoconAddress> iocon_peripheral;
+libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
+libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
+libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
+libmcull::usart::UartPolled<libmcuhw::Usart0Address, std::uint8_t> usart_polled_peripheral;
+libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
+libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
+libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
+libmcull::i2c::I2cPolled<libmcuhw::I2c0Address> i2c_polled_peripheral;
+libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
 
 extern "C" {
 

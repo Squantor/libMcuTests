@@ -16,7 +16,7 @@ using namespace libmcuhw::sct;
 using namespace libmcull::sct;
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType sctAddress = libmcuhw::kSctAddress;
+static constexpr libmcu::HwAddressType sctAddress = libmcuhw::SctAddress;
 libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sctAddress)};
 
 /**
@@ -25,8 +25,8 @@ libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sc
 MINUNIT_SETUP(LPC812M101CppSetupSct) {
   minUnitCheck(Lpc812M101TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(
-    libmcull::syscon::PeripheralClocks::kClockSct | libmcull::syscon::PeripheralClocks::kClockIocon |
-    libmcull::syscon::PeripheralClocks::kClockGpio | libmcull::syscon::PeripheralClocks::kClockSwm);
+    libmcull::syscon::PeripheralClocks::ClockSct | libmcull::syscon::PeripheralClocks::ClockIocon |
+    libmcull::syscon::PeripheralClocks::ClockGpio | libmcull::syscon::PeripheralClocks::ClockSwm);
   swm_peripheral.setup(pwm_out_pin, sct_output_0_function);
   swm_peripheral.setup(test_0_pin, sct_intput_0_function);
   iocon_peripheral.Setup(pwm_in_pin, libmcull::iocon::PullModes::INACTIVE);
@@ -36,16 +36,16 @@ MINUNIT_SETUP(LPC812M101CppSetupSct) {
 }
 
 MINUNIT_ADD(LPC812M101CppSctInit, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sct_peripheral.Init(0x4u, CountingModes::kBidirectional);
+  sct_peripheral.Init(0x4u, CountingModes::Bidirectional);
   minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
   minUnitCheck(dutRegisters->CTRL == 0x00040094u);
 }
 
 MINUNIT_ADD(LPC812M101CppSctRunning, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sct_peripheral.Init(0x4u, CountingModes::kBidirectional);
+  sct_peripheral.Init(0x4u, CountingModes::Bidirectional);
   minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
   minUnitCheck(dutRegisters->CTRL == 0x00040094u);
-  sct_peripheral.SetMatch(Matches::k0, 30000u);
+  sct_peripheral.SetMatch(Matches::Idx0, 30000u);
   minUnitCheck(dutRegisters->MATCH[0].U == 30000u);
   minUnitCheck(dutRegisters->MATCHREL[0].U == 30000u);
   sct_peripheral.Start();
@@ -58,19 +58,19 @@ MINUNIT_ADD(LPC812M101CppSctRunning, LPC812M101CppSetupSct, LPC812M101Teardown) 
 }
 
 MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sct_peripheral.Init(0x0, CountingModes::kBidirectional);
-  sct_peripheral.SetMatch(Matches::k0, 1000u);
-  sct_peripheral.SetupPwm(Matches::k1, 500, Events::k0, Outputs::k1, false);
+  sct_peripheral.Init(0x0, CountingModes::Bidirectional);
+  sct_peripheral.SetMatch(Matches::Idx0, 1000u);
+  sct_peripheral.SetupPwm(Matches::Idx1, 500, Events::Idx0, Outputs::Idx1, false);
   minUnitCheck(dutRegisters->MATCH[1].U == 500u);
   minUnitCheck(dutRegisters->MATCHREL[1].U == 500u);
   sct_peripheral.Start();
   // detect edges on SCT output1
   int timeout = 10000;
   int edgeCount = 0;
-  bool oldOutput = sct_peripheral.GetOutputState(Outputs::k1);
+  bool oldOutput = sct_peripheral.GetOutputState(Outputs::Idx1);
   bool newOutput;
   while (timeout > 0 && edgeCount < 500) {
-    newOutput = sct_peripheral.GetOutputState(Outputs::k1);
+    newOutput = sct_peripheral.GetOutputState(Outputs::Idx1);
     if (oldOutput != newOutput) {
       edgeCount++;
       oldOutput = newOutput;
@@ -83,10 +83,10 @@ MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown)
 }
 
 MINUNIT_ADD(LPC812M101CppSctSetupCapture, LPC812M101CppSetupSct, LPC812M101Teardown) {
-  sct_peripheral.Init(0x0, CountingModes::kBidirectional);
+  sct_peripheral.Init(0x0, CountingModes::Bidirectional);
   dutRegisters->CONFIG = dutRegisters->CONFIG | CONFIG::INSYNC(0xF);
-  sct_peripheral.SetMatch(Matches::k0, 3000000u);
-  sct_peripheral.setupCapture(Captures::k1, Events::k0, Inputs::k0, CaptureConditions::kRising);
+  sct_peripheral.SetMatch(Matches::Idx0, 3000000u);
+  sct_peripheral.setupCapture(Captures::Idx1, Events::Idx0, Inputs::Idx0, CaptureConditions::Rising);
   sct_peripheral.Start();
   minUnitCheck(dutRegisters->CAP[1].U == 0u);
   gpio_peripheral.SetLow(test_1_pin);
@@ -94,11 +94,11 @@ MINUNIT_ADD(LPC812M101CppSctSetupCapture, LPC812M101CppSetupSct, LPC812M101Teard
   // check if we got event in SCT event flag register
   minUnitCheck(dutRegisters->EVFLAG == 0x01u);
   dutRegisters->EVFLAG = 0x01u;
-  std::uint32_t firstCapture = sct_peripheral.GetCapture(Captures::k1);
+  std::uint32_t firstCapture = sct_peripheral.GetCapture(Captures::Idx1);
   minUnitCheck(firstCapture != 0u);
   gpio_peripheral.SetLow(test_1_pin);
   gpio_peripheral.SetHigh(test_1_pin);
-  std::uint32_t secondCapture = sct_peripheral.GetCapture(Captures::k1);
+  std::uint32_t secondCapture = sct_peripheral.GetCapture(Captures::Idx1);
   minUnitCheck(firstCapture != secondCapture);
   sct_peripheral.Halt();
 }

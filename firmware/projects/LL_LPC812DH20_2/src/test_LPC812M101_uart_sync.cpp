@@ -15,7 +15,7 @@
 using namespace libmcull::usart;
 using namespace libmcuhw::usart;
 
-static constexpr libmcu::HwAddressType usart0Address = libmcuhw::kUsart0Address;
+static constexpr libmcu::HwAddressType usart0Address = libmcuhw::Usart0Address;
 libmcuhw::usart::Usart *const dutRegisters{reinterpret_cast<libmcuhw::usart::Usart *>(usart0Address)};
 
 /**
@@ -25,9 +25,9 @@ MINUNIT_SETUP(LPC812M101CppSetupUsartSync) {
   minUnitCheck(Lpc812M101TeardownCorrect() == true);
   swm_peripheral.setup(test_0_pin, uart_main_rx_function);
   swm_peripheral.setup(test_1_pin, uart_main_tx_function);
-  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::kClockUart0 |
-                                           libmcull::syscon::PeripheralClocks::kClockSwm |
-                                           libmcull::syscon::PeripheralClocks::kClockIocon);
+  syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::PeripheralClocks::ClockUart0 |
+                                           libmcull::syscon::PeripheralClocks::ClockSwm |
+                                           libmcull::syscon::PeripheralClocks::ClockIocon);
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {
@@ -35,12 +35,12 @@ MINUNIT_ADD(LPC812M101CppUsartSyncInit, LPC812M101CppSetupUsartSync, LPC812M101T
   realBaudRate = usartAsyncPeripheral.Init(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
-               (CFG::kENABLE | UartLengths::kSize8 | UartParities::kParityNone | UartStops::kStop1));
+               (CFG::ENABLE | UartLengths::Size8 | UartParities::ParityNone | UartStops::Stop1));
   dutRegisters->CFG = 0x00000000;
-  realBaudRate = usartAsyncPeripheral.Init(9600, UartLengths::kSize7, UartParities::kParityEven, UartStops::kStop2);
+  realBaudRate = usartAsyncPeripheral.Init(9600, UartLengths::Size7, UartParities::ParityEven, UartStops::Stop2);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dutRegisters->CFG & CFG::RESERVED_MASK) ==
-               (CFG::kENABLE | UartLengths::kSize7 | UartParities::kParityEven | UartStops::kStop2));
+               (CFG::ENABLE | UartLengths::Size7 | UartParities::ParityEven | UartStops::Stop2));
 }
 
 MINUNIT_ADD(LPC812M101CppUsartSyncClaiming, LPC812M101CppSetupUsartSync, LPC812M101Teardown) {

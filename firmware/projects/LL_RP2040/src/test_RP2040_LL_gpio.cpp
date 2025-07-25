@@ -13,7 +13,7 @@
 #include <common.hpp>
 
 // peripheral register sets
-static constexpr libmcu::HwAddressType dutAddress = libmcuhw::kIoBank0Address;
+static constexpr libmcu::HwAddressType dutAddress = libmcuhw::IoBank0Address;
 libmcuhw::gpio_bank0::GpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::gpio_bank0::GpioBank0 *>(dutAddress)};
 
 /**
@@ -21,7 +21,7 @@ libmcuhw::gpio_bank0::GpioBank0 *const dutRegisters{reinterpret_cast<libmcuhw::g
  */
 MINUNIT_SETUP(RP2040SetupGpio) {
   minUnitCheck(Rp2040Teardown_correct() == true);
-  resets_peripheral.Reset(libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0, 100000);
+  resets_peripheral.Reset(libmcull::resets::IoBank0 | libmcull::resets::PadsBank0, 100000);
   // connect all GPIO's
   gpio_bank0_peripheral.Setup(gpio0Pin);
   gpio_bank0_peripheral.Setup(gpio1Pin);

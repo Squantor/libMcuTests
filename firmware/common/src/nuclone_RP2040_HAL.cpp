@@ -6,18 +6,18 @@
  */
 #include <nuclone_RP2040_HAL.hpp>
 
-libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
-libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
-libmcull::resets::Resets<libmcuhw::kResetsAddress> resets_peripheral;
-libmcull::pads::PadsBank0<libmcuhw::kPadsBank0Address> pads_bank0_peripheral;
-libmcull::sio_gpio::SioGpio<libmcuhw::kSioAddress> sio_gpio_peripheral;
-libmcull::gpioBank0::GpioBank0<libmcuhw::kIoBank0Address> gpio_bank0_peripheral;
+libmcull::systick::Systick<libmcuhw::SystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::NvicAddress, libmcuhw::ScbAddress> nvic_peripheral;
+libmcull::resets::Resets<libmcuhw::ResetsAddress> resets_peripheral;
+libmcull::pads::PadsBank0<libmcuhw::PadsBank0Address> pads_bank0_peripheral;
+libmcull::sio_gpio::SioGpio<libmcuhw::SioAddress> sio_gpio_peripheral;
+libmcull::gpioBank0::GpioBank0<libmcuhw::IoBank0Address> gpio_bank0_peripheral;
 
 libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
 
 extern "C" {
 void SysTick_Handler(void) {
-  systick_peripheral.isr();
+  systick_peripheral.Isr();
 }
 }
 
@@ -25,7 +25,7 @@ void board_init(void) {
   std::uint32_t timeout;
   // reset all setup peripherals
   timeout = resets_peripheral.Reset(
-    libmcull::resets::kIoBank0 | libmcull::resets::kPadsBank0 | libmcull::resets::kPllSys | libmcull::resets::kPllUsb, 100000);
+    libmcull::resets::IoBank0 | libmcull::resets::PadsBank0 | libmcull::resets::PllSys | libmcull::resets::PllUsb, 100000);
   // clear resusitator status
   // CLOCKS_SET->CLK_SYS_RESUS_CTRL = CLOCKS_SYS_RESUS_CTRL_CLEAR;
   // 47 ticks is around 1 ms @ 12 MHz
@@ -68,8 +68,8 @@ void board_init(void) {
 
   //  setup systick
   // SysTick_Config(FREQ_CPU / TICKS_PER_S);
-  systick_peripheral.init(12000000 / TICKS_PER_S);
+  systick_peripheral.Init(12000000 / TICKS_PER_S);
   // reset all relevant peripherals
   (void)timeout;
-  pads_bank0_peripheral.Setup(led_pin, libmcull::pads::DriveModes::k4mA, libmcull::pads::PullModes::kNone, false, false);
+  pads_bank0_peripheral.Setup(led_pin, libmcull::pads::DriveModes::Current4mA, libmcull::pads::PullModes::None, false, false);
 }

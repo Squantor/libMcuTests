@@ -16,7 +16,7 @@
 using namespace libmcuhw::i2c;
 using namespace libmcuhal::i2c;
 
-static constexpr libmcuhw::HwAddressType i2c0_address = libmcuhw::kI2c0Address;
+static constexpr libmcuhw::HwAddressType i2c0_address = libmcuhw::I2c0Address;
 libmcuhw::i2c::I2c *const dut_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c0_address)};
 
 constexpr inline std::uint32_t kI2cTimeout{1000};
@@ -33,7 +33,7 @@ MINUNIT_SETUP(Lpc845m301SetupI2C) {
                                            0);
   swm_peripheral.Setup(i2c_scl_pin, i2c_main_scl_function);
   swm_peripheral.Setup(i2c_sda_pin, i2c_main_sda_function);
-  nvic_peripheral.enable(libmcuhw::Interrupts::kI2c0);
+  nvic_peripheral.Enable(libmcuhw::Interrupts::I2c0);
 }
 
 /**

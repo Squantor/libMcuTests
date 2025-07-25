@@ -18,7 +18,7 @@ namespace hardware = libmcuhw::usart;
 namespace lowlevel = libmcull::usart;
 namespace hal = libmcuhal::usart;
 
-static constexpr libmcuhw::HwAddressType usart0_address = libmcuhw::kUsart0Address;
+static constexpr libmcuhw::HwAddressType usart0_address = libmcuhw::Usart0Address;
 hardware::Usart *const dut_registers{reinterpret_cast<hardware::Usart *>(usart0_address)};
 
 /**
@@ -46,7 +46,7 @@ MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate =
-    hal_usart_peripheral.Init<uart0_clock_config>(9600, hal::UartParities::kEven, hal::UartStops::kStop2, hal::UartLengths::kSize7);
+    hal_usart_peripheral.Init<uart0_clock_config>(9600, hal::UartParities::Even, hal::UartStops::Stop2, hal::UartLengths::Size7);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
@@ -80,8 +80,8 @@ MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   UartTransferType single_transfer = 0xA5;
   UartTransferType single_reception;
   hal::UartStateMasks status = hal_usart_peripheral.GetStatus();
-  minUnitCheck((status & hal::UartStateMasks::kReceiverIdleMask) && (status & hal::UartStateMasks::kTransmitIdleMask) &&
-               (status & hal::UartStateMasks::kTransmitDataMask));
+  minUnitCheck((status & hal::UartStateMasks::ReceiverIdleMask) && (status & hal::UartStateMasks::TransmitIdleMask) &&
+               (status & hal::UartStateMasks::TransmitDataMask));
   libmcu::AsyncHandle handle = 42;
   minUnitCheck(hal_usart_peripheral.Transmit(42, single_transfer) == libmcu::Results::NotClaimed);
   minUnitCheck(hal_usart_peripheral.Claim(handle) == libmcu::Results::Claimed);
@@ -90,11 +90,11 @@ MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   minUnitCheck(hal_usart_peripheral.Transmit(handle, single_transfer) == libmcu::Results::NoError);
   // check for reception
   timeout = 0xFFFF;
-  while (timeout > 0 && !(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::kReceiverDataMask)) {
+  while (timeout > 0 && !(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::ReceiverDataMask)) {
     timeout--;
   }
   minUnitCheck(timeout > 0);
-  minUnitCheck(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::kReceiverDataMask);
+  minUnitCheck(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::ReceiverDataMask);
   // receive and check for timeout
   minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::NoError);
   minUnitCheck(single_reception == single_transfer);

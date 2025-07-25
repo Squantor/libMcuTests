@@ -11,14 +11,14 @@
 
 namespace clocks = libmcuhw::clock;
 
-libmcull::systick::Systick<libmcuhw::kSystickAddress> systick_peripheral;
-libmcull::nvic::Nvic<libmcuhw::kNvicAddress, libmcuhw::kScbAddress> nvic_peripheral;
-libmcull::iocon::Iocon<libmcuhw::kIoconAddress> iocon_peripheral;
-libmcull::swm::Swm<libmcuhw::kSwmAddress> swm_peripheral;
-libmcull::gpio::Gpio<libmcuhw::kGpioAddress> gpio_peripheral;
-libmcull::syscon::Syscon<libmcuhw::kSysconAddress> syscon_peripheral;
-libmcull::usart::UartPolled<libmcuhw::kUsart0Address, UartTransferType> usart_peripheral;
-libmcull::i2c::I2cInterrupt<libmcuhw::kI2c0Address> i2c_interrupt_peripheral;
+libmcull::systick::Systick<libmcuhw::SystickAddress> systick_peripheral;
+libmcull::nvic::Nvic<libmcuhw::NvicAddress, libmcuhw::ScbAddress> nvic_peripheral;
+libmcull::iocon::Iocon<libmcuhw::IoconAddress> iocon_peripheral;
+libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
+libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
+libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
+libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> usart_peripheral;
+libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
 libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
 libmcuhal::i2c::I2cInterrupt<i2c_interrupt_peripheral> hal_i2c_interrupt_peripheral;
 
