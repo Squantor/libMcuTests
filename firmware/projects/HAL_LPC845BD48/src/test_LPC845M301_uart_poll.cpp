@@ -6,7 +6,7 @@
  */
 /**
  * @file test_LPC845M301_uart.cpp
- * @brief tests for LPC845M301 HAL UART
+ * @brief tests for LPC845M301 HAL UART polling mode
  * @todo add tests for multiple element transfers
  */
 
