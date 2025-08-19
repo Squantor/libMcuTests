@@ -36,7 +36,6 @@ MINUNIT_SETUP(LPC845M301SetupI2cIntr) {
   swm_peripheral.Setup(i2c_sda_pin, i2c_main_sda_function);
   nvic_peripheral.Enable(libmcuhw::Interrupts::I2c0);
 }
-
 /**
  * @brief Tests I2C init methods
  */
@@ -44,7 +43,6 @@ MINUNIT_ADD(LPC845M301DH20I2cIntrInit, LPC845M301SetupI2cIntr, LPC845M301Teardow
   minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
   minUnitCheck(i2c_interrupt_peripheral.InitMaster<I2c0ClockConfig>(400000, kI2cTimeout) == 428571);
 }
-
 /**
  * @brief Tests I2C asynchronous accessor methods
  */

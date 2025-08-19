@@ -18,6 +18,7 @@ libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
 libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
 libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
 libmcull::usart::UartPolled<libmcuhw::Usart0Address, std::uint8_t> usart_polled_peripheral;
+libmcull::usart::UartInterrupt<libmcuhw::Usart0Address, std::uint8_t, 16> usart_interrupt_peripheral;
 libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
 libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
 libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
@@ -28,6 +29,10 @@ extern "C" {
 
 void I2C0_IRQHandler(void) {
   i2c_interrupt_peripheral.InterruptHandler();
+}
+
+void USART0_IRQHandler(void) {
+  usart_interrupt_peripheral.InterruptHandler();
 }
 }
 

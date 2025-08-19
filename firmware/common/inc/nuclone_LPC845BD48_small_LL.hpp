@@ -93,22 +93,24 @@ extern libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
 extern libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
 extern libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
 extern libmcull::usart::UartPolled<libmcuhw::Usart0Address, std::uint8_t> usart_polled_peripheral;
+extern libmcull::usart::UartInterrupt<libmcuhw::Usart0Address, std::uint8_t, 16> usart_interrupt_peripheral;
+extern libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
+extern libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
+extern libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
+extern libmcull::i2c::I2cPolled<libmcuhw::I2c0Address> i2c_polled_peripheral;
+extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
+
 constexpr inline libmcuhw::clock::McuClockConfig<libmcuhw::clock::ClockInputSources::XTAL, 12'000'000u, 30'000'000u>
   nuclone_clock_config;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::UART0,
                                                   libmcuhw::clock::PeriSource::MAIN>
   uart_0_clock_config;
-extern libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
-extern libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::SPI0,
                                                   libmcuhw::clock::PeriSource::MAIN>
   Spi0ClockConfig;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::I2C0,
                                                   libmcuhw::clock::PeriSource::MAIN>
   I2c0ClockConfig;
-extern libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
-extern libmcull::i2c::I2cPolled<libmcuhw::I2c0Address> i2c_polled_peripheral;
-extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
 
 void board_init(void);
 

@@ -31,3 +31,29 @@ MINUNIT_SETUP(LPC845M301SetupUsartInt) {
   swm_peripheral.Setup(test_pin_1, uart_main_rx_function);
   swm_peripheral.Setup(test_pin_2, uart_main_tx_function);
 }
+/**
+ * @brief Tests interrupt driven USART initialisation
+ */
+MINUNIT_ADD(LPC845M301UsartIntInit, LPC845M301SetupUsartInt, LPC845M301Teardown) {
+  std::uint32_t realBaudRate;
+  realBaudRate = usart_interrupt_peripheral.Init<uart_0_clock_config>(115200);
+  minUnitCheck(realBaudRate == 117187);
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
+  dut_registers->CFG = 0x00000000;
+  realBaudRate =
+    usart_interrupt_peripheral.Init<uart_0_clock_config>(9600, UartParities::Even, UartStops::Stop2, UartLengths::Size7);
+  minUnitCheck(realBaudRate == 9615);
+  minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
+}
+/**
+ * @brief Tests interrupt driven USART asynchronous locks
+ */
+MINUNIT_ADD(LPC845M301UsartIntAsyncLock, LPC845M301SetupUsartInt, LPC845M301Teardown) {
+  minUnitCheck(usart_interrupt_peripheral.Init<uart_0_clock_config>(115200) == 117187);
+  minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(usart_interrupt_peripheral.Claim() == libmcu::Results::Claimed);
+  minUnitCheck(usart_interrupt_peripheral.Claim() == libmcu::Results::InUse);
+  minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Claimed);
+  minUnitCheck(usart_interrupt_peripheral.Unclaim() == libmcu::Results::Unclaimed);
+  minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Idle);
+}
