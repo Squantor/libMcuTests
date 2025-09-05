@@ -40,13 +40,13 @@ MINUNIT_SETUP(LPC845M301SetupUart) {
 MINUNIT_ADD(LPC845M301SyncUartInit, LPC845M301SetupUart, LPC845M301Teardown) {
   std::uint32_t realBaudRate;
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
-  realBaudRate = hal_usart_peripheral.Init<uart0_clock_config>(115200);
+  realBaudRate = hal_usart_peripheral_poll.Init<uart0_clock_config>(115200);
   minUnitCheck(realBaudRate == 117187);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
-  realBaudRate =
-    hal_usart_peripheral.Init<uart0_clock_config>(9600, hal::UartParities::Even, hal::UartStops::Stop2, hal::UartLengths::Size7);
+  realBaudRate = hal_usart_peripheral_poll.Init<uart0_clock_config>(9600, hal::UartParities::Even, hal::UartStops::Stop2,
+                                                                    hal::UartLengths::Size7);
   minUnitCheck(realBaudRate == 9615);
   minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
                (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
@@ -59,14 +59,14 @@ MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teard
   libmcu::AsyncHandle handle_first = 42;
   libmcu::AsyncHandle handle_second = 44;
 
-  minUnitCheck(hal_usart_peripheral.Claim(handle_first) == libmcu::Results::Claimed);
+  minUnitCheck(hal_usart_peripheral_poll.Claim(handle_first) == libmcu::Results::Claimed);
   minUnitCheck(handle_first == 0);
-  minUnitCheck(hal_usart_peripheral.Claim(handle_second) == libmcu::Results::InUse);
-  minUnitCheck(hal_usart_peripheral.Release(handle_first) == libmcu::Results::Unclaimed);
-  minUnitCheck(hal_usart_peripheral.Release(handle_first) == libmcu::Results::NotClaimed);
-  minUnitCheck(hal_usart_peripheral.Claim(handle_second) == libmcu::Results::Claimed);
+  minUnitCheck(hal_usart_peripheral_poll.Claim(handle_second) == libmcu::Results::InUse);
+  minUnitCheck(hal_usart_peripheral_poll.Release(handle_first) == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_poll.Release(handle_first) == libmcu::Results::NotClaimed);
+  minUnitCheck(hal_usart_peripheral_poll.Claim(handle_second) == libmcu::Results::Claimed);
   minUnitCheck(handle_second == 1);
-  minUnitCheck(hal_usart_peripheral.Release(handle_second) == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_poll.Release(handle_second) == libmcu::Results::Unclaimed);
 }
 
 /**
@@ -74,32 +74,32 @@ MINUNIT_ADD(LPC845M301SyncUartClaimUnclaim, LPC845M301SetupUart, LPC845M301Teard
  */
 MINUNIT_ADD(LPC845M301SyncUartComms, LPC845M301SetupUart, LPC845M301Teardown) {
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
-  hal_usart_peripheral.Init<uart0_clock_config>(115200);
+  hal_usart_peripheral_poll.Init<uart0_clock_config>(115200);
 
   std::size_t timeout;
   UartTransferType single_transfer = 0xA5;
   UartTransferType single_reception;
-  hal::UartStateMasks status = hal_usart_peripheral.GetStatus();
+  hal::UartStateMasks status = hal_usart_peripheral_poll.GetStatus();
   minUnitCheck((status & hal::UartStateMasks::ReceiverIdleMask) && (status & hal::UartStateMasks::TransmitIdleMask) &&
                (status & hal::UartStateMasks::TransmitDataMask));
   libmcu::AsyncHandle handle = 42;
-  minUnitCheck(hal_usart_peripheral.Transmit(42, single_transfer) == libmcu::Results::NotClaimed);
-  minUnitCheck(hal_usart_peripheral.Claim(handle) == libmcu::Results::Claimed);
+  minUnitCheck(hal_usart_peripheral_poll.Transmit(42, single_transfer) == libmcu::Results::NotClaimed);
+  minUnitCheck(hal_usart_peripheral_poll.Claim(handle) == libmcu::Results::Claimed);
   minUnitCheck(handle != 42);
-  minUnitCheck(hal_usart_peripheral.Transmit(42, single_transfer) == libmcu::Results::InvalidHandle);
-  minUnitCheck(hal_usart_peripheral.Transmit(handle, single_transfer) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_poll.Transmit(42, single_transfer) == libmcu::Results::InvalidHandle);
+  minUnitCheck(hal_usart_peripheral_poll.Transmit(handle, single_transfer) == libmcu::Results::NoError);
   // check for reception
   timeout = 0xFFFF;
-  while (timeout > 0 && !(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::ReceiverDataMask)) {
+  while (timeout > 0 && !(hal_usart_peripheral_poll.GetStatus() & hal::UartStateMasks::ReceiverDataMask)) {
     timeout--;
   }
   minUnitCheck(timeout > 0);
-  minUnitCheck(hal_usart_peripheral.GetStatus() & hal::UartStateMasks::ReceiverDataMask);
+  minUnitCheck(hal_usart_peripheral_poll.GetStatus() & hal::UartStateMasks::ReceiverDataMask);
   // receive and check for timeout
-  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_poll.Receive(handle, single_reception) == libmcu::Results::NoError);
   minUnitCheck(single_reception == single_transfer);
-  minUnitCheck(hal_usart_peripheral.Receive(handle, single_reception) == libmcu::Results::Timeout);
+  minUnitCheck(hal_usart_peripheral_poll.Receive(handle, single_reception) == libmcu::Results::Timeout);
 
-  minUnitCheck(hal_usart_peripheral.Release(handle) == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_poll.Release(handle) == libmcu::Results::Unclaimed);
   minUnitPass();
 }

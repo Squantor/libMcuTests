@@ -16,6 +16,7 @@ $(NAME)_DEFINES += -DMINUNIT_MAX_TESTS=100 -DMINUNIT_REPORT_DISABLE # saves load
 $(NAME)_LIBS := libMcu squantorLibC squantorLibEmbedded squantorMinUnit
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_uart_poll.cpp \
+$(PROJ_DIR)/src/test_LPC845M301_uart_int.cpp \
 $(PROJ_DIR)/src/test_LPC845M301_i2c_int.cpp \
 common/src/$(BOARD).cpp \
 common/src/LPC845M301_teardown.cpp

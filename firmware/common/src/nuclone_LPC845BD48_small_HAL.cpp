@@ -17,15 +17,20 @@ libmcull::iocon::Iocon<libmcuhw::IoconAddress> iocon_peripheral;
 libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
 libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
 libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
-libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> usart_peripheral;
-libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
-libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
-libmcuhal::i2c::I2cInterrupt<i2c_interrupt_peripheral> hal_i2c_interrupt_peripheral;
+libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> ll_usart_peripheral_poll;
+libmcull::usart::UartInterrupt<libmcuhw::Usart0Address, UartTransferType, 32> ll_usart_peripheral_int;
+libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> ll_i2c_peripheral_int;
+libmcuhal::i2c::I2cInterrupt<ll_i2c_peripheral_int> hal_i2c_peripheral_int;
+libmcuhal::usart::UartPolled<ll_usart_peripheral_poll, UartTransferType> hal_usart_peripheral_poll;
+libmcuhal::usart::UartInterrupt<ll_usart_peripheral_int, UartTransferType> hal_usart_peripheral_int;
 
 extern "C" {
-
 void I2C0_IRQHandler(void) {
-  i2c_interrupt_peripheral.InterruptHandler();
+  ll_i2c_peripheral_int.InterruptHandler();
+}
+
+void USART0_IRQHandler(void) {
+  ll_usart_peripheral_int.InterruptHandler();
 }
 }
 

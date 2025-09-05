@@ -88,13 +88,7 @@ constexpr MainUartRxFunctionType uart_main_rx_function;
 
 using UartTransferType = std::uint8_t;
 
-// peripheral externs
-extern libmcull::systick::Systick<libmcuhw::SystickAddress> systick_peripheral;
-extern libmcull::nvic::Nvic<libmcuhw::NvicAddress, libmcuhw::ScbAddress> nvic_peripheral;
-extern libmcull::iocon::Iocon<libmcuhw::IoconAddress> iocon_peripheral;
-extern libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
-extern libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
-extern libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
+// clock configurations
 constexpr inline libmcuhw::clock::McuClockConfig<libmcuhw::clock::ClockInputSources::XTAL, 12'000'000u, 30'000'000u>
   nuclone_clock_config;
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::UART0,
@@ -103,10 +97,21 @@ constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw
 constexpr inline libmcuhw::clock::PeriClockConfig<nuclone_clock_config, libmcuhw::clock::PeriSelect::I2C0,
                                                   libmcuhw::clock::PeriSource::MAIN>
   i2c0_clock_config;
-extern libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> usart_peripheral;
-extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
-extern libmcuhal::usart::UartPolled<usart_peripheral, UartTransferType> hal_usart_peripheral;
-extern libmcuhal::i2c::I2cInterrupt<i2c_interrupt_peripheral> hal_i2c_interrupt_peripheral;
+
+// Low level peripheral externs
+extern libmcull::systick::Systick<libmcuhw::SystickAddress> systick_peripheral;
+extern libmcull::nvic::Nvic<libmcuhw::NvicAddress, libmcuhw::ScbAddress> nvic_peripheral;
+extern libmcull::iocon::Iocon<libmcuhw::IoconAddress> iocon_peripheral;
+extern libmcull::swm::Swm<libmcuhw::SwmAddress> swm_peripheral;
+extern libmcull::gpio::Gpio<libmcuhw::GpioAddress> gpio_peripheral;
+extern libmcull::syscon::Syscon<libmcuhw::SysconAddress> syscon_peripheral;
+extern libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> ll_usart_peripheral_poll;
+extern libmcull::usart::UartInterrupt<libmcuhw::Usart0Address, UartTransferType, 32> ll_usart_peripheral_int;
+extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> ll_i2c_peripheral_int;
+// HAL peripheral externs
+extern libmcuhal::i2c::I2cInterrupt<ll_i2c_peripheral_int> hal_i2c_peripheral_int;
+extern libmcuhal::usart::UartPolled<ll_usart_peripheral_poll, UartTransferType> hal_usart_peripheral_poll;
+extern libmcuhal::usart::UartInterrupt<ll_usart_peripheral_int, UartTransferType> hal_usart_peripheral_int;
 
 void board_init(void);
 

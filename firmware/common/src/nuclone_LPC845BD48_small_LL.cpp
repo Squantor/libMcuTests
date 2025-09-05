@@ -23,12 +23,12 @@ libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
 libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
 libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
 libmcull::i2c::I2cPolled<libmcuhw::I2c0Address> i2c_polled_peripheral;
-libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
+libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> ll_i2c_peripheral_int;
 
 extern "C" {
 
 void I2C0_IRQHandler(void) {
-  i2c_interrupt_peripheral.InterruptHandler();
+  ll_i2c_peripheral_int.InterruptHandler();
 }
 
 void USART0_IRQHandler(void) {

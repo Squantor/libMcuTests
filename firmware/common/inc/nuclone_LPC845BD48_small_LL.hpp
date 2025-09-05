@@ -98,7 +98,7 @@ extern libmcull::dma::Dma<libmcuhw::DmaAddress> dma_peripheral;
 extern libmcull::inmux::InMux<libmcuhw::InmuxAddress> inmux_peripheral;
 extern libmcull::spi::SpiPolled<libmcuhw::Spi0Address, libmcull::spi::SpiChipEnables, std::uint8_t> spi_polled_peripheral;
 extern libmcull::i2c::I2cPolled<libmcuhw::I2c0Address> i2c_polled_peripheral;
-extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> i2c_interrupt_peripheral;
+extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> ll_i2c_peripheral_int;
 
 constexpr inline libmcuhw::clock::McuClockConfig<libmcuhw::clock::ClockInputSources::XTAL, 12'000'000u, 30'000'000u>
   nuclone_clock_config;
