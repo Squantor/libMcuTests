@@ -58,43 +58,34 @@ MINUNIT_ADD(Lpc845m301HalUartIntInit, Lpc845m301SetupHalUartInt, LPC845M301Teard
  * @brief Tests interrupt driven HAL UART claim and unclaim
  */
 MINUNIT_ADD(Lpc845m301HalUartIntClaimUnclaim, Lpc845m301SetupHalUartInt, LPC845M301Teardown) {
-  libmcu::AsyncHandle handle_first = 42;
-  libmcu::AsyncHandle handle_second = 44;
-
-  minUnitCheck(hal_usart_peripheral_int.Claim(handle_first) == libmcu::Results::Claimed);
-  minUnitCheck(handle_first == 0);
-  minUnitCheck(hal_usart_peripheral_int.Claim(handle_second) == libmcu::Results::InUse);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim(handle_first) == libmcu::Results::Unclaimed);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim(handle_first) == libmcu::Results::InUse);
-  minUnitCheck(hal_usart_peripheral_int.Claim(handle_second) == libmcu::Results::Claimed);
-  minUnitCheck(handle_second == 1);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim(handle_second) == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::Claimed);
+  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::InUse);
+  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Idle);
 }
 
 /**
  * @brief Tests interrupt driven HAL UART transmit and receive
  */
 MINUNIT_ADD(Lpc845m301HalUartIntTransmitReceive, Lpc845m301SetupHalUartInt, LPC845M301Teardown) {
-  libmcu::AsyncHandle handle = 42;
   uint8_t single_char = 0x73;
   std::uint32_t timeout_counter;
   std::array<std::uint8_t, 5> test_write_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 5> test_read_data{};
   std::array<std::uint8_t, 5> test_result_data{0x73, 0x88, 0x11, 0xAA, 0x55};
   minUnitCheck(hal_usart_peripheral_int.Init<uart0_clock_config>(115200) == 117187);
-  minUnitCheck(hal_usart_peripheral_int.Claim(handle) == libmcu::Results::Claimed);
-  minUnitCheck(handle != 42);
-  minUnitCheck(hal_usart_peripheral_int.Transmit(handle, single_char) == libmcu::Results::NoError);
-  minUnitCheck(hal_usart_peripheral_int.Transmit(handle, test_write_data) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::Claimed);
+  minUnitCheck(hal_usart_peripheral_int.Transmit(single_char) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_int.Transmit(test_write_data) == libmcu::Results::NoError);
   timeout_counter = 0;
   while ((timeout_counter < timeout_value) && (hal_usart_peripheral_int.GetReceiveLevel() < (test_read_data.size() + 1))) {
     timeout_counter++;
   }
   minUnitCheck(timeout_counter < timeout_value);
-  minUnitCheck(hal_usart_peripheral_int.Receive(handle, test_read_data) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_int.Receive(test_read_data) == libmcu::Results::NoError);
   minUnitCheck(test_read_data == test_result_data);
   minUnitCheck(hal_usart_peripheral_int.GetReceiveLevel() == 1);
-  minUnitCheck(hal_usart_peripheral_int.Receive(handle, single_char) == libmcu::Results::NoError);
+  minUnitCheck(hal_usart_peripheral_int.Receive(single_char) == libmcu::Results::NoError);
   minUnitCheck(single_char == 0xC5);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim(handle) == libmcu::Results::Unclaimed);
+  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
 }
