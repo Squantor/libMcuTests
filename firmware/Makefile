@@ -5,7 +5,7 @@
 # Generic project makefile
 # Heavily inspired by: https://github.com/bronson/makefile-death
 #
-# Version: 20250528
+# Version: 20251007
 
 # User definable settings are here
 
@@ -139,8 +139,6 @@ all: $(BINDEPS) $(EXECUTABLE)
 
 .PHONY: all
 
--include $(DEPS)
-
 $(DOC_PATH)/build-tag:
 > $(C)$(MKDIR) -p $(DOC_PATH)
 > $(C)$(TOUCH) $@
@@ -198,13 +196,14 @@ clean: $(BINDEPS) $(DOCDEPS)
 > $(C)$(RM) -rf $(BIN_ROOT)
 > $(C)$(RM) -rf $(OBJ_ROOT)
 > $(C)$(RM) -rf $(DOC_ROOT)
-> $(C)$(RM) compile_commands.json
 .PHONY: clean
 
 # utility rules
 ifneq ("$(wildcard makefiles/util.mak)","")
 include makefiles/util.mak
 endif
+
+-include $(DEPS)
 
 # Function used to check variables. Use on the command line:
 # make print-VARNAME
