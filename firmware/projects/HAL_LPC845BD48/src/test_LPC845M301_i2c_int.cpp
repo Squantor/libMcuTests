@@ -20,7 +20,7 @@ static constexpr libmcuhw::HwAddressType i2c0_address = libmcuhw::I2c0Address;
 libmcuhw::i2c::I2c *const dut_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c0_address)};
 
 constexpr inline std::uint32_t kI2cTimeout{1000};
-constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
+constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
 
 /**
  * @brief LPC845M301 HAL I2C setup

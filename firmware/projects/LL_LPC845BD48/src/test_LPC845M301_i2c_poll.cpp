@@ -16,7 +16,7 @@ namespace hardware = libmcuhw::spi;
 namespace lowlevel = libmcull::spi;
 
 constexpr inline std::uint32_t kI2cTimeout{1000};
-constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
+constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
 
 // peripheral registers
 static constexpr libmcu::HwAddressType i2c_address = libmcuhw::I2c0Address; /**< peripheral address */

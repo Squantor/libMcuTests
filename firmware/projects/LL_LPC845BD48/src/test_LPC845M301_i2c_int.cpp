@@ -16,7 +16,18 @@ namespace hardware = libmcuhw::spi;
 namespace lowlevel = libmcull::spi;
 
 constexpr inline std::uint32_t kI2cTimeout{1000};
-constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
+constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
+
+struct DutCallback : public libmcu::AsyncInterface {
+  void Progress(void) {}
+  void Callback(void) {
+    callback_counter++;
+  }
+  int callback_counter;
+};
+
+DutCallback transmit_callback;
+DutCallback receive_callback;
 
 // peripheral registers
 static constexpr libmcu::HwAddressType i2c_address = libmcuhw::I2c0Address; /**< peripheral address */
@@ -35,6 +46,8 @@ MINUNIT_SETUP(LPC845M301SetupI2cIntr) {
   swm_peripheral.Setup(i2c_scl_pin, i2c_main_scl_function);
   swm_peripheral.Setup(i2c_sda_pin, i2c_main_sda_function);
   nvic_peripheral.Enable(libmcuhw::Interrupts::I2c0);
+  transmit_callback.callback_counter = 0;
+  receive_callback.callback_counter = 0;
 }
 /**
  * @brief Tests I2C init methods
@@ -42,17 +55,6 @@ MINUNIT_SETUP(LPC845M301SetupI2cIntr) {
 MINUNIT_ADD(LPC845M301DH20I2cIntrInit, LPC845M301SetupI2cIntr, LPC845M301Teardown) {
   minUnitCheck(ll_i2c_peripheral_int.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
   minUnitCheck(ll_i2c_peripheral_int.InitMaster<I2c0ClockConfig>(400000, kI2cTimeout) == 428571);
-}
-/**
- * @brief Tests I2C asynchronous accessor methods
- */
-MINUNIT_ADD(LPC845M301DH20I2cIntrAsyncAccessors, LPC845M301SetupI2cIntr, LPC845M301Teardown) {
-  minUnitCheck(ll_i2c_peripheral_int.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(ll_i2c_peripheral_int.Claim() == libmcu::Results::Claimed);
-  minUnitCheck(ll_i2c_peripheral_int.Claim() == libmcu::Results::InUse);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Claimed);
-  minUnitCheck(ll_i2c_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
   minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
 }
 
@@ -66,33 +68,38 @@ MINUNIT_ADD(LPC845M301DH20I2cIntrTxRx, LPC845M301SetupI2cIntr, LPC845M301Teardow
   std::array<std::uint8_t, 1> testI2cExpanderInput{};
   std::uint32_t timeout;
   minUnitCheck(ll_i2c_peripheral_int.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
-  minUnitCheck(ll_i2c_peripheral_int.Claim() == libmcu::Results::Claimed);
-  minUnitCheck(ll_i2c_peripheral_int.Transmit(testExpander, testWriteData) == libmcu::Results::BusyTransmit);
+  minUnitCheck(ll_i2c_peripheral_int.Transmit(testExpander, testWriteData, &transmit_callback) == libmcu::Results::NoError);
+  minUnitCheck(transmit_callback.callback_counter == 0);
   timeout = 0;
-  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() == libmcu::Results::BusyTransmit) && (timeout < kI2cTimeout); timeout++)
-    ;
+  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
+    ll_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Claimed);
+  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(transmit_callback.callback_counter == 1);
 
-  minUnitCheck(ll_i2c_peripheral_int.Receive(testExpander, testReadData) == libmcu::Results::BusyReceive);
-  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() == libmcu::Results::BusyReceive) && (timeout < kI2cTimeout); timeout++)
-    ;
+  minUnitCheck(ll_i2c_peripheral_int.Receive(testExpander, testReadData, &receive_callback) == libmcu::Results::NoError);
+  minUnitCheck(receive_callback.callback_counter == 0);
+  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
+    ll_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Claimed);
+  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(receive_callback.callback_counter == 1);
 
   minUnitCheck(testReadData[0] == 0xC5);
   minUnitCheck(testReadData[1] == 0xC5);
   minUnitCheck(testReadData[2] == 0xC5);
-  minUnitCheck(ll_i2c_peripheral_int.Transmit(testExpander, testI2cExpanderOutput) == libmcu::Results::BusyTransmit);
-  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() == libmcu::Results::BusyTransmit) && (timeout < kI2cTimeout); timeout++)
-    ;
+  minUnitCheck(ll_i2c_peripheral_int.Transmit(testExpander, testI2cExpanderOutput) == libmcu::Results::NoError);
+  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
+    ll_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Claimed);
-  minUnitCheck(ll_i2c_peripheral_int.Receive(testExpander, testI2cExpanderInput) == libmcu::Results::BusyReceive);
-  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() == libmcu::Results::BusyReceive) && (timeout < kI2cTimeout); timeout++)
-    ;
+  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(ll_i2c_peripheral_int.Receive(testExpander, testI2cExpanderInput) == libmcu::Results::NoError);
+  for (timeout = 0; (ll_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
+    ll_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
-  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Claimed);
+  minUnitCheck(ll_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
   minUnitCheck(testI2cExpanderInput[0] == 0x30);
-  minUnitCheck(ll_i2c_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
+
+  minUnitCheck(transmit_callback.callback_counter == 1);
+  minUnitCheck(receive_callback.callback_counter == 1);
 }

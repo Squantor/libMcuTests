@@ -1,112 +1,128 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "clean",
-      "type": "shell",
-      "command": "make PROJECT=PC clean",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "unittests",
-      "type": "shell",
-      "command": "compiledb make PROJECT=unittests",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "template tests",
-      "type": "shell",
-      "command": "compiledb make PROJECT=tests_template",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build HAL LPC845M201BD48 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_HAL_LPC845BD48 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL CortexM0plus tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_CortexM0plus CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC812M101DH20 first tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC812M101DH20 first tests, release mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=release_size -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC812M101DH20 second tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC812M101DH20 second tests, release mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=release_size -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC812M101DH20 third tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC812DH20_3 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL LPC845M201BD48 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_LPC845BD48 CONFIG=debug -j20",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL RP2040 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_RP2040 CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build HAL RP2040 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_HAL_RP2040 CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build driver 3 to 8 mux and 74595 tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=driver_mux3to8_74hc595 CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build LL STM32F031K6T tests, debug mode",
-      "type": "shell",
-      "command": "compiledb make PROJECT=test_LL_STM32F031K6T CONFIG=debug -j28",
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-  ]
+   // See https://go.microsoft.com/fwlink/?LinkId=733558
+   // for the documentation about the tasks.json format
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "clean",
+         "type": "shell",
+         "command": "make PROJECT=PC clean",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "unittests",
+         "type": "shell",
+         "command": "compiledb make PROJECT=unittests",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "template tests",
+         "type": "shell",
+         "command": "compiledb make PROJECT=tests_template",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build HAL LPC845M201BD48 tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_HAL_LPC845BD48 CONFIG=debug -j20",
+         "group": "build",
+         "problemMatcher": "$gcc",
+         "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "new",
+            "showReuseMessage": true,
+            "clear": false
+         }
+      },
+      {
+         "label": "build LL CortexM0plus tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_CortexM0plus CONFIG=debug -j28",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC812M101DH20 first tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=debug -j20",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC812M101DH20 first tests, release mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC812DH20_1 CONFIG=release_size -j20",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC812M101DH20 second tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=debug -j20",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC812M101DH20 second tests, release mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC812DH20_2 CONFIG=release_size -j20",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC812M101DH20 third tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC812DH20_3 CONFIG=debug -j20",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL LPC845M201BD48 tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_LPC845BD48 CONFIG=debug -j20",
+         "group": "build",
+         "problemMatcher": "$gcc",
+         "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "new",
+            "showReuseMessage": true,
+            "clear": false
+         }
+      },
+      {
+         "label": "build LL RP2040 tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_RP2040 CONFIG=debug -j28",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build HAL RP2040 tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_HAL_RP2040 CONFIG=debug -j28",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build driver 3 to 8 mux and 74595 tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=driver_mux3to8_74hc595 CONFIG=debug -j28",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+      {
+         "label": "build LL STM32F031K6T tests, debug mode",
+         "type": "shell",
+         "command": "compiledb make PROJECT=test_LL_STM32F031K6T CONFIG=debug -j28",
+         "group": "build",
+         "problemMatcher": "$gcc"
+      },
+   ]
 }
