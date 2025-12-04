@@ -12,8 +12,8 @@
 #include <RP2040_LL_teardown.hpp>
 #include <common.hpp>
 
-constexpr inline libmcull::I2cDeviceAddress expanderAddress{0x21}; /**< PCF8574 I2C address */
-constexpr inline libmcull::I2cDeviceAddress dummyAddress{0x53};    /**< I2C address that has no device*/
+constexpr inline libmcu::I2cDeviceAddress expanderAddress{0x21}; /**< PCF8574 I2C address */
+constexpr inline libmcu::I2cDeviceAddress dummyAddress{0x53};    /**< I2C address that has no device*/
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType i2c0Address = libmcuhw::I2c0Address;

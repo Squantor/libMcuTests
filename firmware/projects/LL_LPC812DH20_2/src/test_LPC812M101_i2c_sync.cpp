@@ -16,7 +16,7 @@
 using namespace libmcuhw::i2c;
 using namespace libmcull::i2c;
 
-constexpr inline libmcull::I2cDeviceAddress testExpander{0x21};
+constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
 // peripheral register sets
 static constexpr libmcu::HwAddressType i2cAddress = libmcuhw::I2c0Address;
 libmcuhw::i2c::I2c *const dutRegisters{reinterpret_cast<libmcuhw::i2c::I2c *>(i2cAddress)};
