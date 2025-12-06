@@ -16,11 +16,20 @@
 using namespace libmcuhw::i2c;
 using namespace libmcuhal::i2c;
 
-static constexpr libmcuhw::HwAddressType i2c0_address = libmcuhw::I2c0Address;
-libmcuhw::i2c::I2c *const dut_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i2c0_address)};
-
-constexpr inline std::uint32_t kI2cTimeout{1000};
+constexpr inline std::uint32_t kI2cTimeout{10000};
 constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
+
+struct DutCallback : public libmcu::AsyncInterface {
+  void Progress(void) {}
+  void Callback(void) {
+    callback_counter++;
+  }
+  int callback_counter;
+};
+
+DutCallback transmit_callback;
+DutCallback receive_callback;
+DutCallback stop_callback;
 
 /**
  * @brief LPC845M301 HAL I2C setup
@@ -55,7 +64,7 @@ MINUNIT_ADD(Lpc845m301I2cIntInit, Lpc845m301SetupI2C, LPC845M301Teardown) {
 /**
  * @brief Tests I2C transfers that are separate
  */
-MINUNIT_ADD(Lpc845m301I2cIntTxRx, Lpc845m301SetupI2C, LPC845M301Teardown) {
+MINUNIT_ADD(test_lpc845m310_i2cinthal_separate_txrx, Lpc845m301SetupI2C, LPC845M301Teardown) {
   std::array<std::uint8_t, 5> testWriteData{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 3> testReadData{};
   std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
@@ -64,6 +73,7 @@ MINUNIT_ADD(Lpc845m301I2cIntTxRx, Lpc845m301SetupI2C, LPC845M301Teardown) {
   minUnitCheck(hal_i2c_peripheral_int.Init<i2c0_clock_config>(100000, kI2cTimeout) == 100000);
   minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
   minUnitCheck(hal_i2c_peripheral_int.Transmit(testExpander, testWriteData) == libmcu::Results::NoError);
+  hal_i2c_peripheral_int.Progress();
   timeout = 0;
   for (timeout = 0; (hal_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
     hal_i2c_peripheral_int.Progress();
@@ -71,6 +81,7 @@ MINUNIT_ADD(Lpc845m301I2cIntTxRx, Lpc845m301SetupI2C, LPC845M301Teardown) {
   minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
 
   minUnitCheck(hal_i2c_peripheral_int.Receive(testExpander, testReadData) == libmcu::Results::NoError);
+  hal_i2c_peripheral_int.Progress();
   for (timeout = 0; (hal_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
     hal_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
@@ -80,14 +91,45 @@ MINUNIT_ADD(Lpc845m301I2cIntTxRx, Lpc845m301SetupI2C, LPC845M301Teardown) {
   minUnitCheck(testReadData[1] == 0xC5);
   minUnitCheck(testReadData[2] == 0xC5);
   minUnitCheck(hal_i2c_peripheral_int.Transmit(testExpander, testI2cExpanderOutput) == libmcu::Results::NoError);
+  hal_i2c_peripheral_int.Progress();
   for (timeout = 0; (hal_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
     hal_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
   minUnitCheck(hal_i2c_peripheral_int.Receive(testExpander, testI2cExpanderInput) == libmcu::Results::NoError);
+  hal_i2c_peripheral_int.Progress();
   for (timeout = 0; (hal_i2c_peripheral_int.GetStatus() != libmcu::Results::Idle) && (timeout < kI2cTimeout); timeout++)
     hal_i2c_peripheral_int.Progress();
   minUnitCheck(timeout < kI2cTimeout);
   minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
   minUnitCheck(testI2cExpanderInput[0] == 0x30);
+}
+
+/**
+ * @brief Tests I2C transfers that are queued
+ */
+MINUNIT_ADD(test_lpc845m310_i2cinthal_queued_txrx, Lpc845m301SetupI2C, LPC845M301Teardown) {
+  std::array<std::uint8_t, 5> test_write_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
+  std::array<std::uint8_t, 3> read_data_first{};
+  std::uint32_t timeout;
+  minUnitCheck(hal_i2c_peripheral_int.Init<i2c0_clock_config>(100000, kI2cTimeout) == 100000);
+  minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(hal_i2c_peripheral_int.StartMasterTransmit(testExpander, std::span(test_write_data).subspan(0, 2)) ==
+               libmcu::Results::NoError);
+  minUnitCheck(hal_i2c_peripheral_int.ContinueMasterTransmit(std::span(test_write_data).subspan(0, 3)) == libmcu::Results::NoError);
+  minUnitCheck(hal_i2c_peripheral_int.StopMasterTransmit(std::span(test_write_data).subspan(3, 2)) == libmcu::Results::NoError);
+  minUnitCheck(hal_i2c_peripheral_int.StartMasterReceive(testExpander, std::span(read_data_first).subspan(0, 1)) ==
+               libmcu::Results::NoError);
+  minUnitCheck(hal_i2c_peripheral_int.ContinueMasterReceive(std::span(read_data_first).subspan(0, 2)) == libmcu::Results::NoError);
+  minUnitCheck(hal_i2c_peripheral_int.StopMasterReceive(std::span(read_data_first).subspan(0, 3), &stop_callback) ==
+               libmcu::Results::NoError);
+  hal_i2c_peripheral_int.Progress();
+  for (timeout = 0; (stop_callback.callback_counter == 0) && (timeout < kI2cTimeout); timeout++)
+    hal_i2c_peripheral_int.Progress();
+  minUnitCheck(timeout < kI2cTimeout);
+  minUnitCheck(stop_callback.callback_counter == 1);
+  minUnitCheck(hal_i2c_peripheral_int.GetStatus() == libmcu::Results::Idle);
+  minUnitCheck(read_data_first[0] == 0xC5);
+  minUnitCheck(read_data_first[1] == 0xC5);
+  minUnitCheck(read_data_first[2] == 0xC5);
 }
