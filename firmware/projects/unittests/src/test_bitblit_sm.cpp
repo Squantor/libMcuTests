@@ -13,5 +13,5 @@
 #include <cstring>
 #include <cstdint>
 #include <array>
-#include <libmcu/general_functions.hpp>
+#include <libmcu/functions.hpp>
 #include <libmcu/bitmap/bitblit1d.hpp>

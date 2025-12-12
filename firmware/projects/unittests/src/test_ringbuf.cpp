@@ -11,7 +11,7 @@
  */
 #include <MinUnit.h>
 #include <stdint.h>
-#include <libmcu/general_ringbuffer.hpp>
+#include <libmcu/ringbuffer.hpp>
 
 libmcu::RingBuffer<uint16_t, 10> RingBufferDutU16;
 

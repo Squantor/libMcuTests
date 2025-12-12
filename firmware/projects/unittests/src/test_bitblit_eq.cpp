@@ -13,7 +13,7 @@
 #include <cstring>
 #include <cstdint>
 #include <array>
-#include <libmcu/general_functions.hpp>
+#include <libmcu/functions.hpp>
 #include <libmcu/bitmap/bitblit1d.hpp>
 
 MINUNIT_ADD(BitBlit1Bbp8To8Move, NULL, NULL) {
