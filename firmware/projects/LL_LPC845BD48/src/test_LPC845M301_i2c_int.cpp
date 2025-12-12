@@ -18,11 +18,13 @@ namespace lowlevel = libmcull::spi;
 constexpr inline std::uint32_t kI2cTimeout{1000};
 constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
 
-struct DutCallback : public libmcu::AsyncInterface {
-  void Progress(void) {}
-  void Callback(void) {
+struct DutCallback : public libmcu::NonBlockingBase<DutCallback> {
+  void ProgressImpl(void) noexcept {}
+  void CallbackImpl(libmcu::Results result) noexcept {
+    current_result = result;
     callback_counter++;
   }
+  libmcu::Results current_result = libmcu::Results::NoError;
   int callback_counter;
 };
 
