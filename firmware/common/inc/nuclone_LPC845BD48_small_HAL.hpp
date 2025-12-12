@@ -109,8 +109,8 @@ extern libmcull::usart::UartPolled<libmcuhw::Usart0Address, UartTransferType> ll
 extern libmcull::usart::UartInterrupt<libmcuhw::Usart0Address, UartTransferType, 32> ll_usart_peripheral_int;
 extern libmcull::i2c::I2cInterrupt<libmcuhw::I2c0Address> ll_i2c_peripheral_int;
 // HAL peripheral externs
-extern libmcuhal::i2c::I2cInterrupt<ll_i2c_peripheral_int> hal_i2c_peripheral_int;
-extern libmcuhal::usart::UartInterrupt<ll_usart_peripheral_int, UartTransferType> hal_usart_peripheral_int;
+extern libmcuhal::i2c::I2c<ll_i2c_peripheral_int> hal_i2c_peripheral_int;
+extern libmcuhal::usart::Uart<ll_usart_peripheral_int, UartTransferType> hal_usart_peripheral_int;
 
 void board_init(void);
 

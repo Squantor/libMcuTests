@@ -19,7 +19,7 @@ using namespace libmcuhal::i2c;
 constexpr inline std::uint32_t kI2cTimeout{10000};
 constexpr inline libmcu::I2cDeviceAddress testExpander{0x21};
 
-struct DutCallback : public libmcu::AsyncInterface {
+struct DutCallback : public libmcu::NonBlocking {
   void Progress(void) {}
   void Callback(void) {
     callback_counter++;

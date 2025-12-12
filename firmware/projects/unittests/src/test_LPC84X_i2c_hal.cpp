@@ -16,13 +16,13 @@
 #include <libmcu/libmcuhal.hpp>
 #include <nxp/LPC8XX_HW/LPC84X_syscon_hw.hpp>
 #include <nxp/LPC8XX_CLOCK/LPC84X_clock_hw.hpp>
-#include <nxp/LPC8XX_HAL/LPC84X_i2c_int_hal.hpp>
+#include <nxp/LPC8XX_HAL/LPC84X_i2c_hal.hpp>
 
 constexpr inline libmcu::I2cDeviceAddress test_address{0x42};
 
 struct MockLlI2cInterrupt : libmcull::AsyncI2cBase {
   constexpr libmcu::Results Transmit(const libmcu::I2cDeviceAddress address, const std::span<const std::uint8_t> buffer,
-                                     libmcu::AsyncInterface *callback) {
+                                     libmcu::NonBlocking *callback) {
     counter_transmit++;
     mock_address = address;
     transmit_buffer = buffer;
@@ -30,27 +30,27 @@ struct MockLlI2cInterrupt : libmcull::AsyncI2cBase {
     return libmcu::Results::NoError;
   }
   constexpr libmcu::Results StartMasterTransmit(const libmcu::I2cDeviceAddress address, const std::span<const std::uint8_t> buffer,
-                                                libmcu::AsyncInterface *callback) {
+                                                libmcu::NonBlocking *callback) {
     counter_transmit++;
     mock_address = address;
     transmit_buffer = buffer;
     mock_callback = callback;
     return libmcu::Results::NoError;
   }
-  constexpr libmcu::Results ContinueMasterTransmit(const std::span<const std::uint8_t> buffer, libmcu::AsyncInterface *callback) {
+  constexpr libmcu::Results ContinueMasterTransmit(const std::span<const std::uint8_t> buffer, libmcu::NonBlocking *callback) {
     counter_transmit++;
     transmit_buffer = buffer;
     mock_callback = callback;
     return libmcu::Results::NoError;
   }
-  constexpr libmcu::Results StopMasterTransmit(const std::span<const std::uint8_t> buffer, libmcu::AsyncInterface *callback) {
+  constexpr libmcu::Results StopMasterTransmit(const std::span<const std::uint8_t> buffer, libmcu::NonBlocking *callback) {
     counter_transmit++;
     transmit_buffer = buffer;
     mock_callback = callback;
     return libmcu::Results::NoError;
   }
   constexpr libmcu::Results Receive(const libmcu::I2cDeviceAddress address, const std::span<std::uint8_t> buffer,
-                                    libmcu::AsyncInterface *callback) {
+                                    libmcu::NonBlocking *callback) {
     counter_receive++;
     mock_address = address;
     receive_buffer = buffer;
@@ -58,20 +58,20 @@ struct MockLlI2cInterrupt : libmcull::AsyncI2cBase {
     return libmcu::Results::NoError;
   }
   constexpr libmcu::Results StartMasterReceive(const libmcu::I2cDeviceAddress address, const std::span<std::uint8_t> buffer,
-                                               libmcu::AsyncInterface *callback) {
+                                               libmcu::NonBlocking *callback) {
     counter_receive++;
     mock_address = address;
     receive_buffer = buffer;
     mock_callback = callback;
     return libmcu::Results::NoError;
   }
-  constexpr libmcu::Results ContinueMasterReceive(const std::span<std::uint8_t> buffer, libmcu::AsyncInterface *callback) {
+  constexpr libmcu::Results ContinueMasterReceive(const std::span<std::uint8_t> buffer, libmcu::NonBlocking *callback) {
     counter_receive++;
     receive_buffer = buffer;
     mock_callback = callback;
     return libmcu::Results::NoError;
   }
-  constexpr libmcu::Results StopMasterReceive(const std::span<std::uint8_t> buffer, libmcu::AsyncInterface *callback) {
+  constexpr libmcu::Results StopMasterReceive(const std::span<std::uint8_t> buffer, libmcu::NonBlocking *callback) {
     counter_receive++;
     receive_buffer = buffer;
     mock_callback = callback;
@@ -94,13 +94,13 @@ struct MockLlI2cInterrupt : libmcull::AsyncI2cBase {
   int counter_receive;
   int counter_callback;
   int counter_progress;
-  libmcu::AsyncInterface *mock_callback;
+  libmcu::NonBlocking *mock_callback;
   std::span<std::uint8_t> receive_buffer;        /*!< Receive buffer */
   std::span<const std::uint8_t> transmit_buffer; /*!< transmit buffer */
   libmcu::I2cDeviceAddress mock_address;
 };
 
-struct DutCallback : public libmcu::AsyncInterface {
+struct DutCallback : public libmcu::NonBlocking {
   void Progress(void) {}
   void Callback(void) {
     callback_counter++;
@@ -115,7 +115,7 @@ DutCallback receive_callback;
 DutCallback stop_callback;
 
 // todo instantiate HAL I2C
-libmcuhal::i2c::I2cInterrupt<mock_ll_i2c_peripheral_int, 3> dut_hal_i2c;
+libmcuhal::i2c::I2c<mock_ll_i2c_peripheral_int, 3> dut_hal_i2c;
 
 MINUNIT_SETUP(setup_LPC84X_i2c_hal) {
   mock_ll_i2c_peripheral_int.Reset();
