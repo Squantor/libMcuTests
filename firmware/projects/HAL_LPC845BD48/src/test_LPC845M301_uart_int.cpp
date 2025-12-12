@@ -55,16 +55,6 @@ MINUNIT_ADD(Lpc845m301HalUartIntInit, Lpc845m301SetupHalUartInt, LPC845M301Teard
 }
 
 /**
- * @brief Tests interrupt driven HAL UART claim and unclaim
- */
-MINUNIT_ADD(Lpc845m301HalUartIntClaimUnclaim, Lpc845m301SetupHalUartInt, LPC845M301Teardown) {
-  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::Claimed);
-  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::InUse);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Idle);
-}
-
-/**
  * @brief Tests interrupt driven HAL UART transmit and receive
  */
 MINUNIT_ADD(Lpc845m301HalUartIntTransmitReceive, Lpc845m301SetupHalUartInt, LPC845M301Teardown) {
@@ -74,7 +64,6 @@ MINUNIT_ADD(Lpc845m301HalUartIntTransmitReceive, Lpc845m301SetupHalUartInt, LPC8
   std::array<std::uint8_t, 5> test_read_data{};
   std::array<std::uint8_t, 5> test_result_data{0x73, 0x88, 0x11, 0xAA, 0x55};
   minUnitCheck(hal_usart_peripheral_int.Init<uart0_clock_config>(115200) == 117187);
-  minUnitCheck(hal_usart_peripheral_int.Claim() == libmcu::Results::Claimed);
   minUnitCheck(hal_usart_peripheral_int.Transmit(single_char) == libmcu::Results::NoError);
   minUnitCheck(hal_usart_peripheral_int.Transmit(test_write_data) == libmcu::Results::NoError);
   timeout_counter = 0;
@@ -87,5 +76,4 @@ MINUNIT_ADD(Lpc845m301HalUartIntTransmitReceive, Lpc845m301SetupHalUartInt, LPC8
   minUnitCheck(hal_usart_peripheral_int.GetReceiveLevel() == 1);
   minUnitCheck(hal_usart_peripheral_int.Receive(single_char) == libmcu::Results::NoError);
   minUnitCheck(single_char == 0xC5);
-  minUnitCheck(hal_usart_peripheral_int.Unclaim() == libmcu::Results::Unclaimed);
 }

@@ -47,19 +47,9 @@ MINUNIT_ADD(LPC845M301UsartIntInit, LPC845M301SetupUsartInt, LPC845M301Teardown)
     usart_interrupt_peripheral.Init<uart_0_clock_config>(9600, UartParities::Even, UartStops::Stop2, UartLengths::Size7);
   minUnitCheck(read_baud_rate == 9615);
   minUnitCheck((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
-}
-/**
- * @brief Tests interrupt driven USART asynchronous locks
- */
-MINUNIT_ADD(LPC845M301UsartIntAsyncLock, LPC845M301SetupUsartInt, LPC845M301Teardown) {
-  minUnitCheck(usart_interrupt_peripheral.Init<uart_0_clock_config>(115200) == 117187);
-  minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(usart_interrupt_peripheral.Claim() == libmcu::Results::Claimed);
-  minUnitCheck(usart_interrupt_peripheral.Claim() == libmcu::Results::InUse);
-  minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Claimed);
-  minUnitCheck(usart_interrupt_peripheral.Unclaim() == libmcu::Results::Unclaimed);
   minUnitCheck(usart_interrupt_peripheral.GetStatus() == libmcu::Results::Idle);
 }
+
 /**
  * @brief Tests interrupt driven USART transmission and reception
  */
@@ -70,7 +60,6 @@ MINUNIT_ADD(LPC845M301UsartIntTxRx, LPC845M301SetupUsartInt, LPC845M301Teardown)
   std::array<std::uint8_t, 5> test_read_data{};
   std::array<std::uint8_t, 5> test_result_data{0x73, 0x88, 0x11, 0xAA, 0x55};
   minUnitCheck(usart_interrupt_peripheral.Init<uart_0_clock_config>(115200) == 117187);
-  minUnitCheck(usart_interrupt_peripheral.Claim() == libmcu::Results::Claimed);
   minUnitCheck(usart_interrupt_peripheral.Transmit(single_char) == libmcu::Results::NoError);
   minUnitCheck(usart_interrupt_peripheral.Transmit(test_write_data) == libmcu::Results::NoError);
   timeout_counter = 0;
@@ -83,5 +72,4 @@ MINUNIT_ADD(LPC845M301UsartIntTxRx, LPC845M301SetupUsartInt, LPC845M301Teardown)
   minUnitCheck(usart_interrupt_peripheral.GetReceiveLevel() == 1);
   minUnitCheck(usart_interrupt_peripheral.Receive(single_char) == libmcu::Results::NoError);
   minUnitCheck(single_char == 0xC5);
-  minUnitCheck(usart_interrupt_peripheral.Unclaim() == libmcu::Results::Unclaimed);
 }
