@@ -5,9 +5,9 @@
  * For conditions of distribution and use, see LICENSE file
  */
 /**
- * \file test_ringallocator.cpp
+ * \file test_fifoallocator.cpp
  *
- * All tests for the ring allocator
+ * All tests for the FIFO allocator
  */
 #include <MinUnit.h>
 #include <cstdint>
@@ -15,6 +15,7 @@
 #include <concepts>
 #include <array>
 #include <span>
+#include "utilities.hpp"
 #include <libmcu/assertions.hpp>
 #include <libmcu/fifoallocator.hpp>
 
@@ -44,12 +45,6 @@ struct TestAssert {
 };
 
 libmcu::FifoAllocator<std::uint8_t, 10, TestAssert> ring_block_buffer_dut_u8;
-
-void FillSpan(std::span<std::uint8_t> span, std::uint8_t value) {
-  for (uint8_t& element : span) {
-    element = value;
-  }
-}
 
 MINUNIT_SETUP(FifoAllocatorSetup) {
   AssertionReset();
