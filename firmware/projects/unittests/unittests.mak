@@ -15,6 +15,7 @@ $(NAME)_LIBS := squantorMinUnit libMcu
 $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_LPC84X_i2c_hal.cpp \
 $(PROJ_DIR)/src/test_ringbuf.cpp \
+$(PROJ_DIR)/src/test_ringblockbuf.cpp \
 $(PROJ_DIR)/src/test.cpp \
 $(PROJ_DIR)/src/test_rmw.cpp \
 $(PROJ_DIR)/src/test_bitblit_eq.cpp \
