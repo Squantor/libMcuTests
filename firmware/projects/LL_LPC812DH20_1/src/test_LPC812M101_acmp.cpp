@@ -8,7 +8,7 @@
  * @file tests for the LPC812M101 SCT peripheral
  */
 #include <nuclone_LPC812M101DH20_tests.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
@@ -26,7 +26,7 @@ libmcuhw::acmp::Acmp *const dutRegisters{reinterpret_cast<libmcuhw::acmp::Acmp *
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupacmp) {
-  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc812M101TeardownCorrect() == true);
   syscon_peripheral.PowerPeripherals(libmcull::syscon::PeripheralPowers::PowerAcmp);
   syscon_peripheral.EnablePeripheralClocks(
     libmcull::syscon::PeripheralClocks::ClockSct | libmcull::syscon::PeripheralClocks::ClockIocon |
@@ -51,12 +51,12 @@ MINUNIT_ADD(LPC812M101CppAcmpInit, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   libmcu::Delay(settlingDelay);
   // we do not check the comparator mask due to some spurious activations of the edge detector
   std::uint32_t value = dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK);
-  minUnitCheck(value == 0x06003250);
-  minUnitCheck((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000000);
+  MINUNIT_CHECK(value == 0x06003250);
+  MINUNIT_CHECK((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000000);
   acmp_peripheral.init(PositiveInputs::REF, NegativeInputs::IN2, EdgeDetections::FALLING, OutputOptions::DIRECT,
                        HysteresisOptions::HYS_10MV, LadderReferences::VDD);
-  minUnitCheck((dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK)) == 0x04201600);
-  minUnitCheck((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000001);
+  MINUNIT_CHECK((dutRegisters->CTRL & (CTRL::RESERVED_MASK & ~CTRL::COMPEDGE_MASK)) == 0x04201600);
+  MINUNIT_CHECK((dutRegisters->LAD & LAD::RESERVED_MASK) == 0x00000001);
 }
 
 // test comparator functionality with internal reference only
@@ -64,13 +64,13 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   acmp_peripheral.init(PositiveInputs::REF, NegativeInputs::IN2, EdgeDetections::FALLING, OutputOptions::SYNCED,
                        HysteresisOptions::HYS_20MV);
   libmcu::Delay(settlingDelay);
-  minUnitCheck(acmp_peripheral.comparatorOutput() != 0);
-  minUnitCheck(acmp_peripheral.edgeOutput() == 0);
+  MINUNIT_CHECK(acmp_peripheral.comparatorOutput() != 0);
+  MINUNIT_CHECK(acmp_peripheral.edgeOutput() == 0);
   // set pwm higher then internal reference voltage (903mv at 25C)
   sct_peripheral.SetReload(libmcull::sct::Matches::Idx1, maxPwm / 2);
   libmcu::Delay(settlingDelay);
-  minUnitCheck(acmp_peripheral.comparatorOutput() == 0);
-  minUnitCheck(acmp_peripheral.edgeOutput() != 0);
+  MINUNIT_CHECK(acmp_peripheral.comparatorOutput() == 0);
+  MINUNIT_CHECK(acmp_peripheral.edgeOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
   std::uint32_t currentPwm = maxPwm - 1;
   std::uint32_t currentHalfPwm = maxPwm / 2;
@@ -86,8 +86,8 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
     currentHalfPwm = currentHalfPwm / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins
-  minUnitCheck(currentPwm > 240);
-  minUnitCheck(currentPwm < 301);
+  MINUNIT_CHECK(currentPwm > 240);
+  MINUNIT_CHECK(currentPwm < 301);
 }
 
 // test ladder functionality
@@ -96,7 +96,7 @@ MINUNIT_ADD(LPC812M101CppAcmpLadder, LPC812M101CppSetupacmp, LPC812M101Teardown)
                        HysteresisOptions::HYS_20MV, LadderReferences::VDD);
   acmp_peripheral.setLadder(0);
   libmcu::Delay(settlingDelay);
-  minUnitCheck(acmp_peripheral.comparatorOutput() != 0);
+  MINUNIT_CHECK(acmp_peripheral.comparatorOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
   std::uint32_t currentLadder = 31;
   std::uint32_t currentHalfLadder = currentLadder / 2;
@@ -112,6 +112,6 @@ MINUNIT_ADD(LPC812M101CppAcmpLadder, LPC812M101CppSetupacmp, LPC812M101Teardown)
     currentHalfLadder = currentHalfLadder / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins
-  minUnitCheck(currentLadder > 6);
-  minUnitCheck(currentLadder < 9);
+  MINUNIT_CHECK(currentLadder > 6);
+  MINUNIT_CHECK(currentLadder < 9);
 }

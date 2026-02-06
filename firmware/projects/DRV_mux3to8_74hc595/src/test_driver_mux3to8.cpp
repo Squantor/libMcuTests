@@ -8,12 +8,12 @@
  * @brief tests for the 3 to 8 multiplexer driver
  */
 #include <nuclone_RP2040_DRV_mux_595.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <common.hpp>
 
 using namespace libmcull;
 using namespace libmcuhal;
-using namespace libMcuDriver::mux;
+using namespace libmcudrv::mux;
 
 /**
  * @brief driver setup and initialisation
@@ -35,51 +35,51 @@ MINUNIT_SETUP(driverMux3to8Setup) {
   gpio_bank0_hal.SetupInput(mux_Y2_pin);
   gpio_bank0_hal.SetupInput(mux_Y7_pin);
   test_mux.initialize();
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 MINUNIT_TEARDOWN(driverMux3to8Teardown) {
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 MINUNIT_ADD(driverMux3to8Test, driverMux3to8Setup, driverMux3to8Teardown) {
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(false, 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(true, 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) == 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(false, 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(true, 1);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) == 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(true, 2);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) == 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
   test_mux.set(true, 7);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) == 0);
   test_mux.set(false, 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(mux_Y7_pin) != 0);
 }

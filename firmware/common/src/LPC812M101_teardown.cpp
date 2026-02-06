@@ -11,7 +11,7 @@
 #include <nuclone_LPC812M101DH20_tests.hpp>
 #include <LPC812M101_teardown.hpp>
 #include <test_conditions.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType sysconAddress = libmcuhw::SysconAddress;
@@ -32,7 +32,7 @@ MINUNIT_TEARDOWN(LPC812M101Teardown) {
   for (int i = 0; i < 9; i++) {
     swmRegisters->PINASSIGN[i] = 0xFFFFFFFF;  // clear all pin assignments
   }
-  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc812M101TeardownCorrect() == true);
   sysconRegisters->SYSAHBCLKCTRL = 0x000000DF;  // disable all peripherals we dont need
 }
 

@@ -7,7 +7,7 @@
 #ifndef MICROCONTROLLER_TEARDOWN_HPP
 #define MICROCONTROLLER_TEARDOWN_HPP
 
-#include <MinUnit.h>
+#include <minunit.h>
 
 /** @brief resets all the registers to their default states
  *

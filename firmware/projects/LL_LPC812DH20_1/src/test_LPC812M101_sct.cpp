@@ -8,7 +8,7 @@
  * @file tests for the LPC812M101 SCT peripheral
  */
 #include <nuclone_LPC812M101DH20_tests.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <LPC812M101_teardown.hpp>
 #include <common.hpp>
 
@@ -23,7 +23,7 @@ libmcuhw::sct::Sct *const dutRegisters{reinterpret_cast<libmcuhw::sct::Sct *>(sc
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC812M101CppSetupSct) {
-  minUnitCheck(Lpc812M101TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc812M101TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(
     libmcull::syscon::PeripheralClocks::ClockSct | libmcull::syscon::PeripheralClocks::ClockIocon |
     libmcull::syscon::PeripheralClocks::ClockGpio | libmcull::syscon::PeripheralClocks::ClockSwm);
@@ -37,32 +37,32 @@ MINUNIT_SETUP(LPC812M101CppSetupSct) {
 
 MINUNIT_ADD(LPC812M101CppSctInit, LPC812M101CppSetupSct, LPC812M101Teardown) {
   sct_peripheral.Init(0x4u, CountingModes::Bidirectional);
-  minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
-  minUnitCheck(dutRegisters->CTRL == 0x00040094u);
+  MINUNIT_CHECK(dutRegisters->CONFIG == 0x00020001u);
+  MINUNIT_CHECK(dutRegisters->CTRL == 0x00040094u);
 }
 
 MINUNIT_ADD(LPC812M101CppSctRunning, LPC812M101CppSetupSct, LPC812M101Teardown) {
   sct_peripheral.Init(0x4u, CountingModes::Bidirectional);
-  minUnitCheck(dutRegisters->CONFIG == 0x00020001u);
-  minUnitCheck(dutRegisters->CTRL == 0x00040094u);
+  MINUNIT_CHECK(dutRegisters->CONFIG == 0x00020001u);
+  MINUNIT_CHECK(dutRegisters->CTRL == 0x00040094u);
   sct_peripheral.SetMatch(Matches::Idx0, 30000u);
-  minUnitCheck(dutRegisters->MATCH[0].U == 30000u);
-  minUnitCheck(dutRegisters->MATCHREL[0].U == 30000u);
+  MINUNIT_CHECK(dutRegisters->MATCH[0].U == 30000u);
+  MINUNIT_CHECK(dutRegisters->MATCHREL[0].U == 30000u);
   sct_peripheral.Start();
-  minUnitCheck((dutRegisters->CTRL & 0x4u) == 0u);
+  MINUNIT_CHECK((dutRegisters->CTRL & 0x4u) == 0u);
   std::uint32_t countFirst = sct_peripheral.GetCount();
   std::uint32_t countSecond = sct_peripheral.GetCount();
-  minUnitCheck(countFirst != countSecond);
+  MINUNIT_CHECK(countFirst != countSecond);
   sct_peripheral.Halt();
-  minUnitCheck((dutRegisters->CTRL & 0x4u) == 0x4u);
+  MINUNIT_CHECK((dutRegisters->CTRL & 0x4u) == 0x4u);
 }
 
 MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown) {
   sct_peripheral.Init(0x0, CountingModes::Bidirectional);
   sct_peripheral.SetMatch(Matches::Idx0, 1000u);
   sct_peripheral.SetupPwm(Matches::Idx1, 500, Events::Idx0, Outputs::Idx1, false);
-  minUnitCheck(dutRegisters->MATCH[1].U == 500u);
-  minUnitCheck(dutRegisters->MATCHREL[1].U == 500u);
+  MINUNIT_CHECK(dutRegisters->MATCH[1].U == 500u);
+  MINUNIT_CHECK(dutRegisters->MATCHREL[1].U == 500u);
   sct_peripheral.Start();
   // detect edges on SCT output1
   int timeout = 10000;
@@ -77,8 +77,8 @@ MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown)
     }
     timeout--;
   }
-  minUnitCheck(edgeCount == 500);
-  minUnitCheck(timeout != 0);
+  MINUNIT_CHECK(edgeCount == 500);
+  MINUNIT_CHECK(timeout != 0);
   sct_peripheral.Halt();
 }
 
@@ -88,17 +88,17 @@ MINUNIT_ADD(LPC812M101CppSctSetupCapture, LPC812M101CppSetupSct, LPC812M101Teard
   sct_peripheral.SetMatch(Matches::Idx0, 3000000u);
   sct_peripheral.setupCapture(Captures::Idx1, Events::Idx0, Inputs::Idx0, CaptureConditions::Rising);
   sct_peripheral.Start();
-  minUnitCheck(dutRegisters->CAP[1].U == 0u);
+  MINUNIT_CHECK(dutRegisters->CAP[1].U == 0u);
   gpio_peripheral.SetLow(test_1_pin);
   gpio_peripheral.SetHigh(test_1_pin);
   // check if we got event in SCT event flag register
-  minUnitCheck(dutRegisters->EVFLAG == 0x01u);
+  MINUNIT_CHECK(dutRegisters->EVFLAG == 0x01u);
   dutRegisters->EVFLAG = 0x01u;
   std::uint32_t firstCapture = sct_peripheral.GetCapture(Captures::Idx1);
-  minUnitCheck(firstCapture != 0u);
+  MINUNIT_CHECK(firstCapture != 0u);
   gpio_peripheral.SetLow(test_1_pin);
   gpio_peripheral.SetHigh(test_1_pin);
   std::uint32_t secondCapture = sct_peripheral.GetCapture(Captures::Idx1);
-  minUnitCheck(firstCapture != secondCapture);
+  MINUNIT_CHECK(firstCapture != secondCapture);
   sct_peripheral.Halt();
 }

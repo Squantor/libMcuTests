@@ -8,7 +8,7 @@
  * @brief tests for the RP2040 gpio
  */
 #include <nuclone_RP2040_HAL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <RP2040_HAL_teardown.hpp>
 #include <common.hpp>
 
@@ -37,7 +37,7 @@ MINUNIT_SETUP(RP2040SetupHalgpio) {
   gpio_bank0_peripheral.Setup(gpio3_pin);
   pads_bank0_peripheral.Setup(gpio3_pin, libmcull::pads::DriveModes::Current4mA, libmcull::pads::PullModes::None, false, false);
   sio_gpio_peripheral.SetInput(gpio3_pin);
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 MINUNIT_ADD(RP2040HalGpioPullModes, RP2040SetupHalgpio, Rp2040Teardown) {
@@ -45,12 +45,12 @@ MINUNIT_ADD(RP2040HalGpioPullModes, RP2040SetupHalgpio, Rp2040Teardown) {
   gpio_bank0_hal.SetupInput(gpio1_pin, libmcuhal::gpio::PullModes::None);
   gpio_bank0_hal.SetupInput(gpio2_pin, libmcuhal::gpio::PullModes::PullDown);
   gpio_bank0_hal.SetupInput(gpio3_pin, libmcuhal::gpio::PullModes::None);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio2_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio2_pin) == 0);
   gpio_bank0_hal.SetupInput(gpio0_pin, libmcuhal::gpio::PullModes::PullDown);
   gpio_bank0_hal.SetupInput(gpio2_pin, libmcuhal::gpio::PullModes::PullUp);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio0_pin) == 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio2_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio0_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio2_pin) != 0);
 }
 
 MINUNIT_ADD(RP2040HalGpioOutputTests, RP2040SetupHalgpio, Rp2040Teardown) {
@@ -59,9 +59,9 @@ MINUNIT_ADD(RP2040HalGpioOutputTests, RP2040SetupHalgpio, Rp2040Teardown) {
   gpio_bank0_hal.SetupInput(gpio2_pin, libmcuhal::gpio::PullModes::None);
   gpio_bank0_hal.SetupInput(gpio3_pin, libmcuhal::gpio::PullModes::None);
   gpio_bank0_hal.SetupOutput(gpio0_pin, 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio0_pin) == 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio1_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio0_pin) == 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio1_pin) == 0);
   gpio_bank0_hal.SetLevel(gpio0_pin, 1);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio0_pin) != 0);
-  minUnitCheck(gpio_bank0_hal.GetLevel(gpio1_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio0_pin) != 0);
+  MINUNIT_CHECK(gpio_bank0_hal.GetLevel(gpio1_pin) != 0);
 }

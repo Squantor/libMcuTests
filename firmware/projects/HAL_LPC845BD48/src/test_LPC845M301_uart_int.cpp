@@ -9,7 +9,7 @@
  * @brief tests for LPC845M301 interrupt driven HAL UART
  */
 #include <nuclone_LPC845BD48_small_HAL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <LPC845M301_teardown.hpp>
 
 namespace hardware = libmcuhw::usart;
@@ -25,7 +25,7 @@ hardware::Usart *const dut_registers{reinterpret_cast<hardware::Usart *>(usart0_
  * @brief LPC845M301 HAL UART setup
  */
 MINUNIT_SETUP(Lpc845m301SetupHalUartInt) {
-  minUnitCheck(Lpc845M301TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc845M301TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::Uart0 |
                                              libmcull::syscon::peripheral_clocks_0::Swm |
                                              libmcull::syscon::peripheral_clocks_0::Iocon,
@@ -43,15 +43,15 @@ MINUNIT_ADD(Lpc845m301HalUartIntInit, Lpc845m301SetupHalUartInt, LPC845M301Teard
   std::uint32_t realBaudRate;
   syscon_peripheral.PeripheralClockSource(libmcull::syscon::ClockSourceSelects::Uart0, libmcull::syscon::ClockSources::Main);
   realBaudRate = hal_usart_peripheral_int.Init<uart0_clock_config>(115200);
-  minUnitCheck(realBaudRate == 117187);
-  minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
-               (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
+  MINUNIT_CHECK(realBaudRate == 117187);
+  MINUNIT_CHECK((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
+                (hardware::CFG::ENABLE | hardware::CFG::DATALEN8BIT | hardware::CFG::PARITY_NONE | hardware::CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
   realBaudRate = hal_usart_peripheral_int.Init<uart0_clock_config>(9600, hal::UartParities::Even, hal::UartStops::Stop2,
                                                                    hal::UartLengths::Size7);
-  minUnitCheck(realBaudRate == 9615);
-  minUnitCheck((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
-               (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
+  MINUNIT_CHECK(realBaudRate == 9615);
+  MINUNIT_CHECK((dut_registers->CFG & hardware::CFG::RESERVED_MASK) ==
+                (hardware::CFG::ENABLE | hardware::CFG::DATALEN7BIT | hardware::CFG::PARITY_EVEN | hardware::CFG::STOPBIT2));
 }
 
 /**
@@ -63,17 +63,17 @@ MINUNIT_ADD(Lpc845m301HalUartIntTransmitReceive, Lpc845m301SetupHalUartInt, LPC8
   std::array<std::uint8_t, 5> test_write_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 5> test_read_data{};
   std::array<std::uint8_t, 5> test_result_data{0x73, 0x88, 0x11, 0xAA, 0x55};
-  minUnitCheck(hal_usart_peripheral_int.Init<uart0_clock_config>(115200) == 117187);
-  minUnitCheck(hal_usart_peripheral_int.Transmit(single_char) == libmcu::Results::NoError);
-  minUnitCheck(hal_usart_peripheral_int.Transmit(test_write_data) == libmcu::Results::NoError);
+  MINUNIT_CHECK(hal_usart_peripheral_int.Init<uart0_clock_config>(115200) == 117187);
+  MINUNIT_CHECK(hal_usart_peripheral_int.Transmit(single_char) == libmcu::Results::NoError);
+  MINUNIT_CHECK(hal_usart_peripheral_int.Transmit(test_write_data) == libmcu::Results::NoError);
   timeout_counter = 0;
   while ((timeout_counter < timeout_value) && (hal_usart_peripheral_int.GetReceiveLevel() < (test_read_data.size() + 1))) {
     timeout_counter++;
   }
-  minUnitCheck(timeout_counter < timeout_value);
-  minUnitCheck(hal_usart_peripheral_int.Receive(test_read_data) == libmcu::Results::NoError);
-  minUnitCheck(test_read_data == test_result_data);
-  minUnitCheck(hal_usart_peripheral_int.GetReceiveLevel() == 1);
-  minUnitCheck(hal_usart_peripheral_int.Receive(single_char) == libmcu::Results::NoError);
-  minUnitCheck(single_char == 0xC5);
+  MINUNIT_CHECK(timeout_counter < timeout_value);
+  MINUNIT_CHECK(hal_usart_peripheral_int.Receive(test_read_data) == libmcu::Results::NoError);
+  MINUNIT_CHECK(test_read_data == test_result_data);
+  MINUNIT_CHECK(hal_usart_peripheral_int.GetReceiveLevel() == 1);
+  MINUNIT_CHECK(hal_usart_peripheral_int.Receive(single_char) == libmcu::Results::NoError);
+  MINUNIT_CHECK(single_char == 0xC5);
 }

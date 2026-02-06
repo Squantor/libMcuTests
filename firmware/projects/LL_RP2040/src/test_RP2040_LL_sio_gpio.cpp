@@ -8,7 +8,7 @@
  * @brief tests for the RP2040 sio gpio
  */
 #include <nuclone_RP2040_LL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <RP2040_LL_teardown.hpp>
 #include <common.hpp>
 
@@ -20,7 +20,7 @@ libmcuhw::sio::Sio *const dutRegisters{reinterpret_cast<libmcuhw::sio::Sio *>(du
  * @brief sio setup and initialisation
  */
 MINUNIT_SETUP(RP2040SetupSio) {
-  minUnitCheck(Rp2040Teardown_correct() == true);
+  MINUNIT_CHECK(Rp2040Teardown_correct() == true);
   resets_peripheral.Reset(libmcull::resets::IoBank0 | libmcull::resets::PadsBank0, 100000);
   // connect all GPIO's
   gpio_bank0_peripheral.Setup(gpio0Pin);
@@ -33,23 +33,23 @@ MINUNIT_ADD(RP2040gpio, RP2040SetupSio, Rp2040Teardown) {
   sio_gpio_peripheral.SetInput(gpio1Pin);
   sio_gpio_peripheral.SetOutput(gpio0Pin);
   sio_gpio_peripheral.SetHigh(gpio0Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio1Pin) != 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio1Pin) != 0u);
   sio_gpio_peripheral.SetLow(gpio0Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio1Pin) == 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio1Pin) == 0u);
   // switch around pins
   sio_gpio_peripheral.SetInput(gpio0Pin);
   sio_gpio_peripheral.SetOutput(gpio1Pin);
   sio_gpio_peripheral.SetHigh(gpio1Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
   sio_gpio_peripheral.SetLow(gpio1Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
   // testing the remainder methods
   sio_gpio_peripheral.Toggle(gpio1Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
   sio_gpio_peripheral.Toggle(gpio1Pin);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
   sio_gpio_peripheral.SetLevel(gpio1Pin, 1);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) != 0u);
   sio_gpio_peripheral.SetLevel(gpio1Pin, 0);
-  minUnitCheck(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
+  MINUNIT_CHECK(sio_gpio_peripheral.GetLevel(gpio0Pin) == 0u);
 }

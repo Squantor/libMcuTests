@@ -7,7 +7,7 @@
 #ifndef RP2040_LL_TEARDOWN_HPP
 #define RP2040_LL_TEARDOWN_HPP
 
-#include <MinUnit.h>
+#include <minunit.h>
 
 /** @brief resets all the registers to their default states
  *

@@ -7,7 +7,7 @@
 #ifndef LPC845M301_TEARDOWN_HPP
 #define LPC845M301_TEARDOWN_HPP
 
-#include <MinUnit.h>
+#include <minunit.h>
 
 /** @brief resets all the registers to their default states
  *

@@ -15,7 +15,7 @@ libmcull::sio_gpio::SioGpio<libmcuhw::SioAddress> sio_gpio_peripheral;
 
 libmcuhal::gpio::Gpio<pads_bank0_peripheral, sio_gpio_peripheral> gpio_bank0_hal;
 
-libMcuDriver::mux::mux3to8<gpio_bank0_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
+libmcudrv::mux::mux3to8<gpio_bank0_hal, MuxNotEnablePinType, MuxA0PinType, MuxA1PinType, MuxA2PinType> test_mux;
 
 extern "C" {
 void SysTick_Handler(void) {

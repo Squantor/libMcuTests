@@ -7,7 +7,7 @@
 #ifndef CORTEXM0PLUS_TEARDOWN_HPP
 #define CORTEXM0PLUS_TEARDOWN_HPP
 
-#include <MinUnit.h>
+#include <minunit.h>
 
 /** @brief resets all the registers to their default states
  *

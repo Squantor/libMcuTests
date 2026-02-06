@@ -11,7 +11,7 @@
 #include <nuclone_CortexM0plus_tests.hpp>
 #include <CortexM0plus_teardown.hpp>
 #include <test_conditions.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 // peripheral register sets
 static constexpr libmcu::HwAddressType systickAddress = libmcuhw::SystickAddress;
@@ -25,7 +25,7 @@ MINUNIT_TEARDOWN(cortexm0plus_teardown) {
   systickRegisters->CVR = 0UL;
   nvicRegisters->ICER[0] = 0xFFFFFFFFUL;
   nvicRegisters->ICPR[0] = 0xFFFFFFFFUL;
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 bool cortexm0plus_teardown_correct(void) {

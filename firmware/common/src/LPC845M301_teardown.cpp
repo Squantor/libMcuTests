@@ -11,7 +11,7 @@
 #include <nxp/libmcu_LPC845M301BD48_ll.hpp>
 #include <LPC845M301_teardown.hpp>
 #include <test_conditions.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 // peripheral registers
 static constexpr libmcu::HwAddressType nvic_address = libmcuhw::NvicAddress; /**< peripheral address */
@@ -22,7 +22,7 @@ libmcuhw::nvic::Nvic *nvic_registers{reinterpret_cast<libmcuhw::nvic::Nvic *>(nv
 MINUNIT_TEARDOWN(LPC845M301Teardown) {
   nvic_registers->ICER[0] = 0xFFFFFFFF;
   nvic_registers->ICPR[0] = 0xFFFFFFFF;
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 /** @brief checks if all the registers to their default states

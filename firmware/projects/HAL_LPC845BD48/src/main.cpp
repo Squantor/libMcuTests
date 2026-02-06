@@ -9,7 +9,7 @@
  * @brief main test entry point for LPC845 LibMcu HAL tests
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -21,8 +21,8 @@ void minunitFailCallback() {
 
 int main() {
   board_init();
-  minunitRun();
-  if (minunitTestState.failures != 0) {
+  minunit_run();
+  if (minunit_test_state.failures != 0) {
     minunitReport("Test failures detected\n");
   } else {
     minunitReport("All tests passed\n");

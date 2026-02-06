@@ -8,7 +8,7 @@
  * @file tests for the low level LPC845M301 polled i2c peripheral
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
@@ -26,7 +26,7 @@ libmcuhw::i2c::I2c *const i2c_registers{reinterpret_cast<libmcuhw::i2c::I2c *>(i
  * @brief I2C setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupI2cPoll) {
-  minUnitCheck(Lpc845M301TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc845M301TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::I2c0 |
                                              libmcull::syscon::peripheral_clocks_0::Swm |
                                              libmcull::syscon::peripheral_clocks_0::Iocon,
@@ -40,9 +40,9 @@ MINUNIT_SETUP(LPC845M301SetupI2cPoll) {
  * @brief Tests I2C init functions
  */
 MINUNIT_ADD(LPC845M301DH20I2cPollInit, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
-  minUnitCheck(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
-  minUnitCheck(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(400000, kI2cTimeout) == 428571);
-  // minUnitCheck(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(400001) == 400000);
+  MINUNIT_CHECK(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
+  MINUNIT_CHECK(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(400000, kI2cTimeout) == 428571);
+  // MINUNIT_CHECK(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(400001) == 400000);
 }
 
 /**
@@ -53,20 +53,20 @@ MINUNIT_ADD(LPC845M301DH20I2cTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
   std::array<std::uint8_t, 3> testReadData{};
   std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
   std::array<std::uint8_t, 1> testI2cExpanderInput{};
-  minUnitCheck(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
+  MINUNIT_CHECK(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
   i2c_polled_peripheral.Transmit(testExpander, testWriteData);
   i2c_polled_peripheral.Receive(testExpander, testReadData);
-  minUnitCheck(testReadData[0] == 0xC5);
-  minUnitCheck(testReadData[1] == 0xC5);
-  minUnitCheck(testReadData[2] == 0xC5);
+  MINUNIT_CHECK(testReadData[0] == 0xC5);
+  MINUNIT_CHECK(testReadData[1] == 0xC5);
+  MINUNIT_CHECK(testReadData[2] == 0xC5);
   i2c_polled_peripheral.Transmit(testExpander, testI2cExpanderOutput);
   i2c_polled_peripheral.Receive(testExpander, testI2cExpanderInput);
-  minUnitCheck(testI2cExpanderInput[0] == 0x30);
+  MINUNIT_CHECK(testI2cExpanderInput[0] == 0x30);
 }
 /**
  * @brief Tests I2C transfers that are split into multiple transactions
  * @todo
  */
 MINUNIT_ADD(LPC845M301DH20I2cMultiTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
-  minUnitPass();
+  MINUNIT_PASS();
 }

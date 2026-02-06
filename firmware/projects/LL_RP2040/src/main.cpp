@@ -8,7 +8,7 @@
  * @brief main test entry point for RP2040 libMcuLL tests
  */
 #include <nuclone_RP2040_LL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -20,8 +20,8 @@ void minunitFailCallback() {
 
 int main() {
   board_init();
-  minunitRun();
-  if (minunitTestState.failures != 0) {
+  minunit_run();
+  if (minunit_test_state.failures != 0) {
     minunitReport("Test failures detected\n");
   } else {
     minunitReport("All tests passed\n");

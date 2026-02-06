@@ -8,7 +8,7 @@
  * @file tests for the LPC845M301 SPI peripheral in polling mode
  */
 #include <nuclone_LPC845BD48_small_LL.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <LPC845M301_teardown.hpp>
 #include <common.hpp>
 
@@ -23,7 +23,7 @@ libmcuhw::spi::Spi *const spi_registers{reinterpret_cast<libmcuhw::spi::Spi *>(s
  * @brief Spi setup and initialisation
  */
 MINUNIT_SETUP(LPC845M301SetupSpiPol) {
-  minUnitCheck(Lpc845M301TeardownCorrect() == true);
+  MINUNIT_CHECK(Lpc845M301TeardownCorrect() == true);
   syscon_peripheral.EnablePeripheralClocks(libmcull::syscon::peripheral_clocks_0::Spi0 |
                                              libmcull::syscon::peripheral_clocks_0::Swm |
                                              libmcull::syscon::peripheral_clocks_0::Iocon,
@@ -35,7 +35,7 @@ MINUNIT_SETUP(LPC845M301SetupSpiPol) {
  *
  */
 MINUNIT_ADD(LPC845M301DH20SpiPolInit, LPC845M301SetupSpiPol, LPC845M301Teardown) {
-  minUnitCheck(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000000) == 1000000);
-  minUnitCheck(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000001) == 1016949);
-  minUnitPass();
+  MINUNIT_CHECK(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000000) == 1000000);
+  MINUNIT_CHECK(spi_polled_peripheral.InitMaster<Spi0ClockConfig>(1000001) == 1016949);
+  MINUNIT_PASS();
 }

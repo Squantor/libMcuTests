@@ -11,7 +11,7 @@
 #include <nuclone_RP2040_LL.hpp>
 #include <RP2040_HAL_teardown.hpp>
 #include <test_conditions.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 using namespace libmcull;
 
@@ -29,7 +29,7 @@ libmcuhw::resets::Resets *const resetsRegisters{reinterpret_cast<libmcuhw::reset
 /** @brief resets all the registers to their default states
  */
 MINUNIT_TEARDOWN(Rp2040Teardown) {
-  minUnitCheck(Rp2040Teardown_correct() == true);
+  MINUNIT_CHECK(Rp2040Teardown_correct() == true);
 }
 
 /** @brief checks if all the registers to their default states

@@ -9,7 +9,7 @@
  * @brief bitblit tests for smaller source then destination data size
  */
 
-#include <MinUnit.h>
+#include <minunit.h>
 #include <cstring>
 #include <cstdint>
 #include <array>

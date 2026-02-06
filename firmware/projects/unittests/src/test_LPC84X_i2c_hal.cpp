@@ -10,7 +10,7 @@
  * Test queing for LPC84X I2C HAL
  */
 
-#include <MinUnit.h>
+#include <minunit.h>
 #include <cstring>
 #include <libmcu/libmcull.hpp>
 #include <libmcu/libmcuhal.hpp>
@@ -122,255 +122,256 @@ MINUNIT_SETUP(setup_LPC84X_i2c_hal) {
   transmit_callback.callback_counter = 0;
   receive_callback.callback_counter = 0;
   stop_callback.callback_counter = 0;
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 MINUNIT_TEARDOWN(teardown_LPC84X_i2c_hal) {
-  minUnitPass();
+  MINUNIT_PASS();
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_initial, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_single_transmit, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_write_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.Transmit(test_address, test_write_data, &transmit_callback) == libmcu::Results::NoError);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.Transmit(test_address, test_write_data, &transmit_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data.data(), test_write_data.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data.data(), test_write_data.size()) ==
+                0);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_multi_single_write, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_write_data_first{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 4> test_write_data_second{0x22, 0x98, 0xA4, 0x68};
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.Transmit(test_address, test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.Transmit(test_address, test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
-                           test_write_data_first.size()) == 0);
-  minUnitCheck(dut_hal_i2c.Transmit(test_address, test_write_data_second, &transmit_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.Transmit(test_address, test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
+                            test_write_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.Transmit(test_address, test_write_data_second, &transmit_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.Transmit(test_address, test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 2);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_second.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_second.data(),
-                           test_write_data_second.size()) == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 2);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_second.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_second.data(),
+                            test_write_data_second.size()) == 0);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 2);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 2);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 2);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 2);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 3);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
-                           test_write_data_first.size()) == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 3);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
+                            test_write_data_first.size()) == 0);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 3);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 3);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 3);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 3);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_single_read, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_read_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 5> test_result_data;
   test_result_data.fill(0);
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitAssert(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data.size());
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data.data(), test_read_data.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data.data(), test_read_data.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data.data(), test_read_data.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_multi_single_read, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_read_data_first{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 5> test_read_data_second{0x22, 0x98, 0xA4, 0x68, 0x12};
   std::array<std::uint8_t, 5> test_result_data;
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::Full);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.Receive(test_address, test_result_data, &receive_callback) == libmcu::Results::Full);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitAssert(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data_first.size());
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data_first.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_first.data(), test_read_data_first.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 2);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_second.size());
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 2);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_second.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_second.data(), test_read_data_second.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_second.data(), test_read_data_second.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 2);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 2);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_second.data(), test_read_data_second.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 2);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 2);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 3);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_first.size());
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 3);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_first.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_first.data(), test_read_data_first.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 3);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 3);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 3);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 3);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_multi_multi_write, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_write_data_first{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 4> test_write_data_second{0x22, 0x98, 0xA4, 0x68};
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.StartMasterTransmit(test_address, test_write_data_first) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.ContinueMasterTransmit(test_write_data_second) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.StopMasterTransmit(test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.StartMasterTransmit(test_address, test_write_data_first) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.ContinueMasterTransmit(test_write_data_second) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.StopMasterTransmit(test_write_data_first, &transmit_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
-                           test_write_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
+                            test_write_data_first.size()) == 0);
 
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 1);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 1);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 2);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_second.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_second.data(),
-                           test_write_data_second.size()) == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 2);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_second.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_second.data(),
+                            test_write_data_second.size()) == 0);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 2);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 2);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 3);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
-  minUnitCheck(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
-                           test_write_data_first.size()) == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 3);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_write_data_first.size());
+  MINUNIT_CHECK(std::memcmp(mock_ll_i2c_peripheral_int.transmit_buffer.data(), test_write_data_first.data(),
+                            test_write_data_first.size()) == 0);
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(transmit_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_transmit == 3);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(transmit_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_transmit == 3);
 }
 
 MINUNIT_ADD(test_LPC84X_i2c_hal_multi_multi_read, setup_LPC84X_i2c_hal, teardown_LPC84X_i2c_hal) {
   std::array<std::uint8_t, 5> test_read_data_first{0x88, 0x11, 0xAA, 0x55, 0xC5};
   std::array<std::uint8_t, 5> test_read_data_second{0x22, 0x98, 0xA4, 0x68, 0x12};
   std::array<std::uint8_t, 5> test_result_data;
-  minUnitAssert(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(dut_hal_i2c.StartMasterReceive(test_address, test_result_data) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.ContinueMasterReceive(test_result_data) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.StopMasterReceive(test_result_data, &receive_callback) == libmcu::Results::NoError);
-  minUnitCheck(dut_hal_i2c.StopMasterReceive(test_result_data) == libmcu::Results::Full);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_ASSERT(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(dut_hal_i2c.StartMasterReceive(test_address, test_result_data) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.ContinueMasterReceive(test_result_data) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.StopMasterReceive(test_result_data, &receive_callback) == libmcu::Results::NoError);
+  MINUNIT_CHECK(dut_hal_i2c.StopMasterReceive(test_result_data) == libmcu::Results::Full);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
   dut_hal_i2c.Progress();
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_progress == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
-  minUnitAssert(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data_first.size());
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_progress == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.mock_callback != nullptr);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Busy);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.receive_buffer.size() == test_read_data_first.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_first.data(), test_read_data_first.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 1);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 1);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 2);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_second.size());
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 2);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_second.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_second.data(), test_read_data_second.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_second.data(), test_read_data_second.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 0);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 2);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_second.data(), test_read_data_second.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 0);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 2);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 3);
-  minUnitAssert(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_first.size());
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 3);
+  MINUNIT_ASSERT(mock_ll_i2c_peripheral_int.transmit_buffer.size() == test_read_data_first.size());
   std::memcpy(mock_ll_i2c_peripheral_int.receive_buffer.data(), test_read_data_first.data(), test_read_data_first.size());
   mock_ll_i2c_peripheral_int.Callback();
-  minUnitCheck(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
-  minUnitCheck(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
-  minUnitCheck(receive_callback.callback_counter == 1);
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 3);
+  MINUNIT_CHECK(std::memcmp(test_result_data.data(), test_read_data_first.data(), test_read_data_first.size()) == 0);
+  MINUNIT_CHECK(dut_hal_i2c.GetStatus() == libmcu::Results::Idle);
+  MINUNIT_CHECK(receive_callback.callback_counter == 1);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 3);
   dut_hal_i2c.Progress();
-  minUnitCheck(mock_ll_i2c_peripheral_int.counter_receive == 3);
+  MINUNIT_CHECK(mock_ll_i2c_peripheral_int.counter_receive == 3);
 }

@@ -11,12 +11,12 @@
 #include <nuclone_STM32F031K6T_LL.hpp>
 #include <STM32F031K6T_teardown.hpp>
 #include <test_conditions.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 
 /** @brief resets all the registers to their default states
  */
 MINUNIT_TEARDOWN(microcontroller_teardown) {
-  minUnitCheck(microcontroller_teardown_correct() == true);
+  MINUNIT_CHECK(microcontroller_teardown_correct() == true);
 }
 
 /** @brief checks if all the registers to their default states

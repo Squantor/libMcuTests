@@ -8,10 +8,10 @@
  * @brief tests for the LPC844M201 teardown
  */
 #include <board_tests.hpp>
-#include <MinUnit.h>
+#include <minunit.h>
 #include <microcontroller_teardown.hpp>
 
 MINUNIT_ADD(microcontroller_teardown, NULL, NULL) {
   microcontroller_teardown(testResults);  // passing test state directly
-  minUnitCheck(microcontroller_teardown_correct() == true);
+  MINUNIT_CHECK(microcontroller_teardown_correct() == true);
 }
