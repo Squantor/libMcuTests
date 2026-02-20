@@ -12,16 +12,16 @@
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void minunitReport(const char* string) {
+void minunit_report(const char* string) {
   printf("%s", string);
 }
 
 int main() {
   minunit_run();
   if (minunit_test_state.failures != 0) {
-    minunitReport("Test failures detected\n");
+    minunit_report("Test failures detected\n");
   } else {
-    minunitReport("All tests passed\n");
+    minunit_report("All tests passed\n");
   }
   printf("executed %d tests with %d checks where %d failed\n", minunit_test_state.executed, minunit_test_state.checks,
          minunit_test_state.failures);
