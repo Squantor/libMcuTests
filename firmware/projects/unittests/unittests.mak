@@ -24,6 +24,7 @@ $(PROJ_DIR)/src/test_bitblit_gr.cpp \
 $(PROJ_DIR)/src/test_bitblit_sm.cpp \
 $(PROJ_DIR)/src/test_bitmap.cpp \
 $(PROJ_DIR)/src/test_blit.cpp \
+$(PROJ_DIR)/src/test_asserts.cpp \
 $(PROJ_DIR)/src/utilities.cpp
 # $(PROJ_DIR)/src/test_bitblit2d.cpp
 # $(PROJ_DIR)/src/test_elementpack.cpp

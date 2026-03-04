@@ -34,17 +34,18 @@ void AssertionReset(void) {
 
 /** @brief Assertion function used for tests
  */
-struct TestAssert {
+struct Assert_test {
+  static constexpr bool enabled = true; /*!< Enable assertions */
   /**
-   * @brief Assertion function that loops forever
+   * @brief Assertion function that increments a counter
    * @param message Cause of the assertion
    */
-  void operator()(const char* message) const noexcept {
+  static void fail(const char* message) noexcept {
     AssertionFunction(message);
   }
 };
 
-libmcu::FifoAllocator<std::uint8_t, 10, TestAssert> ring_block_buffer_dut_u8;
+libmcu::FifoAllocator<std::uint8_t, 10, Assert_test> ring_block_buffer_dut_u8;
 
 MINUNIT_SETUP(FifoAllocatorSetup) {
   AssertionReset();
