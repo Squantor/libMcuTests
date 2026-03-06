@@ -19,36 +19,36 @@
 #include <libmcu/assertions.hpp>
 #include <libmcu/fifoallocator.hpp>
 
-std::uint32_t assertion_counter = 0;
-const char* assertion_cstring = nullptr;
+static std::uint32_t assertion_counter = 0;
+static const char* assertion_cstring = nullptr;
 
-void AssertionFunction(const char* message) {
+static void assertion_function(const char* message) {
   assertion_cstring = message;
   assertion_counter++;
 }
 
-void AssertionReset(void) {
+static void assertion_reset(void) {
   assertion_counter = 0;
   assertion_cstring = nullptr;
 }
 
 /** @brief Assertion function used for tests
  */
-struct Assert_test {
+struct Assert_fifoallocator_policy {
   static constexpr bool enabled = true; /*!< Enable assertions */
   /**
    * @brief Assertion function that increments a counter
    * @param message Cause of the assertion
    */
   static void fail(const char* message) noexcept {
-    AssertionFunction(message);
+    assertion_function(message);
   }
 };
 
-libmcu::FifoAllocator<std::uint8_t, 10, Assert_test> ring_block_buffer_dut_u8;
+libmcu::FifoAllocator<std::uint8_t, 10, Assert_fifoallocator_policy> ring_block_buffer_dut_u8;
 
 MINUNIT_SETUP(FifoAllocatorSetup) {
-  AssertionReset();
+  assertion_reset();
   ring_block_buffer_dut_u8.Reset();
   MINUNIT_PASS();
 }
