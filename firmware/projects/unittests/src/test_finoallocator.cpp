@@ -32,14 +32,14 @@ MINUNIT_TEARDOWN(FinoAllocatorTeardown) {
 MINUNIT_ADD(FinoAllocatorRequest, FinoAllocatorSetup, FinoAllocatorTeardown) {
   std::span<std::uint8_t> block_one = fino_allocator_dut_u8.request(5);
   MINUNIT_CHECK(block_one.size() == 5);
-  FillSpan(block_one, block_one.size());
+  fill_span(block_one, block_one.size());
   MINUNIT_CHECK(block_one[0] == block_one.size());
   std::span<std::uint8_t> block_two = fino_allocator_dut_u8.request(4);
   MINUNIT_CHECK(block_two.size() == 4);
-  FillSpan(block_two, block_two.size());
+  fill_span(block_two, block_two.size());
   MINUNIT_CHECK(block_two[0] == block_two.size());
   std::span<std::uint8_t> block_three = fino_allocator_dut_u8.request(4);
   MINUNIT_CHECK(block_three.size() == 4);
-  FillSpan(block_three, block_three.size());
+  fill_span(block_three, block_three.size());
   MINUNIT_CHECK(block_three[0] == block_three.size());
 }

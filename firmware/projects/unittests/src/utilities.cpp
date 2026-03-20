@@ -10,7 +10,7 @@
  */
 #include "utilities.hpp"
 
-void FillSpan(std::span<std::uint8_t> span, std::uint8_t value) {
+void fill_span(std::span<std::uint8_t> span, std::uint8_t value) {
   for (uint8_t& element : span) {
     element = value;
   }

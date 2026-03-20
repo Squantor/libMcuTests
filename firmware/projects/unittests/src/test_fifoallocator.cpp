@@ -66,7 +66,7 @@ MINUNIT_ADD(FifoAllocatorEmpty, FifoAllocatorSetup, FifoAllocatorTeardown) {
 MINUNIT_ADD(FifoAllocatorGetBlocks, FifoAllocatorSetup, FifoAllocatorTeardown) {
   std::span<std::uint8_t> block_one = ring_block_buffer_dut_u8.Request(5);
   MINUNIT_CHECK(block_one.size() == 5);
-  FillSpan(block_one, block_one.size());
+  fill_span(block_one, block_one.size());
   MINUNIT_CHECK(block_one[0] == block_one.size());
   MINUNIT_CHECK(ring_block_buffer_dut_u8.IsEmpty() == false);
   MINUNIT_CHECK(ring_block_buffer_dut_u8.IsFull() == false);
@@ -97,14 +97,14 @@ MINUNIT_ADD(FifoAllocatorRequestAndRelease, FifoAllocatorSetup, FifoAllocatorTea
 
 MINUNIT_ADD(FifoAllocatorBarelyNoWrap, FifoAllocatorSetup, FifoAllocatorTeardown) {
   std::span<std::uint8_t> block_one = ring_block_buffer_dut_u8.Request(7);
-  FillSpan(block_one, block_one.size());
+  fill_span(block_one, block_one.size());
   ring_block_buffer_dut_u8.Release(block_one);
   std::span<std::uint8_t> block_two = ring_block_buffer_dut_u8.Request(4);
-  FillSpan(block_two, block_two.size());
+  fill_span(block_two, block_two.size());
   MINUNIT_CHECK(block_two.size() == 4);
   std::span<std::uint8_t> block_three = ring_block_buffer_dut_u8.Request(3);
   MINUNIT_CHECK(block_three.size() == 3);
-  FillSpan(block_three, block_three.size());
+  fill_span(block_three, block_three.size());
   MINUNIT_CHECK(ring_block_buffer_dut_u8.IsEmpty() == false);
   MINUNIT_CHECK(ring_block_buffer_dut_u8.IsFull() == false);
   MINUNIT_CHECK(ring_block_buffer_dut_u8.GetLevel() == 7);
@@ -120,7 +120,7 @@ MINUNIT_ADD(FifoAllocatorRequestAndReleaseWithWrapping, FifoAllocatorSetup, Fifo
   // 5+2 is not 9 but due to wrapping loss we get 9
   MINUNIT_CHECK(ring_block_buffer_dut_u8.GetLevel() == 9);
   MINUNIT_CHECK(assertion_counter == 0);
-  FillSpan(block_three, block_three.size());
+  fill_span(block_three, block_three.size());
   MINUNIT_CHECK(block_three[0] == block_three.size());
 }
 

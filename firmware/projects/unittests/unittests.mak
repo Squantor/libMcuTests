@@ -16,6 +16,7 @@ $(NAME)_FILES := $(PROJ_DIR)/src/main.cpp \
 $(PROJ_DIR)/src/test_LPC84X_i2c_hal.cpp \
 $(PROJ_DIR)/src/test_ringbuf.cpp \
 $(PROJ_DIR)/src/test_fifoallocator.cpp \
+$(PROJ_DIR)/src/test_fidfoallocator.cpp \
 $(PROJ_DIR)/src/test_finoallocator.cpp \
 $(PROJ_DIR)/src/test.cpp \
 $(PROJ_DIR)/src/test_rmw.cpp \

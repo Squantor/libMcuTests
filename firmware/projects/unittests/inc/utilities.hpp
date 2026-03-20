@@ -15,6 +15,6 @@
 #include <span>
 #include <array>
 
-void FillSpan(std::span<std::uint8_t> span, std::uint8_t value);
+void fill_span(std::span<std::uint8_t> span, std::uint8_t value);
 
 #endif
