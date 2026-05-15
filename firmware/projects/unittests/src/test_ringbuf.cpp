@@ -177,4 +177,15 @@ MINUNIT_ADD(ring_buffer_pop_front, ring_buffer_setup, NULL) {
   MINUNIT_CHECK(std::strcmp(assertion_cstring, "Ring_buffer.pop_front: buffer is empty") == 0);
 }
 
+MINUNIT_ADD(ring_buffer_edge_check, ring_buffer_setup, NULL) {
+  uint16_t number = 42;
+  uint16_t output = 0;
+  for (uint16_t i = 0; i < 10; i++) {
+    RingBufferDutU16.push_front(i);
+    RingBufferDutU16.pop_back(output);
+  }
+  RingBufferDutU16.push_front(number);
+  MINUNIT_CHECK(RingBufferDutU16.get_level() == 1);
+}
+
 }  // namespace
