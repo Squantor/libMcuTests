@@ -25,10 +25,10 @@ MINUNIT_TEARDOWN(test_bitblit_teardown) {
 }
 
 MINUNIT_ADD(test_bitblit_1bbp_bitmaps, test_bitblit_setup, test_bitblit_teardown) {
-  libmcu::bitmap::Const_bitmap src_bitmap(test_bitmap_data_src.data(), 8, 8, 1);
-  libmcu::bitmap::Bitmap_view dest_bitmap(test_bitmap_data_dest.data(), 24, 24, 1);
+  libmcu::bitmap::Const_bitmap src_bitmap(test_bitmap_data_src.data(), libmcu::bitmap::Bitmap_size{8, 8}, 1);
+  libmcu::bitmap::Bitmap dest_bitmap(test_bitmap_data_dest.data(), libmcu::bitmap::Bitmap_size{24, 24}, 1);
   dest_bitmap.fill(0);
-  blit(dest_bitmap, src_bitmap, 0, 0);
+  libmcu::bitmap::blit_old(dest_bitmap, src_bitmap, 0, 0);
   MINUNIT_CHECK(test_bitmap_data_dest[0] == 0xFF'00'00'FF);
   MINUNIT_CHECK(test_bitmap_data_dest[1] == 0x00'FF'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[2] == 0x00'00'FF'00);
@@ -37,7 +37,7 @@ MINUNIT_ADD(test_bitblit_1bbp_bitmaps, test_bitblit_setup, test_bitblit_teardown
   MINUNIT_CHECK(test_bitmap_data_dest[5] == 0x00'00'FF'00);
   MINUNIT_CHECK(test_bitmap_data_dest[6] == 0x00'00'00'00);
   dest_bitmap.fill(0);
-  blit(dest_bitmap, src_bitmap, 2, 4);
+  libmcu::bitmap::blit_old(dest_bitmap, src_bitmap, 2, 4);
   MINUNIT_CHECK(test_bitmap_data_dest[0] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[1] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[2] == 0x00'00'00'00);
@@ -49,7 +49,7 @@ MINUNIT_ADD(test_bitblit_1bbp_bitmaps, test_bitblit_setup, test_bitblit_teardown
   MINUNIT_CHECK(test_bitmap_data_dest[8] == 0x00'03'FC'00);
   MINUNIT_CHECK(test_bitmap_data_dest[9] == 0x00'00'00'00);
   dest_bitmap.fill(0);
-  blit(dest_bitmap, src_bitmap, 8, 8);
+  libmcu::bitmap::blit_old(dest_bitmap, src_bitmap, 8, 8);
   MINUNIT_CHECK(test_bitmap_data_dest[5] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[6] == 0x00'00'FF'00);
   MINUNIT_CHECK(test_bitmap_data_dest[7] == 0xFF'00'00'FF);
@@ -59,7 +59,7 @@ MINUNIT_ADD(test_bitblit_1bbp_bitmaps, test_bitblit_setup, test_bitblit_teardown
   MINUNIT_CHECK(test_bitmap_data_dest[11] == 0x00'FF'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[12] == 0x00'00'00'00);
   dest_bitmap.fill(0);
-  blit(dest_bitmap, src_bitmap, 3, 3);
+  libmcu::bitmap::blit_old(dest_bitmap, src_bitmap, 3, 3);
   MINUNIT_CHECK(test_bitmap_data_dest[1] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[2] == 0x00'07'F8'00);
   MINUNIT_CHECK(test_bitmap_data_dest[3] == 0xF8'00'07'F8);
@@ -73,12 +73,12 @@ MINUNIT_ADD(test_bitblit_1bbp_bitmaps, test_bitblit_setup, test_bitblit_teardown
 }
 
 MINUNIT_ADD(test_bitblit_1bbp_bitmaps_src_bounded, test_bitblit_setup, test_bitblit_teardown) {
-  libmcu::bitmap::Bitmap_view src_bitmap(test_bitmap_data_src.data(), 8, 8, 1);
-  libmcu::bitmap::Const_bitmap src_const_bitmap(src_bitmap);
-  libmcu::bitmap::Bitmap_view dest_bitmap(test_bitmap_data_dest.data(), 24, 24, 1);
-  libmcu::bitmap::Const_bitmap dest_const_bitmap(dest_bitmap);
+  libmcu::bitmap::Bitmap src_bitmap(test_bitmap_data_src.data(), libmcu::bitmap::Bitmap_size{8, 8}, 1);
+  libmcu::bitmap::Const_bitmap src_const_bitmap(src_bitmap.as_const());
+  libmcu::bitmap::Bitmap dest_bitmap(test_bitmap_data_dest.data(), libmcu::bitmap::Bitmap_size{24, 24}, 1);
+  libmcu::bitmap::Const_bitmap dest_const_bitmap(dest_bitmap.as_const());
   dest_bitmap.fill(0);
-  blit(dest_bitmap, src_const_bitmap, 0, 0, 0, 0, 4, 4);
+  libmcu::bitmap::blit_old(dest_bitmap, src_const_bitmap, 0, 0, 0, 0, 4, 4);
   MINUNIT_CHECK(test_bitmap_data_dest[0] == 0x0F'00'00'0F);
   MINUNIT_CHECK(test_bitmap_data_dest[1] == 0x00'0F'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[2] == 0x00'00'0F'00);
@@ -88,9 +88,9 @@ MINUNIT_ADD(test_bitblit_1bbp_bitmaps_src_bounded, test_bitblit_setup, test_bitb
   MINUNIT_CHECK(test_bitmap_data_dest[6] == 0x00'00'00'00);
   // construct a bitmap with an interesting pattern
   dest_bitmap.fill(0);
-  blit(src_bitmap, dest_const_bitmap, 4, 0, 0, 0, 4, 4);
-  blit(src_bitmap, dest_const_bitmap, 0, 4, 0, 0, 4, 4);
-  blit(dest_bitmap, src_const_bitmap, 6, 4, 0, 0, 8, 8);
+  libmcu::bitmap::blit_old(src_bitmap, dest_const_bitmap, 4, 0, 0, 0, 4, 4);
+  libmcu::bitmap::blit_old(src_bitmap, dest_const_bitmap, 0, 4, 0, 0, 4, 4);
+  libmcu::bitmap::blit_old(dest_bitmap, src_const_bitmap, 6, 4, 0, 0, 8, 8);
   MINUNIT_CHECK(test_bitmap_data_dest[0] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[1] == 0x00'00'00'00);
   MINUNIT_CHECK(test_bitmap_data_dest[2] == 0x00'00'00'00);

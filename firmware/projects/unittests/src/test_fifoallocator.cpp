@@ -19,6 +19,8 @@
 #include <libmcu/assertions.hpp>
 #include <libmcu/fifoallocator.hpp>
 
+namespace {
+
 static std::uint32_t assertion_counter = 0;
 static const char* assertion_cstring = nullptr;
 
@@ -172,4 +174,6 @@ MINUNIT_ADD(FifoAllocatorOutOfOrderRelease, FifoAllocatorSetup, FifoAllocatorTea
   MINUNIT_CHECK(assertion_counter == 1);
   MINUNIT_ASSERT(assertion_cstring != nullptr);
   MINUNIT_CHECK(std::strcmp(assertion_cstring, "Fifo_allocator.release: does not match back index") == 0);
+}
+
 }

@@ -12,6 +12,7 @@
 
 #include <minunit.h>
 #include <cstring>
+#include <libmcu/libmcu.hpp>
 #include <libmcu/libmcull.hpp>
 #include <libmcu/libmcuhal.hpp>
 #include <nxp/LPC8XX_HW/LPC84X_syscon_hw.hpp>
