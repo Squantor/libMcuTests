@@ -17,7 +17,7 @@
 #include <span>
 #include "utilities.hpp"
 #include <libmcu/assertions.hpp>
-#include <libmcu/finoallocator.hpp>
+#include <libmcu/data_struct/finoallocator.hpp>
 
 libmcu::Fino_allocator<std::uint8_t, 10> fino_allocator_dut_u8;
 

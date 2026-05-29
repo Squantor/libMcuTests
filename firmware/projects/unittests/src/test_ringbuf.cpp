@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <array>
 #include <libmcu/libmcu.hpp>
-#include <libmcu/ringbuffer.hpp>
+#include <libmcu/data_struct/ringbuffer.hpp>
 
 static std::uint32_t assertion_counter = 0;
 static const char* assertion_cstring = nullptr;

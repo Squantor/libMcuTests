@@ -17,7 +17,7 @@
 #include <span>
 #include "utilities.hpp"
 #include <libmcu/assertions.hpp>
-#include <libmcu/fifoallocator.hpp>
+#include <libmcu/data_struct/fifoallocator.hpp>
 
 namespace {
 

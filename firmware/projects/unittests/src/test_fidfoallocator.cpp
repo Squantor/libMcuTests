@@ -18,7 +18,7 @@
 #include <span>
 #include "utilities.hpp"
 #include <libmcu/assertions.hpp>
-#include <libmcu/fidfoallocator.hpp>
+#include <libmcu/data_struct/fidfoallocator.hpp>
 
 static std::uint32_t assertion_counter = 0;
 static const char* assertion_cstring = nullptr;
