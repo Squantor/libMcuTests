@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Bart Bilos
+# For conditions of distribution and use, see LICENSE file
+# .clang-tidy file for C and C++ projects
+# Version: 20260313
+
+Checks: '-*,readability-identifier-naming'
+#    performance-*,
+#    misc-*,
+#    android-cloexec-*,
+#    readability-duplicate-include,
+#    readability-misleading-indentation,
+#    readability-identifier-naming,
+#    bugprone-assert-side-effect,
+#    bugprone-macro-repeated-side-effects,
+#    bugprone-infinite-loop,
+#    bugprone-macro-parentheses,
+#    bugprone-posix-return,
+#    bugprone-reserved-identifier,
+#    bugprone-signal-handler,
+#    bugprone-signed-char-misuse,
+#    bugprone-sizeof-expression,
+#    bugprone-branch-clone,
+#    -clang-analyzer-security.insecureAPI.*,
+#    -misc-no-recursion,
+
+CheckOptions:
+ # - key: bugprone-assert-side-effect.AssertMacros 
+ #   value: 'ASSERT'
+ # - key: readability-identifier-naming.FunctionCase
+ #   value: lower_case
+ # - key: readability-identifier-naming.StructCase
+ #   value: Leading_upper_snake_case
+ # - key: readability-identifier-naming.TypedefCase
+ #   value: Leading_upper_snake_case
+ # - key: readability-identifier-naming.EnumCase
+ #   value: Leading_upper_snake_case
+ # - key: readability-identifier-naming.EnumConstantCase
+ #   value: UPPER_CASE  
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+ # - key: readability-identifier-naming.ParameterCase
+ #   value: lower_case

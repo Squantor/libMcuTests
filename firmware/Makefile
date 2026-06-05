@@ -5,7 +5,7 @@
 # Generic project makefile
 # Heavily inspired by: https://github.com/bronson/makefile-death
 #
-# Version: 20251007
+# Version: 20260605
 
 # User definable settings are here
 
@@ -44,6 +44,8 @@ SHELL := bash
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
+
+CHECKFLAGS := -header-filter='.*'
 
 # change recipe prefix to something more sensible then TAB
 ifeq ($(origin .RECIPEPREFIX), undefined)
@@ -89,6 +91,10 @@ endif
 INCLUDES += $(foreach library,$($(PROJECT)_LIBS),$($(library)_LIB_INCLUDES))
 INCLUDES += $($(PROJECT)_INCLUDES)
 FILES += $($(PROJECT)_FILES)
+# Exctract sources from filelist
+CSOURCES   := $(filter %.c,$(FILES))
+CXXSOURCES := $(filter %.cpp,$(FILES))
+ASMSOURCES := $(filter %.S,$(FILES))
 
 # --- configuration management --
 # load first config as default configuration
@@ -197,6 +203,16 @@ clean: $(BINDEPS) $(DOCDEPS)
 > $(C)$(RM) -rf $(OBJ_ROOT)
 > $(C)$(RM) -rf $(DOC_ROOT)
 .PHONY: clean
+
+check:
+> $(U) "Running clang-tidy"
+ifneq ($(CSOURCES),)
+> $(C)clang-tidy --config-file=.clang-tidy $(CHECKFLAGS) $(CSOURCES) -- $(CFLAGS) $(INCLUDES)
+endif
+ifneq ($(CXXSOURCES),)
+> $(C)clang-tidy --config-file=.clang-tidy $(CHECKFLAGS) $(CXXSOURCES) -- $(CXXFLAGS) $(INCLUDES)
+endif
+.PHONY: check
 
 # utility rules
 ifneq ("$(wildcard makefiles/util.mak)","")
