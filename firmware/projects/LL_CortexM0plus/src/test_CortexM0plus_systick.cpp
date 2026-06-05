@@ -46,10 +46,10 @@ MINUNIT_ADD(CortexM0plusSystickInit, CortexM0plusSetupSystick, cortexm0plus_tear
 MINUNIT_ADD(CortexM0plusSystickStart, CortexM0plusSetupSystick, cortexm0plus_teardown) {
   systick_peripheral.Init(0x1000);  // short reload value so we can check value
   systick_peripheral.Start();
-  std::uint32_t firstCount = systick_peripheral.GetCount();
+  std::uint32_t first_count{systick_peripheral.GetCount()};
   libmcu::Delay(101);
-  std::uint32_t secondCount = systick_peripheral.GetCount();
-  MINUNIT_CHECK(firstCount != secondCount);
+  std::uint32_t second_count{systick_peripheral.GetCount()};
+  MINUNIT_CHECK(first_count != second_count);
   // we need longer intervals for this test
   systick_peripheral.SetReload(0xFFFF);
   systick_peripheral.GetZeroPass();

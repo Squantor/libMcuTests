@@ -43,10 +43,10 @@ MINUNIT_SETUP(LPC845M301SetupDma) {
  */
 MINUNIT_ADD(LPC845M301DH20DmaInit, LPC845M301SetupDma, LPC845M301Teardown) {
   dma_peripheral.Init();
-  uint32_t PeripheralAddress = dma_registers->SRAMBASE;
-  uint32_t classAddress = reinterpret_cast<uint32_t>(dma_peripheral.GetDescriptorTable().data());
-  MINUNIT_CHECK((classAddress & 0x1FF) == 0);  // 512 byte aligned check
-  MINUNIT_CHECK(PeripheralAddress == classAddress);
+  uint32_t peripheral_address{dma_registers->SRAMBASE};
+  uint32_t class_address{reinterpret_cast<uint32_t>(dma_peripheral.GetDescriptorTable().data())};
+  MINUNIT_CHECK((class_address & 0x1FF) == 0);  // 512 byte aligned check
+  MINUNIT_CHECK(peripheral_address == class_address);
   for (auto &element : dma_peripheral.GetDescriptorTable()) {
     MINUNIT_CHECK(element.reserved == 0);
     MINUNIT_CHECK(element.source_end_address == 0);

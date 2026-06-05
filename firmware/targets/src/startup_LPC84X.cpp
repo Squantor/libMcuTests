@@ -65,15 +65,15 @@ __attribute__((section(".romfunc"))) void Reset_Handler(void) {
     *dst++ = 0;
 
   // execute c++ constructors
-  auto preInitFunc = __preinit_array_start;
-  while (preInitFunc < __preinit_array_end) {
-    (*preInitFunc)();
-    preInitFunc++;
+  auto preinit_func = __preinit_array_start;
+  while (preinit_func < __preinit_array_end) {
+    (*preinit_func)();
+    preinit_func++;
   }
-  auto initFunc = __init_array_start;
-  while (initFunc < __init_array_end) {
-    (*initFunc)();
-    initFunc++;
+  auto init_func = __init_array_start;
+  while (init_func < __init_array_end) {
+    (*init_func)();
+    init_func++;
   }
 
   // Reenable interrupts

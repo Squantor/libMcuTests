@@ -37,22 +37,24 @@ __attribute__((section(".romfunc"))) void Reset_Handler(void) {
   /* Copy data section from flash to RAM */
   src = &_flash_data;
   dst = &_data_start;
-  while (dst < &_data_end) *dst++ = *src++;
+  while (dst < &_data_end)
+    *dst++ = *src++;
 
   /* Clear the bss section*/
   dst = &_bss_start;
-  while (dst < &_bss_end) *dst++ = 0;
+  while (dst < &_bss_end)
+    *dst++ = 0;
 
   /* execute c++ constructors */
-  auto preInitFunc = __preinit_array_start;
-  while (preInitFunc < __preinit_array_end) {
-    (*preInitFunc)();
-    preInitFunc++;
+  auto pre_init_function = __preinit_array_start;
+  while (pre_init_function < __preinit_array_end) {
+    (*pre_init_function)();
+    pre_init_function++;
   }
-  auto initFunc = __init_array_start;
-  while (initFunc < __init_array_end) {
-    (*initFunc)();
-    initFunc++;
+  auto init_function = __init_array_start;
+  while (init_function < __init_array_end) {
+    (*init_function)();
+    init_function++;
   }
 
   main();

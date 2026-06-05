@@ -72,22 +72,22 @@ MINUNIT_ADD(LPC812M101CppAcmpRef, LPC812M101CppSetupacmp, LPC812M101Teardown) {
   MINUNIT_CHECK(acmp_peripheral.comparatorOutput() == 0);
   MINUNIT_CHECK(acmp_peripheral.edgeOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
-  std::uint32_t currentPwm = maxPwm - 1;
-  std::uint32_t currentHalfPwm = maxPwm / 2;
-  sct_peripheral.SetReload(libmcull::sct::Matches::Idx1, currentPwm);
-  while (currentHalfPwm != 0) {
+  std::uint32_t current_pwm{maxPwm - 1};
+  std::uint32_t current_half_pwm{maxPwm / 2};
+  sct_peripheral.SetReload(libmcull::sct::Matches::Idx1, current_pwm);
+  while (current_half_pwm != 0) {
     libmcu::Delay(settlingDelay);
     if (acmp_peripheral.comparatorOutput() == 0) {
-      currentPwm = currentPwm - currentHalfPwm;
+      current_pwm = current_pwm - current_half_pwm;
     } else {
-      currentPwm = currentPwm + currentHalfPwm;
+      current_pwm = current_pwm + current_half_pwm;
     }
-    sct_peripheral.SetReload(libmcull::sct::Matches::Idx1, currentPwm);
-    currentHalfPwm = currentHalfPwm / 2;
+    sct_peripheral.SetReload(libmcull::sct::Matches::Idx1, current_pwm);
+    current_half_pwm = current_half_pwm / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins
-  MINUNIT_CHECK(currentPwm > 240);
-  MINUNIT_CHECK(currentPwm < 301);
+  MINUNIT_CHECK(current_pwm > 240);
+  MINUNIT_CHECK(current_pwm < 301);
 }
 
 // test ladder functionality
@@ -98,20 +98,20 @@ MINUNIT_ADD(LPC812M101CppAcmpLadder, LPC812M101CppSetupacmp, LPC812M101Teardown)
   libmcu::Delay(settlingDelay);
   MINUNIT_CHECK(acmp_peripheral.comparatorOutput() != 0);
   // use the PWM to do a succesive approximation of the reference voltage
-  std::uint32_t currentLadder = 31;
-  std::uint32_t currentHalfLadder = currentLadder / 2;
-  acmp_peripheral.setLadder(currentLadder);
-  while (currentHalfLadder != 0) {
+  std::uint32_t current_ladder{31};
+  std::uint32_t current_half_ladder{current_ladder / 2};
+  acmp_peripheral.setLadder(current_ladder);
+  while (current_half_ladder != 0) {
     libmcu::Delay(settlingDelay);
     if (acmp_peripheral.comparatorOutput() == 0) {
-      currentLadder = currentLadder - currentHalfLadder;
+      current_ladder = current_ladder - current_half_ladder;
     } else {
-      currentLadder = currentLadder + currentHalfLadder;
+      current_ladder = current_ladder + current_half_ladder;
     }
-    acmp_peripheral.setLadder(currentLadder);
-    currentHalfLadder = currentHalfLadder / 2;
+    acmp_peripheral.setLadder(current_ladder);
+    current_half_ladder = current_half_ladder / 2;
   }
   // reference voltage should be in the range of (855mV and 945mV) according to datasheet with margins
-  MINUNIT_CHECK(currentLadder > 6);
-  MINUNIT_CHECK(currentLadder < 9);
+  MINUNIT_CHECK(current_ladder > 6);
+  MINUNIT_CHECK(current_ladder < 9);
 }

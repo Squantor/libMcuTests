@@ -33,13 +33,12 @@ MINUNIT_SETUP(LPC845M301SetupUsart) {
 }
 
 MINUNIT_ADD(LPC845M301UsartInit, LPC845M301SetupUsart, LPC845M301Teardown) {
-  std::uint32_t realBaudRate;
-  realBaudRate = usart_polled_peripheral.Init<uart_0_clock_config>(115200);
-  MINUNIT_CHECK(realBaudRate == 117187);
+  std::uint32_t real_baudrate{usart_polled_peripheral.Init<uart_0_clock_config>(115200)};
+  MINUNIT_CHECK(real_baudrate == 117187);
   MINUNIT_CHECK((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN8BIT | CFG::PARITY_NONE | CFG::STOPBIT1));
   dut_registers->CFG = 0x00000000;
-  realBaudRate = usart_polled_peripheral.Init<uart_0_clock_config>(9600, UartParities::Even, UartStops::Stop2, UartLengths::Size7);
-  MINUNIT_CHECK(realBaudRate == 9615);
+  real_baudrate = usart_polled_peripheral.Init<uart_0_clock_config>(9600, UartParities::Even, UartStops::Stop2, UartLengths::Size7);
+  MINUNIT_CHECK(real_baudrate == 9615);
   MINUNIT_CHECK((dut_registers->CFG & CFG::RESERVED_MASK) == (CFG::ENABLE | CFG::DATALEN7BIT | CFG::PARITY_EVEN | CFG::STOPBIT2));
 }
 

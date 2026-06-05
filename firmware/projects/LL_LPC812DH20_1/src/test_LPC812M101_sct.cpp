@@ -50,9 +50,9 @@ MINUNIT_ADD(LPC812M101CppSctRunning, LPC812M101CppSetupSct, LPC812M101Teardown) 
   MINUNIT_CHECK(dutRegisters->MATCHREL[0].U == 30000u);
   sct_peripheral.Start();
   MINUNIT_CHECK((dutRegisters->CTRL & 0x4u) == 0u);
-  std::uint32_t countFirst = sct_peripheral.GetCount();
-  std::uint32_t countSecond = sct_peripheral.GetCount();
-  MINUNIT_CHECK(countFirst != countSecond);
+  std::uint32_t count_first{sct_peripheral.GetCount()};
+  std::uint32_t count_second{sct_peripheral.GetCount()};
+  MINUNIT_CHECK(count_first != count_second);
   sct_peripheral.Halt();
   MINUNIT_CHECK((dutRegisters->CTRL & 0x4u) == 0x4u);
 }
@@ -65,19 +65,19 @@ MINUNIT_ADD(LPC812M101CppSctSetupPwm, LPC812M101CppSetupSct, LPC812M101Teardown)
   MINUNIT_CHECK(dutRegisters->MATCHREL[1].U == 500u);
   sct_peripheral.Start();
   // detect edges on SCT output1
-  int timeout = 10000;
-  int edgeCount = 0;
-  bool oldOutput = sct_peripheral.GetOutputState(Outputs::Idx1);
-  bool newOutput;
-  while (timeout > 0 && edgeCount < 500) {
-    newOutput = sct_peripheral.GetOutputState(Outputs::Idx1);
-    if (oldOutput != newOutput) {
-      edgeCount++;
-      oldOutput = newOutput;
+  std::uint32_t timeout = 10000;
+  std::uint32_t edge_count = 0;
+  bool old_output = sct_peripheral.GetOutputState(Outputs::Idx1);
+  bool new_output;
+  while (timeout > 0 && edge_count < 500) {
+    new_output = sct_peripheral.GetOutputState(Outputs::Idx1);
+    if (old_output != new_output) {
+      edge_count++;
+      old_output = new_output;
     }
     timeout--;
   }
-  MINUNIT_CHECK(edgeCount == 500);
+  MINUNIT_CHECK(edge_count == 500);
   MINUNIT_CHECK(timeout != 0);
   sct_peripheral.Halt();
 }
@@ -94,11 +94,11 @@ MINUNIT_ADD(LPC812M101CppSctSetupCapture, LPC812M101CppSetupSct, LPC812M101Teard
   // check if we got event in SCT event flag register
   MINUNIT_CHECK(dutRegisters->EVFLAG == 0x01u);
   dutRegisters->EVFLAG = 0x01u;
-  std::uint32_t firstCapture = sct_peripheral.GetCapture(Captures::Idx1);
-  MINUNIT_CHECK(firstCapture != 0u);
+  std::uint32_t first_capture{sct_peripheral.GetCapture(Captures::Idx1)};
+  MINUNIT_CHECK(first_capture != 0u);
   gpio_peripheral.SetLow(test_1_pin);
   gpio_peripheral.SetHigh(test_1_pin);
-  std::uint32_t secondCapture = sct_peripheral.GetCapture(Captures::Idx1);
-  MINUNIT_CHECK(firstCapture != secondCapture);
+  std::uint32_t second_capture{sct_peripheral.GetCapture(Captures::Idx1)};
+  MINUNIT_CHECK(first_capture != second_capture);
   sct_peripheral.Halt();
 }

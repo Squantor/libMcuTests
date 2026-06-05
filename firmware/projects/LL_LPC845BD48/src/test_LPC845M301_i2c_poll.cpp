@@ -49,19 +49,19 @@ MINUNIT_ADD(LPC845M301DH20I2cPollInit, LPC845M301SetupI2cPoll, LPC845M301Teardow
  * @brief Tests I2C transfers that are separate
  */
 MINUNIT_ADD(LPC845M301DH20I2cTxRx, LPC845M301SetupI2cPoll, LPC845M301Teardown) {
-  std::array<std::uint8_t, 5> testWriteData{0x88, 0x11, 0xAA, 0x55, 0xC5};
-  std::array<std::uint8_t, 3> testReadData{};
-  std::array<std::uint8_t, 1> testI2cExpanderOutput{0x30};
-  std::array<std::uint8_t, 1> testI2cExpanderInput{};
+  std::array<std::uint8_t, 5> test_write_data{0x88, 0x11, 0xAA, 0x55, 0xC5};
+  std::array<std::uint8_t, 3> test_read_data{};
+  std::array<std::uint8_t, 1> test_i2c_expander_output{0x30};
+  std::array<std::uint8_t, 1> test_i2c_expander_input{};
   MINUNIT_CHECK(i2c_polled_peripheral.InitMaster<I2c0ClockConfig>(100000, kI2cTimeout) == 100000);
-  i2c_polled_peripheral.Transmit(testExpander, testWriteData);
-  i2c_polled_peripheral.Receive(testExpander, testReadData);
-  MINUNIT_CHECK(testReadData[0] == 0xC5);
-  MINUNIT_CHECK(testReadData[1] == 0xC5);
-  MINUNIT_CHECK(testReadData[2] == 0xC5);
-  i2c_polled_peripheral.Transmit(testExpander, testI2cExpanderOutput);
-  i2c_polled_peripheral.Receive(testExpander, testI2cExpanderInput);
-  MINUNIT_CHECK(testI2cExpanderInput[0] == 0x30);
+  i2c_polled_peripheral.Transmit(testExpander, test_write_data);
+  i2c_polled_peripheral.Receive(testExpander, test_read_data);
+  MINUNIT_CHECK(test_read_data[0] == 0xC5);
+  MINUNIT_CHECK(test_read_data[1] == 0xC5);
+  MINUNIT_CHECK(test_read_data[2] == 0xC5);
+  i2c_polled_peripheral.Transmit(testExpander, test_i2c_expander_output);
+  i2c_polled_peripheral.Receive(testExpander, test_i2c_expander_input);
+  MINUNIT_CHECK(test_i2c_expander_input[0] == 0x30);
 }
 /**
  * @brief Tests I2C transfers that are split into multiple transactions
